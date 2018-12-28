@@ -7,12 +7,16 @@ create table users (
   name varchar(50) not null ,
   email varchar(50) not null unique,
   password varchar(100) not null,
-  github_id varchar(20),
-  facebook_id varchar(20),
-  twitter_id varchar(20),
-  linkedin_id varchar(20),
-  instagram_id varchar(20),
-  email_id varchar(20)
+  github_id varchar(30),
+  facebook_id varchar(30),
+  twitter_id varchar(30),
+  linkedin_id varchar(30),
+  instagram_id varchar(30),
+  spotify_id varchar(30),
+  reddit_id varchar(30),
+  soundcloud_id varchar(30),
+  amazon_id varchar(30),
+  email_id varchar(30)
 );
 
 create table notes (
