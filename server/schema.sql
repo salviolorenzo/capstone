@@ -12,7 +12,7 @@ create table users (
   twitter_id varchar(20),
   linkedin_id varchar(20),
   instagram_id varchar(20),
-  email_id varchar(20),
+  email_id varchar(20)
 );
 
 create table notes (

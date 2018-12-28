@@ -4,9 +4,29 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "reset-db": "dropdb cap-db; createdb cap-db; psql -f schema.sql cap-db; psql -f seed.sql cap-db; psql cap-db < node_modules/connect-pg-simple/table.sql",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js",
+    "debug": "node --inspect-brk index.js"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^1.18.6"
+  },
+  "dependencies": {
+    "bcrypt": "^3.0.2",
+    "body-parser": "^1.18.3",
+    "chart.js": "^2.7.3",
+    "connect-pg-simple": "^5.0.0",
+    "dotenv": "^6.1.0",
+    "express": "^4.16.4",
+    "express-session": "^1.15.6",
+    "node": "^11.1.0",
+    "node-fetch": "^2.3.0",
+    "passport": "^0.4.0",
+    "passport-spotify": "^1.0.1",
+    "pg-promise": "^8.5.2"
+  }
 }
