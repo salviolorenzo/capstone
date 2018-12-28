@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const db = require('./models/db');
 const passport = require('passport');
 const FacebookStrategy = require('passport-facebook');
@@ -32,8 +34,8 @@ app.use(
 passport.use(
   new FacebookStrategy(
     {
-      clientID: `2208092972608586`,
-      clientSecret: `0909e2504dc3a4c16d539f01c1431e53`,
+      clientID: process.env.FB_ID,
+      clientSecret: process.env.FB_SECRET,
       callbackURL: 'http://localhost:4000/auth/facebook/callback'
     },
     function(accessToken, refreshToken, profile, cb) {
@@ -47,8 +49,8 @@ passport.use(
 passport.use(
   new TwitterStrategy(
     {
-      consumerKey: `HmNmPkPiHQG6RkbsZDYzYbPSU`,
-      consumerSecret: `0IZLQWkZ6so7PpYzmjXskZG6pT64Ehc0WffRwTlyOwAQP5vXfq`,
+      consumerKey: process.env.TWIT_ID,
+      consumerSecret: process.env.TWIT_SECRET,
       callbackURL: 'http://localhost:4000/auth/twitter/callback'
     },
     function(token, tokenSecret, profile, cb) {
@@ -123,7 +125,7 @@ passport.use(
 );
 
 passport.use(
-  new SoundCloudStrategy(
+  new SoundcloudStrategy(
     {
       clientID: `SOUNDCLOUD_CLIENT_ID`,
       clientSecret: `SOUNDCLOUD_CLIENT_SECRET`,
@@ -205,6 +207,18 @@ app.get('/auth/amazon', passport.authenticate('amazon'));
 app.get(
   '/auth/amazon/callback',
   passport.authenticate('amazon', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/');
+  }
+);
+// =======================================================
+// SOUNDCLOUD AUTH ==========================================
+// =======================================================
+app.get('/auth/soundcloud', passport.authenticate('soundcloud'));
+
+app.get(
+  '/auth/soundcloud/callback',
+  passport.authenticate('soundcloud', { failureRedirect: '/login' }),
   function(req, res) {
     res.redirect('/');
   }
