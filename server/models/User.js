@@ -1,4 +1,6 @@
 const db = require('./db');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 class User {
   constructor(
@@ -26,11 +28,13 @@ class User {
   }
 
   static addUser(name, email, password) {
+    const salt = bcrypt.genSaltSync(saltRounds);
+    const hash = bcrypt.hashSync(password, salt);
     return db.one(
       `insert into users(name, email, password, github_id, facebook_id, twitter_id, linkedin_id, instagram_id, email_id)
     values
     ($1, $2, $3, $4, $4, $4, $4, $4, $4 )`,
-      [name, email, password, '']
+      [name, email, hash, '']
     );
   }
 
@@ -38,6 +42,13 @@ class User {
     return db.one(`select * from users where id=$1`, [id]);
   }
 
+  static getByEmail(email) {
+    return db.one(`select * from users where email=$1`, [email]);
+  }
+
+  checkPassword(password) {
+    return bcrypt.compareSync(password, this.password);
+  }
   static FBFind(fb_id) {
     return db
       .one(`select * from users where facebook_id =$1`, [fb_id])
