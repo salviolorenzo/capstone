@@ -3,6 +3,7 @@ import Header from './Header';
 import Notes from './Tile';
 import Home from './Home';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import BoardList from './Boards/Boards';
 
 class Dashboard extends Component {
   constructor(props) {
@@ -17,7 +18,8 @@ class Dashboard extends Component {
           Dashboard
           <Header />
           <div className='tileboard'>
-            <Route path='/home' component={Home} />
+            <Route path='/home' exact component={Home} />
+            <Route path='/boards' component={BoardList} />
           </div>
         </div>
       </Router>
