@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ListMaker from './ListMaker';
 
-class Tile extends Component {
+class Notes extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -34,4 +34,4 @@ class Tile extends Component {
   }
 }
 
-export default Tile;
+export default Notes;

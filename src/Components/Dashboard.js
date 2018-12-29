@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Header from './Header';
-import Tile from './Tile';
+import Notes from './Tile';
+import Home from './Home';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 class Dashboard extends Component {
   constructor(props) {
@@ -10,13 +12,16 @@ class Dashboard extends Component {
 
   render() {
     return (
-      <div className='dashboard'>
-        Dashboard
-        <Header />
-        <Tile />
-      </div>
+      <Router>
+        <div className='dashboard'>
+          Dashboard
+          <Header />
+          <div className='tileboard'>
+            <Route path='/home' component={Home} />
+          </div>
+        </div>
+      </Router>
     );
   }
 }
-
 export default Dashboard;

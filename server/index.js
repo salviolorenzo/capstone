@@ -145,9 +145,28 @@ app.get('/', (req, res) => {
 });
 
 app.get('/login', (req, res) => {
-  res.send('LOGIN');
+  res.send('LOGIN OR REGISTER');
 });
 
+app.post('/login', (req, res) => {
+  User.getByEmail(req.body.email).then(user => {
+    let doesMatch = user.checkPassord(req.body.password);
+    if (doesMatch) {
+      res.redirect('/home');
+    } else {
+      res.redirect('/login');
+    }
+  });
+});
+
+app.post('/register', (req, res) => {
+  User.addUser(req.body.name, req.body.email, req.body.password).then(
+    result => {
+      console.log(result);
+      res.redirect('/home');
+    }
+  );
+});
 // =======================================================
 // GOOGLE AUTH ==========================================
 // =======================================================

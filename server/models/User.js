@@ -49,6 +49,7 @@ class User {
   checkPassword(password) {
     return bcrypt.compareSync(password, this.password);
   }
+
   static FBFind(fb_id) {
     return db
       .one(`select * from users where facebook_id =$1`, [fb_id])
