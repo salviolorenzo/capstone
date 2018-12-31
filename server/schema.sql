@@ -36,7 +36,7 @@ create table todos (
 create table tiles(
   id serial primary key,
   name text,
-  index integer,
+  index integer
 );
 
 create table preferences(
