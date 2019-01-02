@@ -12,6 +12,7 @@ create table users (
 create table boards(
   id serial primary key,
   name text,
+  default boolean,
   user_id integer references users(id)
 );
 
@@ -49,7 +50,7 @@ create table user_preferences(
 
 create table board_tiles(
   id serial primary key,
-  token text,
+  index integer,
   board_id integer references boards(id),
   tile_id integer references tiles(id)
 );

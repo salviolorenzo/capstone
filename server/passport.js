@@ -1,3 +1,13 @@
+const FacebookStrategy = require('passport-facebook').Strategy;
+const TwitterStrategy = require('passport-twitter').Strategy;
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const GitHubStrategy = require('passport-github').Strategy;
+const LinkedinStrategy = require('passport-linkedin').Strategy;
+const RedditStrategy = require('passport-reddit').Strategy;
+const SpotifyStrategy = require('passport-spotify').Strategy;
+const SoundcloudStrategy = require('passport-soundcloud').Strategy;
+const AmazonStrategy = require('passport-amazon').Strategy;
+
 // PASSPORT.USE ===============================
 // passport.use(
 //   new FacebookStrategy(

@@ -2,21 +2,13 @@ require('dotenv').config();
 
 const db = require('./models/db');
 const passport = require('passport');
-const FacebookStrategy = require('passport-facebook').Strategy;
-const TwitterStrategy = require('passport-twitter').Strategy;
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const GitHubStrategy = require('passport-github').Strategy;
-const LinkedinStrategy = require('passport-linkedin').Strategy;
-const RedditStrategy = require('passport-reddit').Strategy;
-const SpotifyStrategy = require('passport-spotify').Strategy;
-const SoundcloudStrategy = require('passport-soundcloud').Strategy;
-const AmazonStrategy = require('passport-amazon').Strategy;
-
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const User = require('./models/User');
+const Board = require('./models/Board');
+const Tile = require('./models/Tiles');
 
 // APP.USE ===============================
 
