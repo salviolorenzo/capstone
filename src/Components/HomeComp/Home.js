@@ -4,12 +4,29 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 class Home extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      tiles: []
+    };
+  }
+
+  componentDidMount() {
+    fetch('/home')
+      .then(result => result.json())
+      .then(array => {
+        let newArray = array.map(item => {
+          return { name: item.name, index: item.index };
+        });
+        this.setState({
+          tiles: newArray
+        });
+      });
   }
   render() {
     return (
       <div className='home'>
-        This is where the default components will be displayed
+        {this.state.tiles.map(item => {
+          return <p>{item.name}</p>;
+        })}
       </div>
     );
   }

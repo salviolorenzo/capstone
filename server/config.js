@@ -1,0 +1,2 @@
+const AvKey = 'VV8V42LYIBSFS6PC';
+const ZomKey = '07f1e909ceb2577442071717d2d186c3';
