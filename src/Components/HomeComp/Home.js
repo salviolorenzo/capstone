@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-
+import Weather from '../Weather';
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -24,9 +24,7 @@ class Home extends Component {
   render() {
     return (
       <div className='home'>
-        {this.state.tiles.map(item => {
-          return <p>{item.name}</p>;
-        })}
+        <Weather />
       </div>
     );
   }

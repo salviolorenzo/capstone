@@ -18,8 +18,8 @@ create table boards(
 
 create table tiles(
   id serial primary key,
-  name text
-  -- content text,
+  name text,
+  content text
 );
 
 create table preferences(
