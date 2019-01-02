@@ -2,15 +2,15 @@ require('dotenv').config();
 
 const db = require('./models/db');
 const passport = require('passport');
-const FacebookStrategy = require('passport-facebook');
-const TwitterStrategy = require('passport-twitter');
+const FacebookStrategy = require('passport-facebook').Strategy;
+const TwitterStrategy = require('passport-twitter').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const GithubStrategy = require('passport-github');
-const LinkedinStrategy = require('passport-linkedin');
-const RedditStrategy = require('passport-reddit');
+const GithubStrategy = require('passport-github').Strategy;
+const LinkedinStrategy = require('passport-linkedin').Strategy;
+const RedditStrategy = require('passport-reddit').Strategy;
 const SpotifyStrategy = require('passport-spotify').Strategy;
-const SoundcloudStrategy = require('passport-soundcloud');
-const AmazonStrategy = require('passport-amazon');
+const SoundcloudStrategy = require('passport-soundcloud').Strategy;
+const AmazonStrategy = require('passport-amazon').Strategy;
 
 const express = require('express');
 const app = express();
@@ -31,33 +31,33 @@ app.use(
 );
 
 // PASSPORT.USE ===============================
-passport.use(
-  new FacebookStrategy(
-    {
-      clientID: process.env.FB_ID,
-      clientSecret: process.env.FB_SECRET,
-      callbackURL: 'http://localhost:4000/auth/facebook/callback'
-    },
-    function(accessToken, refreshToken, profile, cb) {
-      console.log(
-        `===========${accessToken},=========== ${refreshToken},=========== ${profile},=========== ${cb}`
-      );
-    }
-  )
-);
+// passport.use(
+//   new FacebookStrategy(
+//     {
+//       clientID: process.env.FB_ID,
+//       clientSecret: process.env.FB_SECRET,
+//       callbackURL: 'http://localhost:4000/auth/facebook/callback'
+//     },
+//     function(accessToken, refreshToken, profile, cb) {
+//       console.log(
+//         `===========${accessToken},=========== ${refreshToken},=========== ${profile},=========== ${cb}`
+//       );
+//     }
+//   )
+// );
 
-passport.use(
-  new TwitterStrategy(
-    {
-      consumerKey: process.env.TWIT_ID,
-      consumerSecret: process.env.TWIT_SECRET,
-      callbackURL: 'http://localhost:4000/auth/twitter/callback'
-    },
-    function(token, tokenSecret, profile, cb) {
-      console.log(profile);
-    }
-  )
-);
+// passport.use(
+//   new TwitterStrategy(
+//     {
+//       consumerKey: process.env.TWIT_ID,
+//       consumerSecret: process.env.TWIT_SECRET,
+//       callbackURL: 'http://localhost:4000/auth/twitter/callback'
+//     },
+//     function(token, tokenSecret, profile, cb) {
+//       console.log(profile);
+//     }
+//   )
+// );
 
 passport.use(
   new GoogleStrategy(
@@ -167,6 +167,11 @@ app.post('/register', (req, res) => {
     }
   );
 });
+
+app.get('/home', (req, res) => {
+  //get all user data that will then be routed with react-router
+});
+
 // =======================================================
 // GOOGLE AUTH ==========================================
 // =======================================================
