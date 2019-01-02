@@ -22,8 +22,6 @@ insert into tiles
     ('AlphaVantage'),
     ('CurrentsNews'),
     ('NYT'),
-    ('Hackernews'),
-    ('APIXU'),
     ('Zomato'),
     ('SoundCloud'),
     ('TicketMaster'),
