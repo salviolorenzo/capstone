@@ -139,3 +139,110 @@ passport.deserializeUser(function(obj, cb) {
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+// =======================================================
+// GOOGLE AUTH ==========================================
+// =======================================================
+app.get(
+  '/auth/google',
+  passport.authenticate('google', {
+    scope: ['https://www.googleapis.com/auth/gmail.readonly']
+  })
+);
+
+app.get(
+  '/auth/google/callback',
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/');
+  }
+);
+// =======================================================
+// LINKEDIN AUTH ==========================================
+// =======================================================
+app.get('/auth/linkedin', passport.authenticate('linkedin'));
+
+app.get(
+  '/auth/linkedin/callback',
+  passport.authenticate('linkedin', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/');
+  }
+);
+// =======================================================
+// REDDIT AUTH ==========================================
+// =======================================================
+app.get('/auth/reddit', passport.authenticate('reddit'));
+
+app.get(
+  '/auth/reddit/callback',
+  passport.authenticate('reddit', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/');
+  }
+);
+// =======================================================
+// SPOTIFY AUTH ==========================================
+// =======================================================
+app.get('/auth/spotify', passport.authenticate('spotify'));
+
+app.get(
+  '/auth/spotify/callback',
+  passport.authenticate('spotify', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/');
+  }
+);
+// =======================================================
+// AMAZON AUTH ==========================================
+// =======================================================
+app.get('/auth/amazon', passport.authenticate('amazon'));
+
+app.get(
+  '/auth/amazon/callback',
+  passport.authenticate('amazon', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/');
+  }
+);
+// =======================================================
+// SOUNDCLOUD AUTH ==========================================
+// =======================================================
+app.get('/auth/soundcloud', passport.authenticate('soundcloud'));
+
+app.get(
+  '/auth/soundcloud/callback',
+  passport.authenticate('soundcloud', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/');
+  }
+);
+// =======================================================
+// TWITTER AUTH ==========================================
+// =======================================================
+app.get('/auth/twitter', passport.authenticate('twitter'));
+
+app.get(
+  '/auth/twitter/callback',
+  passport.authenticate('twitter', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/');
+  }
+);
+// =======================================================
+// FACEBOOK AUTH ==========================================
+// =======================================================
+app.get(
+  '/auth/facebook',
+  passport.authenticate('facebook', {
+    scope: ['publish_pages', 'email']
+  })
+);
+
+app.get(
+  '/auth/facebook/callback',
+  passport.authenticate('facebook', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/');
+  }
+);

@@ -12,7 +12,7 @@ create table users (
 create table boards(
   id serial primary key,
   name text,
-  default boolean,
+  isDefault boolean,
   user_id integer references users(id)
 );
 

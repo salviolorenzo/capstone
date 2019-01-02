@@ -4,7 +4,7 @@ insert into users
     ('lorenzo', 'lorenzo@mail.com', 'password');
 
 insert into boards
-  (name, user_id)
+  (name, isDefault, user_id)
   values  
     ('board 1', true, 1),
     ('board 2', false, 1),
