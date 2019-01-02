@@ -5,7 +5,7 @@ const passport = require('passport');
 const FacebookStrategy = require('passport-facebook').Strategy;
 const TwitterStrategy = require('passport-twitter').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const GithubStrategy = require('passport-github').Strategy;
+const GitHubStrategy = require('passport-github').Strategy;
 const LinkedinStrategy = require('passport-linkedin').Strategy;
 const RedditStrategy = require('passport-reddit').Strategy;
 const SpotifyStrategy = require('passport-spotify').Strategy;
@@ -28,113 +28,6 @@ app.use(
     resave: true,
     saveUninitialized: true
   })
-);
-
-// PASSPORT.USE ===============================
-// passport.use(
-//   new FacebookStrategy(
-//     {
-//       clientID: process.env.FB_ID,
-//       clientSecret: process.env.FB_SECRET,
-//       callbackURL: 'http://localhost:4000/auth/facebook/callback'
-//     },
-//     function(accessToken, refreshToken, profile, cb) {
-//       console.log(
-//         `===========${accessToken},=========== ${refreshToken},=========== ${profile},=========== ${cb}`
-//       );
-//     }
-//   )
-// );
-
-// passport.use(
-//   new TwitterStrategy(
-//     {
-//       consumerKey: process.env.TWIT_ID,
-//       consumerSecret: process.env.TWIT_SECRET,
-//       callbackURL: 'http://localhost:4000/auth/twitter/callback'
-//     },
-//     function(token, tokenSecret, profile, cb) {
-//       console.log(profile);
-//     }
-//   )
-// );
-
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID: `GOOGLE_CLIENT_ID`,
-      clientSecret: `GOOGLE_CLIENT_SECRET`,
-      callbackURL: 'http://localhost:4000/auth/google/callback'
-    },
-    function(accessToken, refreshToken, profile, cb) {
-      console.log(profile, accessToken);
-    }
-  )
-);
-
-passport.use(
-  new LinkedinStrategy(
-    {
-      consumerKey: `LINKEDIN_API_KEY`,
-      consumerSecret: `LINKEDIN_SECRET_KEY`,
-      callbackURL: 'http://localhost:4000/auth/linkedin/callback'
-    },
-    function(token, tokenSecret, profile, done) {
-      console.log(token, profile);
-    }
-  )
-);
-
-passport.use(
-  new RedditStrategy(
-    {
-      clientID: `REDDIT_CONSUMER_KEY`,
-      clientSecret: `REDDIT_CONSUMER_SECRET`,
-      callbackURL: 'http://localhost:4000/auth/reddit/callback'
-    },
-    function(accessToken, refreshToken, profile, done) {
-      console.log(accessToken, profile);
-    }
-  )
-);
-
-passport.use(
-  new SpotifyStrategy(
-    {
-      clientID: `client_id`,
-      clientSecret: `client_secret`,
-      callbackURL: 'http://localhost:4000/auth/spotify/callback'
-    },
-    function(accessToken, refreshToken, expires_in, profile, done) {
-      console.log(accessToken, profile);
-    }
-  )
-);
-
-passport.use(
-  new AmazonStrategy(
-    {
-      clientID: `AMAZON_CLIENT_ID`,
-      clientSecret: `AMAZON_CLIENT_SECRET`,
-      callbackURL: 'http://localhost:4000/auth/amazon/callback'
-    },
-    function(accessToken, refreshToken, profile, done) {
-      console.log(accessToken, profile);
-    }
-  )
-);
-
-passport.use(
-  new SoundcloudStrategy(
-    {
-      clientID: `SOUNDCLOUD_CLIENT_ID`,
-      clientSecret: `SOUNDCLOUD_CLIENT_SECRET`,
-      callbackURL: 'http://localhost:4000/auth/soundcloud/callback'
-    },
-    function(accessToken, refreshToken, profile, done) {
-      console.log(accessToken, profile);
-    }
-  )
 );
 
 // =======================================================
@@ -173,11 +66,27 @@ app.get('/home', (req, res) => {
 });
 
 // =======================================================
+// GITHUB AUTH ==========================================
+// =======================================================
+app.get('/auth/github', passport.authenticate('github'));
+
+app.get(
+  '/auth/github/callback',
+  passport.authenticate('github', { failureRedirect: '/login' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/');
+  }
+);
+
+// =======================================================
 // GOOGLE AUTH ==========================================
 // =======================================================
 app.get(
   '/auth/google',
-  passport.authenticate('google', { scope: ['profile'] })
+  passport.authenticate('google', {
+    scope: ['https://www.googleapis.com/auth/gmail.readonly']
+  })
 );
 
 app.get(
