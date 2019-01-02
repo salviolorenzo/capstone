@@ -24,7 +24,9 @@ class Home extends Component {
   render() {
     return (
       <div className='home'>
-        <Weather />
+        {this.state.tiles.map(item => {
+          return <p>{item.name}</p>;
+        })}{' '}
       </div>
     );
   }
