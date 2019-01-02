@@ -14,7 +14,7 @@ class Home extends Component {
       .then(result => result.json())
       .then(array => {
         let newArray = array.map(item => {
-          return { name: item.name, index: item.index };
+          return item.name;
         });
         this.setState({
           tiles: newArray
@@ -24,9 +24,7 @@ class Home extends Component {
   render() {
     return (
       <div className='home'>
-        {this.state.tiles.map(item => {
-          return <p>{item.name}</p>;
-        })}{' '}
+        {this.state.tiles.includes('weather') ? <Weather /> : null}
       </div>
     );
   }
