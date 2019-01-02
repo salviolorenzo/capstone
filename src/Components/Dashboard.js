@@ -14,7 +14,6 @@ class Dashboard extends Component {
     return (
       <Router>
         <div className='dashboard'>
-          Dashboard
           <Header />
           <div className='tileboard'>
             <Route path='/home' exact component={Home} />
