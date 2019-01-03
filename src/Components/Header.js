@@ -6,14 +6,15 @@ function Header(props) {
     <header>
       <nav>
         <li>
-          <Link to='/home'>Home</Link>
+          <Link to='/settings'>Settings</Link>
         </li>
+
+        <Link to='/home'>
+          <img src={require('../images/DSH_LOGO.png')} />
+        </Link>
         {/* <li>
           <Link to='/boards'>Boards</Link>
         </li> */}
-        <li>
-          <Link to='/settings'>Settings</Link>
-        </li>
         <form method='POST' action='/logout'>
           <input type='submit' value='Log Out' />
         </form>

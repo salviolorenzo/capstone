@@ -23,7 +23,7 @@ class Board_1 extends Component {
   render() {
     return (
       <Router>
-        <div className='boardlist'>
+        <div className='board'>
           {/* {this.state.tiles.map(item => {
             return <p>{item.name}</p>;
           })} */}

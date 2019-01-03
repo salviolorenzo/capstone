@@ -54,7 +54,7 @@ app.post('/login', (req, res) => {
     if (doesMatch) {
       res.redirect('/home/1');
     } else {
-      res.redirect('/login');
+      res.redirect('/');
     }
   });
 });
