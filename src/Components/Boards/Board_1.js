@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import News from '../Tiles/News';
+import Weather from '../Tiles/Weather';
 
 class Board_1 extends Component {
   constructor(props) {
@@ -26,6 +27,7 @@ class Board_1 extends Component {
           {/* {this.state.tiles.map(item => {
             return <p>{item.name}</p>;
           })} */}
+          <Weather />
           <News />
         </div>
       </Router>

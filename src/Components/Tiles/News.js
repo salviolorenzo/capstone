@@ -29,7 +29,8 @@ class News extends Component {
 
   render() {
     return (
-      <div className='news tile'>
+      <div className='news tile '>
+        <h3>News</h3>
         <ul className='newsList'>
           {this.state.articles.map((item, index) => {
             return (
