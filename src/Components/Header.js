@@ -8,12 +8,15 @@ function Header(props) {
         <li>
           <Link to='/home'>Home</Link>
         </li>
-        <li>
+        {/* <li>
           <Link to='/boards'>Boards</Link>
-        </li>
+        </li> */}
         <li>
           <Link to='/settings'>Settings</Link>
         </li>
+        <form method='POST' action='/logout'>
+          <input type='submit' value='Log Out' />
+        </form>
       </nav>
     </header>
   );

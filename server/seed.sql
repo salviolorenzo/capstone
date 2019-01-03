@@ -1,14 +1,15 @@
 insert into users
   (name, email, password)
   values
-    ('lorenzo', 'lorenzo@mail.com', 'password');
+    ('lorenzo', 'lorenzo@mail.com', 'password'),
+    ('lore', 'lore@email.com', '$2b$10$NfOU.27GV2a9.HvS3oaJHObMjO8kAOdDB5DYbUSGPgiX3GO/wht56');
 
 insert into boards
   (name, isDefault, user_id)
   values  
-    ('board 1', true, 1),
-    ('board 2', false, 1),
-    ('board 3', false, 1);
+    ('board 1', true, 2),
+    ('board 2', false, 2),
+    ('board 3', false, 2);
 
 insert into tiles
   (name)
@@ -16,10 +17,6 @@ insert into tiles
     ('notes'),
     ('todos'),
     ('weather'),
-    ('gmail'),
-    ('trello'),
-    ('indeed'),
-    ('AlphaVantage'),
     ('CurrentsNews'),
     ('NYT'),
     ('Zomato'),

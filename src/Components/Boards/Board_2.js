@@ -22,7 +22,10 @@ class Board_2 extends Component {
   render() {
     return (
       <Router>
+        {/* Events happening near you */}
+        {/* Calendar of events that you might like, cross referenced with your normal calendar data || CAN I MAKE IT ? */}
         <Tickets />
+        {/* Ticket list items can have prices next to them  */}
       </Router>
     );
   }

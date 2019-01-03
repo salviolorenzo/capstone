@@ -1,8 +1,24 @@
 const db = require('./db');
 
 class Board {
-  constructor(name) {
+  constructor(name, isDefault) {
     this.name = name;
+    this.isDefault = isDefault;
+  }
+
+  static addBoard(name, isDefault, user_id) {
+    return db
+      .one(
+        `insert into boards
+      (name, isDefault, user_id)
+      values
+        ($1,$2,$3)
+        returning id`,
+        [name, isDefault, user_id]
+      )
+      .then(result => {
+        return new Board(result.id, name, isDefault, user_id);
+      });
   }
 
   static getByUser(user_id) {

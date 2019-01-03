@@ -18,7 +18,7 @@ class Dashboard extends Component {
           <Header />
           <div className='tileboard'>
             <Route path='/home' component={Home} />
-            <Route path='/boards' component={BoardList} />
+            {/* <Route path='/boards' component={BoardList} /> */}
             <Route path='/settings' component={Settings} />
           </div>
         </div>
