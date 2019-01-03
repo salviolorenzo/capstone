@@ -29,6 +29,11 @@ class Board_1 extends Component {
           })} */}
           <Weather />
           <News />
+          {/* Adjust news topics based on preferences either chosen or through machine learning  */}
+          {/* Compound multiple sources to list */}
+          {/* Truth-meter ??? */}
+          {/* Calendar through Google API */}
+          {/* When you have a free night, suggest X or Y event  */}
         </div>
       </Router>
     );

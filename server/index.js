@@ -52,7 +52,7 @@ app.post('/login', (req, res) => {
     req.session.user = user;
     let doesMatch = user.checkPassword(req.body.password);
     if (doesMatch) {
-      res.redirect('/home');
+      res.redirect('/home/1');
     } else {
       res.redirect('/login');
     }

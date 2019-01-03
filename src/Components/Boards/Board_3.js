@@ -25,6 +25,8 @@ class Board_3 extends Component {
           {this.state.tiles.map(item => {
             return <p>{item.name}</p>;
           })}
+          {/* Mapping and transportation based on the weather. Machine learning to predict traffic  */}
+          {/* Map incorporates restaurants and places to go. "I don't want to go farther than this from where I am" */}
         </div>
       </Router>
     );
