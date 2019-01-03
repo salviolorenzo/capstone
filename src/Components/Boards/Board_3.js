@@ -1,7 +1,33 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
-function Board_3(props) {
-  return <div>This is Board 3</div>;
+class Board_3 extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      tiles: []
+    };
+  }
+
+  componentDidMount() {
+    fetch('/home/3')
+      .then(r => r.json())
+      .then(array => {
+        this.setState({
+          tiles: array
+        });
+      });
+  }
+  render() {
+    return (
+      <Router>
+        <div className='boardlist'>
+          {this.state.tiles.map(item => {
+            return <p>{item.name}</p>;
+          })}
+        </div>
+      </Router>
+    );
+  }
 }
-
 export default Board_3;

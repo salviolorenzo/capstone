@@ -24,6 +24,11 @@ body,
   height: 100%;
 }
 
+a {
+  text-decoration: none;
+  color: black;
+}
+
 /* ======================================== */
 /* HEADER STYLES */
 /* ======================================== */
@@ -120,5 +125,25 @@ footer {
 
 .tile {
   min-height: 300px;
+  max-height: 400px;
   width: 100%;
+  background-color: #f0eeee;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ======================================== */
+/* NEWS STYLES */
+/* ======================================== */
+
+.newsList {
+  padding: 0;
+  list-style-type: none;
+  overflow: scroll;
+}
+
+.newsList li {
+  padding: 5px;
+  margin: 3px 2px;
+  background-color: #d7d7d7;
 }
