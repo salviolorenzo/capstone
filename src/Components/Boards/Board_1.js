@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+// import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import News from '../Tiles/News';
 import Weather from '../Tiles/Weather';
 
@@ -7,7 +7,8 @@ class Board_1 extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tiles: []
+      tiles: [],
+      weather: {}
     };
   }
 
@@ -20,22 +21,27 @@ class Board_1 extends Component {
         });
       });
   }
+
+  componentWillReceiveProps() {
+    this.setState({
+      weather: this.props.weather
+    });
+  }
+
   render() {
     return (
-      <Router>
-        <div className='board'>
-          {/* {this.state.tiles.map(item => {
+      <div className='board'>
+        {/* {this.state.tiles.map(item => {
             return <p>{item.name}</p>;
           })} */}
-          <Weather />
-          <News />
-          {/* Adjust news topics based on preferences either chosen or through machine learning  */}
-          {/* Compound multiple sources to list */}
-          {/* Truth-meter ??? */}
-          {/* Calendar through Google API */}
-          {/* When you have a free night, suggest X or Y event  */}
-        </div>
-      </Router>
+        <Weather weather={this.state.weather} />
+        <News />
+        {/* Adjust news topics based on preferences either chosen or through machine learning  */}
+        {/* Compound multiple sources to list */}
+        {/* Truth-meter ??? */}
+        {/* Calendar through Google API */}
+        {/* When you have a free night, suggest X or Y event  */}
+      </div>
     );
   }
 }
