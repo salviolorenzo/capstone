@@ -30,6 +30,7 @@ class Tickets extends Component {
   render() {
     return (
       <div className='tile'>
+        <ul />
         <ul className='newsList'>
           {this.state.events.map((item, index) => {
             return (

@@ -6,22 +6,22 @@ function Register(props) {
       <label>
         Name:
         <br />
-        <input type='text' placeholder='John Smith' />
+        <input type='text' placeholder='John Smith' name='name' />
       </label>
       <label>
         Email:
         <br />
-        <input type='email' placeholder='john@mail.com' />
+        <input type='email' placeholder='john@mail.com' name='email' />
       </label>
       <label>
         Password:
         <br />
-        <input type='password' placeholder='password' />
+        <input type='password' placeholder='password' name='password' />
       </label>
       <label>
         Confirm password:
         <br />
-        <input type='password' placeholder='password' />
+        <input type='password' placeholder='password' name='confirmPassword' />
       </label>
       <input type='submit' value='Register' />
     </form>

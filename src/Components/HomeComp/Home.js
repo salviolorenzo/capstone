@@ -30,8 +30,8 @@ class Home extends Component {
       <Router>
         <div className='home'>
           <Link to='/home/1'>Daily Briefing</Link>
-          <Link to='/home/2'>Entertainment</Link>
-          <Link to='/home/3'>Transportation</Link>
+          {/* <Link to='/home/2'>Entertainment</Link>
+          <Link to='/home/3'>Transportation</Link> */}
           <Route path='/home/1' exact component={Board_1} />
           <Route path='/home/2' exact component={Board_2} />
           <Route path='/home/3' exact component={Board_3} />

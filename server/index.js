@@ -6,6 +6,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const session = require('express-session');
+const pgSession = require('connect-pg-simple')(session);
 const User = require('./models/User');
 const Board = require('./models/Board');
 const Tile = require('./models/Tiles');
@@ -17,11 +18,22 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(
   session({
+    store: new pgSession({
+      pgPromise: db
+    }),
     secret: 'sdfhgdfhgfhfgdhgf',
     resave: true,
-    saveUninitialized: true
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 30 * 24 * 60 * 60 * 1000
+    }
   })
 );
+
+app.use((req, res, next) => {
+  let isLoggedIn = req.session.user ? true : false;
+  next();
+});
 
 // =======================================================
 // STANDARD ROUTES ==========================================
@@ -36,7 +48,9 @@ app.get('/login', (req, res) => {
 
 app.post('/login', (req, res) => {
   User.getByEmail(req.body.email).then(user => {
-    let doesMatch = user.checkPassord(req.body.password);
+    console.log(user);
+    req.session.user = user;
+    let doesMatch = user.checkPassword(req.body.password);
     if (doesMatch) {
       res.redirect('/home');
     } else {
@@ -49,13 +63,22 @@ app.post('/register', (req, res) => {
   User.addUser(req.body.name, req.body.email, req.body.password).then(
     result => {
       console.log(result);
+      req.session.user = result;
+      Board.addBoard('Board 1', true, req.session.user.id);
+      Board.addBoard('Board 2', true, req.session.user.id);
+      Board.addBoard('Board 3', true, req.session.user.id);
       res.redirect('/home');
     }
   );
 });
 
+app.post('/logout', (req, res) => {
+  req.session.destroy();
+  res.redirect('/');
+});
+
 app.get('/home', (req, res) => {
-  Board.getDefaultBoard(1).then(result => {
+  Board.getDefaultBoard(req.session.user.id).then(result => {
     Tile.getByBoard(result[0].id).then(tiles => {
       res.send(tiles);
     });
