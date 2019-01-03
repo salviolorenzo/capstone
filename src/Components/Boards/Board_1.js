@@ -1,13 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
-class Board_1 extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-  render() {
-    return <div>This is Board 1</div>;
-  }
+function Board_1(props) {
+  return (
+    <Router>
+      <div className='boardlist' />
+    </Router>
+  );
 }
-
 export default Board_1;

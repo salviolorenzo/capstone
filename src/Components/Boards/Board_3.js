@@ -1,7 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 function Board_3(props) {
-  return <div>This is Board 3</div>;
+  return (
+    <Router>
+      <div className='boardlist' />
+    </Router>
+  );
 }
-
 export default Board_3;

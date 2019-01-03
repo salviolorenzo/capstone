@@ -34,7 +34,8 @@ class Board {
       `update boards
         set isDefault=false
         where user_id=$1 
-        AND board_id=$2`
+        AND board_id=$2`,
+      [user_id, board_id]
     );
   }
 }
