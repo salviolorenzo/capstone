@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import Tickets from '../Tiles/Tickets';
 
 class Board_2 extends Component {
   constructor(props) {
@@ -21,11 +22,7 @@ class Board_2 extends Component {
   render() {
     return (
       <Router>
-        <div className='boardlist'>
-          {this.state.tiles.map(item => {
-            return <p>{item.name}</p>;
-          })}
-        </div>
+        <Tickets />
       </Router>
     );
   }

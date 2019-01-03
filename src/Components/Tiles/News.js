@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-const newsKey = require('../../config');
+const keys = require('../../config');
 
 class News extends Component {
   constructor(props) {
@@ -10,7 +10,9 @@ class News extends Component {
   }
 
   componentDidMount() {
-    fetch(`https://newsapi.org/v2/top-headlines?country=us&apiKey=${newsKey}`)
+    fetch(
+      `https://newsapi.org/v2/top-headlines?country=us&apiKey=${keys.NewsKey}`
+    )
       .then(r => r.json())
       .then(result => {
         let newArray = result.articles.map(item => {

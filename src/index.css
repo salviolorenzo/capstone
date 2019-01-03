@@ -125,6 +125,7 @@ footer {
 
 .tile {
   min-height: 300px;
+  max-height: 400px;
   width: 100%;
   background-color: #f0eeee;
   display: flex;
@@ -134,9 +135,6 @@ footer {
 /* ======================================== */
 /* NEWS STYLES */
 /* ======================================== */
-.news {
-  max-height: 400px;
-}
 
 .newsList {
   padding: 0;
