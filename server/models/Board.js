@@ -9,8 +9,8 @@ class Board {
     return db.any(`select * from boards where user_id=$1`, [user_id]);
   }
 
-  static getById(board_id) {
-    return db.one(`select * from boards where board_id=$1`, [board_id]);
+  static getById(id) {
+    return db.one(`select * from boards where id=$1`, [id]);
   }
 
   static getDefaultBoard(user_id) {

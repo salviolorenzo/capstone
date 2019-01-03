@@ -62,8 +62,12 @@ app.get('/home', (req, res) => {
   });
 });
 
-app.get('/boards/:id', (req, res) => {
-  Board.getByBoard;
+app.get('/home/:id', (req, res) => {
+  Board.getById(req.params.id).then(result => {
+    Tile.getByBoard(result.id).then(next => {
+      res.send(next);
+    });
+  });
 });
 
 // =======================================================

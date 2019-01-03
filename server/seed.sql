@@ -34,18 +34,13 @@ insert into board_tiles
   (1, 1, 1),
   (2, 1, 2),
   (3, 1, 3),
-  (4, 1, 4);
+  (4, 1, 4),
+  (1, 2, 5),
+  (2, 2, 6),
+  (3, 2, 7),
+  (4, 2, 8),
+  (1, 3, 4),
+  (2, 3, 3),
+  (3, 3, 1);
   
-  -- insert into accounts
-  -- (name)
-  -- values 
-  --   ('github'),
-  -- ('facebook'),
-  -- ('twitter'),
-  -- ('linkedin'),
-  -- ('instagram'),
-  -- ('spotify'),
-  -- ('reddit'),
-  -- ('soundcloud'),
-  -- amazon_id varchar(30),
-  -- email_id varchar(30))
+
