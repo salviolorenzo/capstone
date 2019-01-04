@@ -4,12 +4,55 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import Board_1 from '../Boards/Board_1';
 import Board_2 from '../Boards/Board_2';
 import Board_3 from '../Boards/Board_3';
-const city = 'Atlanta';
+import OWKEY from '../../config';
+
+function createLocationObject(object) {
+  let location = {
+    lat: object.coords.latitude.toFixed(),
+    long: object.coords.longitude.toFixed()
+  };
+  console.log(location);
+  fetch(
+    `http://api.openweathermap.org/data/2.5/weather?lat=${location.lat}&lon=${
+      location.long
+    }&apikey=${OWKEY}`
+  )
+    .then(r => r.json())
+    .then(result => {
+      let weather = {
+        condition: result.weather[0].main,
+        temp: `Temperature: ${(
+          ((result.main.temp - 273.15) * 9) / 5 +
+          32
+        ).toFixed(2)} °F`,
+        high_low: `High: ${(
+          ((result.main.temp_max - 273.15) * 9) / 5 +
+          32
+        ).toFixed(2)} °F Low: ${(
+          ((result.main.temp_min - 273.15) * 9) / 5 +
+          32
+        ).toFixed(2)} °F`,
+        // low: `Low: ${(((result.main.temp_min - 273.15) * 9) / 5 + 32).toFixed(
+        //   2
+        // )} °F`,
+        hum: `Humidity: ${result.main.humidity} %`
+      };
+      this.setState({
+        board1: {
+          ...this.state.board1,
+          weather: weather
+        }
+      });
+    });
+
+  return location;
+}
 
 class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      location: {},
       tiles: [],
       board1: {
         tiles: [],
@@ -47,13 +90,7 @@ class Home extends Component {
       });
 
     // weather api call
-    fetch('/home/1/weather')
-      .then(r => r.json())
-      .then(result => {
-        this.setState({
-          board1: { ...this.state.board1, weather: result }
-        });
-      });
+    navigator.geolocation.getCurrentPosition(createLocationObject.bind(this));
 
     // news api call
     fetch('/home/1/news')
@@ -84,6 +121,7 @@ class Home extends Component {
         this.setState({
           board2: { ...this.state.board2, events: result }
         });
+        console.log(this.state.board2.events);
       });
   }
   render() {

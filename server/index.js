@@ -11,6 +11,7 @@ const User = require('./models/User');
 const Board = require('./models/Board');
 const Tile = require('./models/Tiles');
 const fetch = require('node-fetch');
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 // APP.USE ===============================
 
@@ -97,33 +98,6 @@ app.get('/home/:id', (req, res) => {
 // API CALLS
 // ======================================================
 
-const city = 'Atlanta';
-
-app.get('/home/:id/weather', (req, res) => {
-  fetch(
-    `http://api.openweathermap.org/data/2.5/weather?q=${city}&apikey=${
-      process.env.OWKEY
-    }`
-  )
-    .then(r => r.json())
-    .then(result => {
-      let weather = {
-        temp: `Temperature: ${(
-          ((result.main.temp - 273.15) * 9) / 5 +
-          32
-        ).toFixed(2)} °F`,
-        high: `High: ${(((result.main.temp_max - 273.15) * 9) / 5 + 32).toFixed(
-          2
-        )} °F`,
-        low: `Low: ${(((result.main.temp_min - 273.15) * 9) / 5 + 32).toFixed(
-          2
-        )} °F`,
-        hum: `Humidity: ${result.main.humidity} %`
-      };
-      res.send(weather);
-    });
-});
-
 app.get('/home/:id/news', (req, res) => {
   fetch(
     `https://newsapi.org/v2/top-headlines?country=us&apiKey=${
@@ -156,7 +130,14 @@ app.get('/home/:id/events', (req, res) => {
     .then(r => r.json())
     .then(result => {
       let newArray = result._embedded.events.map(event => {
-        return { name: event.name, img: event.images[0].url, url: event.url };
+        return {
+          name: event.name,
+          img: event.images[0].url,
+          url: event.url,
+          date: event.dates.start.localDate,
+          type: event.classifications[0].segment.name,
+          subType: event.classifications[0].genre.name
+        };
       });
       res.send(newArray);
     });
