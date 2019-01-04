@@ -11,18 +11,11 @@ class Tickets extends Component {
   }
 
   componentDidMount() {
-    fetch(
-      `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=${searchTerm}&dmaId=220&apikey=${
-        keys.TMKey
-      }`
-    )
+    fetch('/home/2/events')
       .then(r => r.json())
       .then(result => {
-        let newArray = result._embedded.events.map(event => {
-          return { name: event.name, img: event.images[0].url, url: event.url };
-        });
         this.setState({
-          events: newArray
+          events: result
         });
       });
   }

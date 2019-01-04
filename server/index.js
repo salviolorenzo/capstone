@@ -93,6 +93,75 @@ app.get('/home/:id', (req, res) => {
   });
 });
 
+// ======================================================
+// API CALLS
+// ======================================================
+
+const city = 'Atlanta';
+
+app.get('/home/:id/weather', (req, res) => {
+  fetch(
+    `http://api.openweathermap.org/data/2.5/weather?q=${city}&apikey=${
+      process.env.OWKEY
+    }`
+  )
+    .then(r => r.json())
+    .then(result => {
+      let weather = {
+        temp: `Temperature: ${(
+          ((result.main.temp - 273.15) * 9) / 5 +
+          32
+        ).toFixed(2)} °F`,
+        high: `High: ${(((result.main.temp_max - 273.15) * 9) / 5 + 32).toFixed(
+          2
+        )} °F`,
+        low: `Low: ${(((result.main.temp_min - 273.15) * 9) / 5 + 32).toFixed(
+          2
+        )} °F`,
+        hum: `Humidity: ${result.main.humidity} %`
+      };
+      res.send(weather);
+    });
+});
+
+app.get('/home/:id/news', (req, res) => {
+  fetch(
+    `https://newsapi.org/v2/top-headlines?country=us&apiKey=${
+      process.env.NEWSKEY
+    }`
+  )
+    .then(r => r.json())
+    .then(result => {
+      let newArray = result.articles.map(item => {
+        return {
+          source: item.source.name,
+          title: item.title,
+          url: item.url,
+          description: item.description
+        };
+      });
+      res.send(newArray);
+    });
+});
+
+//add in form to front end to ask for search term
+const searchTerm = 'music';
+
+app.get('/home/:id/events', (req, res) => {
+  fetch(
+    `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=${searchTerm}&dmaId=220&apikey=${
+      process.env.TMKEY
+    }`
+  )
+    .then(r => r.json())
+    .then(result => {
+      let newArray = result._embedded.events.map(event => {
+        return { name: event.name, img: event.images[0].url, url: event.url };
+      });
+      res.send(newArray);
+    });
+});
+
 // =======================================================
 // GITHUB AUTH ==========================================
 // =======================================================

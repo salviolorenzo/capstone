@@ -31,29 +31,11 @@ class Home extends Component {
           tiles: newArray
         });
       });
-    fetch(
-      `http://api.openweathermap.org/data/2.5/weather?q=${city}&apikey=88b430eb57686cffb62a9a7565a182f5`
-    )
+    fetch('/home/1/weather')
       .then(r => r.json())
       .then(result => {
         this.setState({
-          board1: {
-            weather: {
-              temp: `Temperature: ${(
-                ((result.main.temp - 273.15) * 9) / 5 +
-                32
-              ).toFixed(2)} °F`,
-              high: `High: ${(
-                ((result.main.temp_max - 273.15) * 9) / 5 +
-                32
-              ).toFixed(2)} °F`,
-              low: `Low: ${(
-                ((result.main.temp_min - 273.15) * 9) / 5 +
-                32
-              ).toFixed(2)} °F`,
-              hum: `Humidity: ${result.main.humidity} %`
-            }
-          }
+          board1: { weather: result }
         });
       });
   }

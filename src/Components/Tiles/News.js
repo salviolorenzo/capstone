@@ -10,21 +10,11 @@ class News extends Component {
   }
 
   componentDidMount() {
-    fetch(
-      `https://newsapi.org/v2/top-headlines?country=us&apiKey=${keys.NewsKey}`
-    )
+    fetch('/home/1/news')
       .then(r => r.json())
       .then(result => {
-        let newArray = result.articles.map(item => {
-          return {
-            source: item.source.name,
-            title: item.title,
-            url: item.url,
-            description: item.description
-          };
-        });
         this.setState({
-          articles: newArray
+          articles: result
         });
       });
   }
