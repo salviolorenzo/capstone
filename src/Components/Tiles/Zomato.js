@@ -4,15 +4,17 @@ function Zomato(props) {
   return (
     <div className='tile restoTile'>
       <h3>Places to eat</h3>
-      <ul className='newsList'>
-        {props.restaurants.map(item => {
+      <ul className='restoList'>
+        {props.restaurants.map((item, index) => {
           return (
-            <li>
+            <li key={index}>
               {item.name}
               <br />
               {`${item.location.address}, ${item.location.city}`}
               <br />
-              <a href={item.menu} target='_blank' rel='noreferrer'>
+              {`Rating: ${item.avg_rating}/5`}
+              <br />
+              <a href={item.menu} target='_blank' rel='noreferrer noopener'>
                 Menu
               </a>
             </li>
