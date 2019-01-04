@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import Tickets from '../Tiles/Tickets';
+import Zomato from '../Tiles/Zomato';
 
 function Board_2(props) {
   return (
@@ -12,6 +13,7 @@ function Board_2(props) {
           handleEventType={props.handleEventType}
           events={props.events}
         />
+        <Zomato restaurants={props.restaurants} />
         {/* Ticket list items can have prices next to them  */}
       </div>
     </Router>

@@ -164,6 +164,7 @@ class Home extends Component {
         }
       };
       getWeather(object);
+      getRestInfo(object);
     }
     // news api call
     fetch('/home/1/news')
@@ -280,6 +281,7 @@ class Home extends Component {
                   events={this.state.board2.events}
                   {...props}
                   handleEventType={this.handleEventType.bind(this)}
+                  restaurants={this.state.board2.restaurants}
                 />
               );
             }}
