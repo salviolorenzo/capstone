@@ -12,6 +12,7 @@ class Home extends Component {
     this.state = {
       tiles: [],
       board1: {
+        tiles: [],
         weather: {},
         news: {}
       },
@@ -31,11 +32,29 @@ class Home extends Component {
           tiles: newArray
         });
       });
+    fetch('/home/1')
+      .then(r => r.json())
+      .then(array => {
+        this.setState({
+          board1: { ...this.state.board1, tiles: array }
+        });
+      });
     fetch('/home/1/weather')
       .then(r => r.json())
       .then(result => {
         this.setState({
-          board1: { weather: result }
+          board1: { ...this.state.board1, weather: result }
+        });
+      });
+    fetch('/home/1/news')
+      .then(r => r.json())
+      .then(result => {
+        console.log(result);
+        this.setState({
+          board1: {
+            ...this.state.board1,
+            news: result
+          }
         });
       });
   }
@@ -58,7 +77,13 @@ class Home extends Component {
             path='/home/1'
             exact
             render={props => {
-              return <Board_1 weather={this.state.board1.weather} {...props} />;
+              return (
+                <Board_1
+                  weather={this.state.board1.weather}
+                  news={this.state.board1.news}
+                  {...props}
+                />
+              );
             }}
           />
           <Route path='/home/2' exact component={Board_2} />
