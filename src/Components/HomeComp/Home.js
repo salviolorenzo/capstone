@@ -14,14 +14,18 @@ class Home extends Component {
       board1: {
         tiles: [],
         weather: {},
-        news: {}
+        news: []
       },
-      board2: {},
+      board2: {
+        tiles: [],
+        events: []
+      },
       board3: {}
     };
   }
 
   componentDidMount() {
+    // home component with boards and tiles
     fetch('/home')
       .then(result => result.json())
       .then(array => {
@@ -32,6 +36,8 @@ class Home extends Component {
           tiles: newArray
         });
       });
+
+    // board1 info
     fetch('/home/1')
       .then(r => r.json())
       .then(array => {
@@ -39,6 +45,8 @@ class Home extends Component {
           board1: { ...this.state.board1, tiles: array }
         });
       });
+
+    // weather api call
     fetch('/home/1/weather')
       .then(r => r.json())
       .then(result => {
@@ -46,6 +54,8 @@ class Home extends Component {
           board1: { ...this.state.board1, weather: result }
         });
       });
+
+    // news api call
     fetch('/home/1/news')
       .then(r => r.json())
       .then(result => {
@@ -55,6 +65,24 @@ class Home extends Component {
             ...this.state.board1,
             news: result
           }
+        });
+      });
+
+    // board 2
+    fetch('/home/2')
+      .then(r => r.json())
+      .then(array => {
+        this.setState({
+          board2: { ...this.state.board2, tiles: array }
+        });
+      });
+
+    // events api call
+    fetch('/home/2/events')
+      .then(r => r.json())
+      .then(result => {
+        this.setState({
+          board2: { ...this.state.board2, events: result }
         });
       });
   }
@@ -86,7 +114,13 @@ class Home extends Component {
               );
             }}
           />
-          <Route path='/home/2' exact component={Board_2} />
+          <Route
+            path='/home/2'
+            exact
+            render={props => {
+              return <Board_2 events={this.state.board2.events} {...props} />;
+            }}
+          />
           <Route path='/home/3' exact component={Board_3} />
         </div>
       </Router>

@@ -6,9 +6,6 @@ import Weather from '../Tiles/Weather';
 function Board_1(props) {
   return (
     <div className='board'>
-      {/* {this.state.tiles.map(item => {
-            return <p>{item.name}</p>;
-          })} */}
       <Weather weather={props.weather} />
       <News news={props.news} />
       {/* Adjust news topics based on preferences either chosen or through machine learning  */}
