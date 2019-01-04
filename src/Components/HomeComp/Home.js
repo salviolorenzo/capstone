@@ -6,12 +6,21 @@ import Board_2 from '../Boards/Board_2';
 import Board_3 from '../Boards/Board_3';
 import keys from '../../config';
 import day from '../../images/weather_icons/animated/day.svg';
-import night from '../../images/weather_icons/animated/night.svg';
 import cloudy from '../../images/weather_icons/animated/cloudy.svg';
 import rainyDay from '../../images/weather_icons/animated/rainy-3.svg';
 import rainy from '../../images/weather_icons/animated/rainy-6.svg';
 import snow from '../../images/weather_icons/animated/snowy-6.svg';
 import thunder from '../../images/weather_icons/animated/thunder.svg';
+
+function createBackSplash(url) {
+  const style = {
+    backgroundImage: `url(${url})`,
+    backgroundSize: `cover`,
+    backgroundPosition: `center`,
+    backgroundAttachment: `fixed`
+  };
+  return style;
+}
 
 function weatherIcon(string) {
   switch (string) {
@@ -32,6 +41,8 @@ function weatherIcon(string) {
     case 'snow':
       return snow;
     case 'mist':
+      return cloudy;
+    default:
       return cloudy;
   }
 }
@@ -143,6 +154,7 @@ class Home extends Component {
     this.state = {
       location: {},
       tiles: [],
+      bgUrl: '',
       board1: {
         tiles: [],
         weather: {},
@@ -241,6 +253,19 @@ class Home extends Component {
           board2: { ...this.state.board2, events: newArray }
         });
       });
+    fetch(
+      `https://api.unsplash.com/search/photos?query=wallpaper&client_id=${
+        keys.USKEY
+      }`
+    )
+      .then(r => r.json())
+      .then(object => {
+        console.log(object);
+        let ranNum = Math.floor(Math.random() * 9);
+        this.setState({
+          bgUrl: object.results[ranNum].urls.regular
+        });
+      });
 
     // restaurants api call
   }
@@ -278,7 +303,7 @@ class Home extends Component {
   render() {
     return (
       <Router>
-        <div className='home'>
+        <div className='home' style={createBackSplash(this.state.bgUrl)}>
           <ul className='navList'>
             <li>
               <Link to='/home/1'>Daily Briefing</Link>

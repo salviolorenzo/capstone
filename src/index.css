@@ -140,7 +140,7 @@ footer {
   flex-wrap: wrap;
   justify-content: center;
   width: 100%;
-  background-color: black;
+  /* background-color: black; */
 }
 
 .navList a {
@@ -266,6 +266,7 @@ footer {
 
 .eventList li img {
   max-width: 30%;
+
   float: left;
   margin: auto 0;
 }
