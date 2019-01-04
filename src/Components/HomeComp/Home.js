@@ -48,6 +48,65 @@ function getWeather(object) {
   return location;
 }
 
+function getRestInfo(object) {
+  let location = {
+    lat: object.coords.latitude.toFixed(),
+    long: object.coords.longitude.toFixed()
+  };
+  fetch(
+    `https://developers.zomato.com/api/v2.1/geocode?lat=${location.lat}&lon=${
+      location.long
+    }&apikey=${keys.ZOMKEY}`
+  )
+    .then(r => r.json())
+    .then(result => {
+      let place = {
+        entity_id: result.location.entity_id,
+        entity_type: result.location.entity_type
+      };
+      let nearbyArray = result.nearby_restaurants.map(item => {
+        return {
+          id: item.restaurant.id,
+          name: item.restaurant.name,
+          location: item.restaurant.location,
+          category: item.restaurant.cuisines,
+          price: item.restaurant.price_range,
+          avg_rating: item.restaurant.user_rating.aggregate_rating,
+          menu: item.restaurant.menu_url,
+          type: 'nearby'
+        };
+      });
+      fetch(
+        `https://developers.zomato.com/api/v2.1/location_details?entity_id=${
+          place.entity_id
+        }&entity_type=${place.entity_type}&apikey=${keys.ZOMKEY}`
+      )
+        .then(r => r.json())
+        .then(result_2 => {
+          let bestArray = result_2.best_rated_restaurant.map(item => {
+            return {
+              id: item.restaurant.id,
+              name: item.restaurant.name,
+              location: item.restaurant.location,
+              category: item.restaurant.cuisines,
+              price: item.restaurant.price_range,
+              avg_rating: item.restaurant.user_rating.aggregate_rating,
+              menu: item.restaurant.menu_url,
+              type: 'best'
+            };
+          });
+          let restoArray = nearbyArray.concat(bestArray);
+          console.log(restoArray);
+          this.setState({
+            board2: {
+              ...this.state.board2,
+              restaurants: restoArray
+            }
+          });
+        });
+    });
+}
+
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -62,9 +121,12 @@ class Home extends Component {
       board2: {
         tiles: [],
         events: [],
-        category: 'music'
+        category: 'music',
+        restaurants: []
       },
-      board3: {}
+      board3: {
+        tiles: []
+      }
     };
   }
 
@@ -93,6 +155,7 @@ class Home extends Component {
     // weather api call
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(getWeather.bind(this));
+      navigator.geolocation.getCurrentPosition(getRestInfo.bind(this));
     } else {
       let object = {
         coords: {
@@ -146,6 +209,8 @@ class Home extends Component {
           board2: { ...this.state.board2, events: newArray }
         });
       });
+
+    // restaurants api call
   }
 
   handleEventType(item, event) {

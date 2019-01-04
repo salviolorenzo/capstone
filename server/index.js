@@ -118,34 +118,24 @@ app.get('/home/:id/news', (req, res) => {
     });
 });
 
-//add in form to front end to ask for search term
-const searchTerm = 'music';
-
-// app.post(=> {
-//   req.body.category
-// })
-
-// app.get('/home/:id/events', (req, res) => {
-//   fetch(
-//     `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=${searchTerm}&dmaId=220&apikey=${
-//       process.env.TMKEY
+// ZOMATO
+// [
+//   {
+//     geocode: `https://developers.zomato.com/api/v2.1/geocode?lat=34&lon=-84&apikey=${
+//       process.env.ZOMKEY
 //     }`
-//   )
-//     .then(r => r.json())
-//     .then(result => {
-//       let newArray = result._embedded.events.map(event => {
-//         return {
-//           name: event.name,
-//           img: event.images[0].url,
-//           url: event.url,
-//           date: event.dates.start.localDate,
-//           type: event.classifications[0].segment.name,
-//           subType: event.classifications[0].genre.name
-//         };
-//       });
-//       res.send(newArray);
-//     });
-// });
+//   },
+//   {
+//     restaurant: `https://developers.zomato.com/api/v2.1/restaurant?res_id=${res_id}&apikey=${
+//       process.env.ZOMKEY
+//     }`
+//   },
+//   {
+//     reviews: `https://developers.zomato.com/api/v2.1/reviews?res_id=${res_id}&apikey=${
+//       process.env.ZOMKEY
+//     }`
+//   }
+// ];
 
 // =======================================================
 // GITHUB AUTH ==========================================
