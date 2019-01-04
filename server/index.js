@@ -121,27 +121,31 @@ app.get('/home/:id/news', (req, res) => {
 //add in form to front end to ask for search term
 const searchTerm = 'music';
 
-app.get('/home/:id/events', (req, res) => {
-  fetch(
-    `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=${searchTerm}&dmaId=220&apikey=${
-      process.env.TMKEY
-    }`
-  )
-    .then(r => r.json())
-    .then(result => {
-      let newArray = result._embedded.events.map(event => {
-        return {
-          name: event.name,
-          img: event.images[0].url,
-          url: event.url,
-          date: event.dates.start.localDate,
-          type: event.classifications[0].segment.name,
-          subType: event.classifications[0].genre.name
-        };
-      });
-      res.send(newArray);
-    });
-});
+// app.post(=> {
+//   req.body.category
+// })
+
+// app.get('/home/:id/events', (req, res) => {
+//   fetch(
+//     `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=${searchTerm}&dmaId=220&apikey=${
+//       process.env.TMKEY
+//     }`
+//   )
+//     .then(r => r.json())
+//     .then(result => {
+//       let newArray = result._embedded.events.map(event => {
+//         return {
+//           name: event.name,
+//           img: event.images[0].url,
+//           url: event.url,
+//           date: event.dates.start.localDate,
+//           type: event.classifications[0].segment.name,
+//           subType: event.classifications[0].genre.name
+//         };
+//       });
+//       res.send(newArray);
+//     });
+// });
 
 // =======================================================
 // GITHUB AUTH ==========================================

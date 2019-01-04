@@ -4,9 +4,9 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import Board_1 from '../Boards/Board_1';
 import Board_2 from '../Boards/Board_2';
 import Board_3 from '../Boards/Board_3';
-import OWKEY from '../../config';
+import keys from '../../config';
 
-function createLocationObject(object) {
+function getWeather(object) {
   let location = {
     lat: object.coords.latitude.toFixed(),
     long: object.coords.longitude.toFixed()
@@ -15,7 +15,7 @@ function createLocationObject(object) {
   fetch(
     `http://api.openweathermap.org/data/2.5/weather?lat=${location.lat}&lon=${
       location.long
-    }&apikey=${OWKEY}`
+    }&apikey=${keys.OWKEY}`
   )
     .then(r => r.json())
     .then(result => {
@@ -61,7 +61,8 @@ class Home extends Component {
       },
       board2: {
         tiles: [],
-        events: []
+        events: [],
+        category: 'music'
       },
       board3: {}
     };
@@ -90,8 +91,17 @@ class Home extends Component {
       });
 
     // weather api call
-    navigator.geolocation.getCurrentPosition(createLocationObject.bind(this));
-
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(getWeather.bind(this));
+    } else {
+      let object = {
+        coords: {
+          latitude: 34,
+          longitude: -84
+        }
+      };
+      getWeather(object);
+    }
     // news api call
     fetch('/home/1/news')
       .then(r => r.json())
@@ -115,15 +125,59 @@ class Home extends Component {
       });
 
     // events api call
-    fetch('/home/2/events')
+    fetch(
+      `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=${
+        this.state.board2.category
+      }&dmaId=220&apikey=${keys.TMKEY}`
+    )
       .then(r => r.json())
       .then(result => {
-        this.setState({
-          board2: { ...this.state.board2, events: result }
+        let newArray = result._embedded.events.map(event => {
+          return {
+            name: event.name,
+            img: event.images[0].url,
+            url: event.url,
+            date: event.dates.start.localDate,
+            type: event.classifications[0].segment.name,
+            subType: event.classifications[0].genre.name
+          };
         });
-        console.log(this.state.board2.events);
+        this.setState({
+          board2: { ...this.state.board2, events: newArray }
+        });
       });
   }
+
+  handleEventType(item, event) {
+    this.setState({
+      board2: {
+        ...this.state.board2,
+        category: item
+      }
+    });
+    fetch(
+      `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=${
+        this.state.board2.category
+      }&dmaId=220&apikey=${keys.TMKEY}`
+    )
+      .then(r => r.json())
+      .then(result => {
+        let newArray = result._embedded.events.map(event => {
+          return {
+            name: event.name,
+            img: event.images[0].url,
+            url: event.url,
+            date: event.dates.start.localDate,
+            type: event.classifications[0].segment.name,
+            subType: event.classifications[0].genre.name
+          };
+        });
+        this.setState({
+          board2: { ...this.state.board2, events: newArray }
+        });
+      });
+  }
+
   render() {
     return (
       <Router>
@@ -156,7 +210,13 @@ class Home extends Component {
             path='/home/2'
             exact
             render={props => {
-              return <Board_2 events={this.state.board2.events} {...props} />;
+              return (
+                <Board_2
+                  events={this.state.board2.events}
+                  {...props}
+                  handleEventType={this.handleEventType.bind(this)}
+                />
+              );
             }}
           />
           <Route path='/home/3' exact component={Board_3} />
