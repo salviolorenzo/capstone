@@ -18,11 +18,18 @@ function Tickets(props) {
           );
         })}
       </ul>
-      <ul className='newsList'>
+      <ul className='eventList'>
         {props.events.map((item, index) => {
           return (
             <li key={index}>
-              <a href={item.url}>{item.name}</a>
+              <a href={item.url} target='_blank' rel='norefferer noopener'>
+                <img src={item.img} />
+                <div className='eventText'>
+                  {item.name}
+                  <br />
+                  {item.date}
+                </div>
+              </a>
             </li>
           );
         })}

@@ -5,6 +5,47 @@ import Board_1 from '../Boards/Board_1';
 import Board_2 from '../Boards/Board_2';
 import Board_3 from '../Boards/Board_3';
 import keys from '../../config';
+import day from '../../images/weather_icons/animated/day.svg';
+import cloudy from '../../images/weather_icons/animated/cloudy.svg';
+import rainyDay from '../../images/weather_icons/animated/rainy-3.svg';
+import rainy from '../../images/weather_icons/animated/rainy-6.svg';
+import snow from '../../images/weather_icons/animated/snowy-6.svg';
+import thunder from '../../images/weather_icons/animated/thunder.svg';
+
+function createBackSplash(url) {
+  const style = {
+    backgroundImage: `url(${url})`,
+    backgroundSize: `cover`,
+    backgroundPosition: `center`,
+    backgroundAttachment: `fixed`
+  };
+  return style;
+}
+
+function weatherIcon(string) {
+  switch (string) {
+    case 'clear sky':
+      return day;
+    case 'few clouds':
+      return cloudy;
+    case 'scattered clouds':
+      return cloudy;
+    case 'broken clouds':
+      return cloudy;
+    case 'shower rain':
+      return rainy;
+    case 'rain':
+      return rainyDay;
+    case 'thunderstorm':
+      return thunder;
+    case 'snow':
+      return snow;
+    case 'mist':
+      return cloudy;
+    default:
+      return cloudy;
+  }
+}
 
 function getWeather(object) {
   let location = {
@@ -20,7 +61,6 @@ function getWeather(object) {
     .then(r => r.json())
     .then(result => {
       let weather = {
-        condition: result.weather[0].main,
         temp: `Temperature: ${(
           ((result.main.temp - 273.15) * 9) / 5 +
           32
@@ -40,7 +80,8 @@ function getWeather(object) {
       this.setState({
         board1: {
           ...this.state.board1,
-          weather: weather
+          weather: weather,
+          weatherIcon: weatherIcon(result.weather[0].description)
         }
       });
     });
@@ -113,9 +154,11 @@ class Home extends Component {
     this.state = {
       location: {},
       tiles: [],
+      bgUrl: '',
       board1: {
         tiles: [],
         weather: {},
+        weatherIcon: '',
         news: []
       },
       board2: {
@@ -210,6 +253,19 @@ class Home extends Component {
           board2: { ...this.state.board2, events: newArray }
         });
       });
+    fetch(
+      `https://api.unsplash.com/search/photos?query=wallpaper&client_id=${
+        keys.USKEY
+      }`
+    )
+      .then(r => r.json())
+      .then(object => {
+        console.log(object);
+        let ranNum = Math.floor(Math.random() * 9);
+        this.setState({
+          bgUrl: object.results[ranNum].urls.regular
+        });
+      });
 
     // restaurants api call
   }
@@ -247,8 +303,8 @@ class Home extends Component {
   render() {
     return (
       <Router>
-        <div className='home'>
-          <ul>
+        <div className='home' style={createBackSplash(this.state.bgUrl)}>
+          <ul className='navList'>
             <li>
               <Link to='/home/1'>Daily Briefing</Link>
             </li>
@@ -266,6 +322,7 @@ class Home extends Component {
               return (
                 <Board_1
                   weather={this.state.board1.weather}
+                  icon={this.state.board1.weatherIcon}
                   news={this.state.board1.news}
                   {...props}
                 />

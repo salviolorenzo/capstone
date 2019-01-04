@@ -6,7 +6,7 @@ import Weather from '../Tiles/Weather';
 function Board_1(props) {
   return (
     <div className='board'>
-      <Weather weather={props.weather} />
+      <Weather weather={props.weather} icon={props.icon} />
       <News news={props.news} />
       {/* Adjust news topics based on preferences either chosen or through machine learning  */}
       {/* Compound multiple sources to list */}
