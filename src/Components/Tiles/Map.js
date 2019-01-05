@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Map, GoogleApiWrapper } from 'google-maps-react';
+import { Map, GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
 import keys from '../../config';
 function createStyles() {
   const mapStyles = {
@@ -11,7 +11,33 @@ function createStyles() {
 class MapContainer extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      location: {
+        lat: props.coords.lat,
+        lng: props.coords.long
+      },
+      markers: props.markers,
+      showingInfoWindow: false,
+      activeMarker: {},
+      selectedPlace: {}
+    };
+  }
+
+  onMarkerClick(props, marker, e) {
+    this.setState({
+      selectedPlace: props,
+      activeMarker: marker,
+      showingInfoWindow: true
+    });
+  }
+
+  onClose(props) {
+    if (this.state.showingInfoWindow) {
+      this.setState({
+        showingInfoWindow: false,
+        activeMarker: null
+      });
+    }
   }
 
   render() {
@@ -21,10 +47,33 @@ class MapContainer extends Component {
         zoom={14}
         style={createStyles()}
         initialCenter={{
-          lat: 34,
-          lng: -84
+          lat: parseFloat(this.state.location.lat),
+          lng: parseFloat(this.state.location.lng)
         }}
-      />
+      >
+        <Marker onClick={this.onMarkerClick.bind(this)} name={'You are here'} />
+        {this.state.markers.map((item, index) => {
+          return (
+            <Marker
+              key={index}
+              name={item.name}
+              position={{
+                lat: parseFloat(item.location.latitude),
+                lng: parseFloat(item.location.longitude)
+              }}
+            />
+          );
+        })}
+        <InfoWindow
+          marker={this.state.activeMarker}
+          visible={this.state.showingInfoWindow}
+          onClose={this.onClose.bind(this)}
+        >
+          <div>
+            <h4>{this.state.selectedPlace.name}</h4>
+          </div>
+        </InfoWindow>
+      </Map>
     );
   }
 }

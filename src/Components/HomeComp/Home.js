@@ -78,7 +78,7 @@ function getWeather(object) {
         hum: `Humidity: ${result.main.humidity} %`
       };
       this.setState({
-        location: { lat: location.lat, long: location.long },
+        coords: { lat: location.lat, long: location.long },
         board1: {
           ...this.state.board1,
           weather: weather,
@@ -153,7 +153,7 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      location: {},
+      coords: {},
       tiles: [],
       bgUrl: '',
       board1: {
@@ -348,7 +348,13 @@ class Home extends Component {
             path='/home/3'
             exact
             render={props => {
-              return <Board_3 location={this.state.location} {...props} />;
+              return (
+                <Board_3
+                  coords={this.state.coords}
+                  markers={this.state.board2.restaurants}
+                  {...props}
+                />
+              );
             }}
           />
         </div>
