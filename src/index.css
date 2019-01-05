@@ -288,3 +288,7 @@ footer {
   justify-content: center; */
   margin: 0 auto;
 }
+
+.infoWindow h6 {
+  margin: 0;
+}
