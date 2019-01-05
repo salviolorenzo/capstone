@@ -254,7 +254,7 @@ class Home extends Component {
         });
       });
     fetch(
-      `https://api.unsplash.com/search/photos?query=wallpaper&client_id=${
+      `https://api.unsplash.com/search/photos?query=wallpaper&page=1&client_id=${
         keys.USKEY
       }`
     )
