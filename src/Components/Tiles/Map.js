@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Map, GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
 import keys from '../../config';
+import yourLocImg from '../../images/yourLocation.png';
 function createStyles() {
   const mapStyles = {
     width: '90%',
@@ -16,7 +17,6 @@ class MapContainer extends Component {
         lat: props.coords.lat,
         lng: props.coords.long
       },
-      markers: props.markers,
       showingInfoWindow: false,
       activeMarker: {},
       selectedPlace: {}
@@ -51,8 +51,14 @@ class MapContainer extends Component {
           lng: parseFloat(this.state.location.lng)
         }}
       >
-        <Marker onClick={this.onMarkerClick.bind(this)} name={'You are here'} />
-        {this.state.markers.map((item, index) => {
+        <Marker
+          onClick={this.onMarkerClick.bind(this)}
+          name={'Current location'}
+          icon={{
+            url: yourLocImg
+          }}
+        />
+        {this.props.restaurants.map((item, index) => {
           return (
             <Marker
               key={index}
@@ -61,6 +67,7 @@ class MapContainer extends Component {
                 lat: parseFloat(item.location.latitude),
                 lng: parseFloat(item.location.longitude)
               }}
+              onClick={this.onMarkerClick.bind(this)}
             />
           );
         })}
