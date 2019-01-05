@@ -49,8 +49,8 @@ function weatherIcon(string) {
 
 function getWeather(object) {
   let location = {
-    lat: object.coords.latitude.toFixed(),
-    long: object.coords.longitude.toFixed()
+    lat: object.coords.latitude.toFixed(4),
+    long: object.coords.longitude.toFixed(4)
   };
   console.log(location);
   fetch(
@@ -78,6 +78,7 @@ function getWeather(object) {
         hum: `Humidity: ${result.main.humidity} %`
       };
       this.setState({
+        location: { lat: location.lat, long: location.long },
         board1: {
           ...this.state.board1,
           weather: weather,
@@ -91,8 +92,8 @@ function getWeather(object) {
 
 function getRestInfo(object) {
   let location = {
-    lat: object.coords.latitude.toFixed(),
-    long: object.coords.longitude.toFixed()
+    lat: object.coords.latitude.toFixed(4),
+    long: object.coords.longitude.toFixed(4)
   };
   fetch(
     `https://developers.zomato.com/api/v2.1/geocode?lat=${location.lat}&lon=${
@@ -343,7 +344,13 @@ class Home extends Component {
               );
             }}
           />
-          <Route path='/home/3' exact component={Board_3} />
+          <Route
+            path='/home/3'
+            exact
+            render={props => {
+              return <Board_3 location={this.state.location} {...props} />;
+            }}
+          />
         </div>
       </Router>
     );
