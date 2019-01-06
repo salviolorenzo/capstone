@@ -91,6 +91,39 @@ class Calendar extends Component {
     });
   }
 
+  onSlotChange(slotInfo) {
+    var startDate = moment(slotInfo.start.toLocaleString()).format(
+      'YYYY-MM-DD HH:mm:ss'
+    );
+    var endDate = moment(slotInfo.end.toLocaleString()).format(
+      'YYYY-MM-DD HH:mm:ss'
+    );
+    const newEvent = {
+      title: '',
+      start: startDate,
+      end: endDate,
+      desc: ''
+    };
+    this.setState({
+      selectedEvent: newEvent
+    });
+    this.openModal();
+  }
+
+  handleNewEvent(event, { start, end }) {
+    console.log(event.target);
+    const newEvent = {
+      title: event.target.eventTitle,
+      start: start,
+      end: end,
+      desc: event.target.eventDesc
+    };
+    this.setState({
+      events: [...this.state.events, newEvent]
+    });
+    this.closeModal();
+  }
+
   render() {
     return (
       <div className='tile calendarTile'>
@@ -110,11 +143,25 @@ class Calendar extends Component {
           <p>{this.state.selectedEvent.end}</p>
           <button onClick={this.closeModal.bind(this)}>close</button>
           <div />
-          <form>
-            <textarea value={this.state.selectedEvent.desc} />
+          <form onSubmit={this.handleNewEvent}>
+            <input
+              name='eventTitle'
+              placeholder='Event Title'
+              value={this.state.selectedEvent.title}
+              onChange={this.handleChange}
+            />
+            <textarea
+              name='eventDesc'
+              placeholder='Event Description'
+              value={this.state.selectedEvent.desc}
+              onChange={this.handleChange}
+            />
+            <input type='submit' />
           </form>
         </Modal>
+
         <BigCalendar
+          selectable={true}
           style={{ height: 500, width: this.state.width }}
           toolbar={false}
           // events={events}
@@ -123,13 +170,14 @@ class Calendar extends Component {
           events={this.state.events}
           onSelectEvent={event => this.displayEvent(event)}
           onSelectSlot={event => {
-            console.log(event);
+            this.onSlotChange(event);
           }}
           view={this.state.view}
           views={allViews}
           onView={() => {}}
           date={this.state.date}
           onNavigate={date => this.setState({ date })}
+          timeslots={1}
         />
       </div>
     );
