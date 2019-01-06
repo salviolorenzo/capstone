@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 // import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import News from '../Tiles/News';
 import Weather from '../Tiles/Weather';
+import Calendar from '../Tiles/Calendar';
 
 function Board_1(props) {
   return (
     <div className='board'>
       <Weather weather={props.weather} icon={props.icon} />
+      <Calendar />
       <News news={props.news} />
       {/* Adjust news topics based on preferences either chosen or through machine learning  */}
       {/* Compound multiple sources to list */}
