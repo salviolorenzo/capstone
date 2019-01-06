@@ -247,26 +247,41 @@ footer {
   border-radius: 5px;
 }
 
+.eventList a,
+.restoList a {
+  /* min-width: 100%; */
+}
+
 .eventList li,
 .restoList li {
   padding: 3px;
   margin: 5px 0;
   width: 90%;
-  /* display: flex;
+  display: flex;
   flex-direction: row;
-  flex-wrap: wrap; */
+  flex-wrap: wrap;
+  min-height: 70px;
+
+  font-size: 12px;
+  /* justify-content: space-between; */
   background-color: aliceblue;
 }
 
 .eventText {
+  min-height: 100%;
   margin: 3px;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .eventList li img {
   max-width: 30%;
-
+  max-height: 90%;
   float: left;
   margin: auto 0;
+}
+
+.restoList li {
+  justify-content: center;
 }

@@ -5,6 +5,7 @@ const eventTypes = ['Music', 'Sports'];
 function Tickets(props) {
   return (
     <div className='tile'>
+      <h3>Events</h3>
       <ul className='eventType'>
         {eventTypes.map(item => {
           return (
