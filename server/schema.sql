@@ -35,6 +35,16 @@ create table preferences(
   content text
 );
 
+create table events(
+  id serial primary key,
+  title text,
+  start timestamp,
+  end timestamp,
+  allDay boolean,
+  resource text,
+  user_id integer references users(id)
+)
+
 create table user_preferences(
   id serial primary key,
   user_id integer references users(id),
