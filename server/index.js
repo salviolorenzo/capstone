@@ -36,6 +36,30 @@ app.use((req, res, next) => {
   next();
 });
 
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.GOCLIENT,
+      clientSecret: process.env.GOSECRET,
+      callbackURL: 'http://localhost:4000/auth/google/callback'
+    },
+    function(accessToken, refreshToken, profile, cb) {
+      console.log(accessToken, refreshToken, profile);
+    }
+  )
+);
+
+passport.serializeUser(function(user, cb) {
+  cb(null, user);
+});
+
+passport.deserializeUser(function(obj, cb) {
+  cb(null, obj);
+});
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 // =======================================================
 // STANDARD ROUTES ==========================================
 // =======================================================
@@ -118,24 +142,16 @@ app.get('/home/:id/news', (req, res) => {
     });
 });
 
-// ZOMATO
-// [
-//   {
-//     geocode: `https://developers.zomato.com/api/v2.1/geocode?lat=34&lon=-84&apikey=${
-//       process.env.ZOMKEY
-//     }`
-//   },
-//   {
-//     restaurant: `https://developers.zomato.com/api/v2.1/restaurant?res_id=${res_id}&apikey=${
-//       process.env.ZOMKEY
-//     }`
-//   },
-//   {
-//     reviews: `https://developers.zomato.com/api/v2.1/reviews?res_id=${res_id}&apikey=${
-//       process.env.ZOMKEY
-//     }`
-//   }
-// ];
+// GOOGLE AUTH
+app.get('/auth/google', passport.authenticate('google'));
+
+app.get(
+  '/auth/google/callback',
+  passport.authenticate('google', { failureRedirect: '/' }),
+  function(req, res) {
+    res.redirect('/home');
+  }
+);
 
 // =======================================================
 // GITHUB AUTH ==========================================
