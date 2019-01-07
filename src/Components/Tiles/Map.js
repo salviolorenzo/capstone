@@ -44,7 +44,7 @@ class MapContainer extends Component {
     return (
       <Map
         google={this.props.google}
-        zoom={8}
+        zoom={12}
         style={createStyles()}
         initialCenter={{
           lat: parseFloat(this.state.location.lat),

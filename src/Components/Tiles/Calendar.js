@@ -22,7 +22,8 @@ class Calendar extends Component {
       start: '',
       end: '',
       allDay: false,
-      events: props.events
+      events: props.events,
+      header: `Today's Agenda`
     };
   }
 
@@ -181,26 +182,75 @@ class Calendar extends Component {
     this.closeModal();
   }
 
+  isAllDay(allDay) {
+    if (allDay) {
+      return null;
+    } else {
+      return (
+        <>
+          <input
+            type='text'
+            name='start'
+            value={this.state.start}
+            onChange={this.handleStartTime.bind(this)}
+          />
+          <input
+            type='text'
+            name='end'
+            value={this.state.end}
+            onChange={this.handleEndTime.bind(this)}
+          />
+        </>
+      );
+    }
+  }
+
   render() {
     return (
       <div className='tile calendarTile'>
-        <button onClick={() => this.setState({ view: 'day' })}>Day</button>
-        <button onClick={() => this.setState({ view: 'week' })}>Week</button>
-        <button onClick={() => this.setState({ view: 'month' })}>Month</button>
+        <h3>{this.state.header}</h3>
+        <div className='calendarHeader'>
+          <button
+            className='calendarBtn'
+            onClick={() =>
+              this.setState({ view: 'day', header: "Today's Agenda" })
+            }
+          >
+            Day
+          </button>
+          <button
+            className='calendarBtn'
+            onClick={() => this.setState({ view: 'week', header: 'This Week' })}
+          >
+            Week
+          </button>
+          <button
+            className='calendarBtn'
+            onClick={() =>
+              this.setState({ view: 'month', header: 'This Month' })
+            }
+          >
+            Month
+          </button>
+        </div>
         <Modal
           isOpen={this.state.modalIsOpen}
           onAfterOpen={this.afterOpenModal}
           onRequestClose={this.closeModal}
           contentLabel='Example Modal'
         >
-          <h2 ref={subtitle => (this.subtitle = subtitle)}>
-            {this.state.selectedEvent.title}
-          </h2>
-          <p>{this.state.selectedEvent.start}</p>
-          <p>{this.state.selectedEvent.end}</p>
-          <button onClick={this.closeModal.bind(this)}>close</button>
-          <div />
+          <button onClick={this.closeModal.bind(this)} className='closeBtn'>
+            X
+          </button>
+          <div className='modalText'>
+            <h2 ref={subtitle => (this.subtitle = subtitle)}>
+              {this.state.selectedEvent.title}
+            </h2>
+            <p>{this.state.selectedEvent.start}</p>
+            <p>{this.state.selectedEvent.end}</p>
+          </div>
           <form
+            className='modalForm'
             onSubmit={event => {
               this.handleNewEvent(event);
             }}
@@ -212,39 +262,32 @@ class Calendar extends Component {
               value={this.state.term}
               onChange={this.handleTitleChange.bind(this)}
             />
-            <input
-              type='checkbox'
-              name='allDay'
-              value={this.state.allDay}
-              onChange={this.changeBox.bind(this)}
-            />
-            All Day
-            <input
-              type='text'
-              name='start'
-              value={this.state.start}
-              onChange={this.handleStartTime.bind(this)}
-            />
-            <input
-              type='text'
-              name='end'
-              value={this.state.end}
-              onChange={this.handleEndTime.bind(this)}
-            />
+            <label>
+              <input
+                type='checkbox'
+                name='allDay'
+                value={this.state.allDay}
+                onChange={this.changeBox.bind(this)}
+              />
+              All Day
+            </label>
+            {this.isAllDay(this.state.allDay)}
             <textarea
               name='eventDesc'
               placeholder='Event Description'
               value={this.state.desc}
               onChange={this.handleDescChange.bind(this)}
             />
-            <input type='submit' />
+            <input type='submit' value='Save' />
           </form>
           <form
             onSubmit={event => {
               this.handleDelete(event);
             }}
           >
-            <input type='submit' value='Delete Event' />
+            <button className='modalDelete' type='submit' value='Delete Event'>
+              Delete Event
+            </button>
           </form>
         </Modal>
 
@@ -264,6 +307,7 @@ class Calendar extends Component {
           views={allViews}
           onView={() => {}}
           date={this.state.date}
+          scrollToTime={this.state.date}
           onNavigate={date => this.setState({ date })}
           timeslots={1}
         />

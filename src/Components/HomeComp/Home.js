@@ -308,18 +308,17 @@ class Home extends Component {
         <div className='home' style={createBackSplash(this.state.bgUrl)}>
           <ul className='navList'>
             <li>
-              <Link to='/home'>Daily Briefing</Link>
+              <Link to='/home/dash/1'>Daily Briefing</Link>
             </li>
             <li>
-              <Link to='/home/2'>Events</Link>
+              <Link to='/home/dash/2'>Events</Link>
             </li>
             <li>
-              <Link to='/home/3'>Transportation</Link>
+              <Link to='/home/dash/3'>Transportation</Link>
             </li>
           </ul>
           <Route
-            path='/home'
-            exact
+            path='/home/dash/1'
             render={props => {
               return (
                 <Board_1
@@ -333,7 +332,7 @@ class Home extends Component {
             }}
           />
           <Route
-            path='/home/2'
+            path='/home/dash/2'
             render={props => {
               return (
                 <Board_2
@@ -346,7 +345,7 @@ class Home extends Component {
             }}
           />
           <Route
-            path='/home/3'
+            path='/home/dash/3'
             render={props => {
               return (
                 <Board_3
