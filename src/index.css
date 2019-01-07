@@ -200,6 +200,12 @@ footer p {
   color: white;
 }
 
+.selectedClass {
+  background-color: white;
+  color: black !important;
+  border-radius: 10px;
+}
+
 .navList {
   padding: 0;
   display: flex;

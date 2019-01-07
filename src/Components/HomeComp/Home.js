@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom';
 import SwipeableRoutes from 'react-swipeable-routes';
 // import Weather from '../Tiles/Weather';
 import Board_1 from '../Boards/Board_1';
@@ -309,13 +309,37 @@ class Home extends Component {
         <div className='home' style={createBackSplash(this.state.bgUrl)}>
           <ul className='navList'>
             <li>
-              <Link to='/home/dash/1'>Daily Briefing</Link>
+              <NavLink
+                activeStyle={{
+                  borderBottom: '1px solid white',
+                  paddingBottom: '3px'
+                }}
+                to='/home/dash/1'
+              >
+                Daily Briefing
+              </NavLink>
             </li>
             <li>
-              <Link to='/home/dash/2'>Events</Link>
+              <NavLink
+                activeStyle={{
+                  borderBottom: '1px solid white',
+                  paddingBottom: '3px'
+                }}
+                to='/home/dash/2'
+              >
+                Events
+              </NavLink>
             </li>
             <li>
-              <Link to='/home/dash/3'>Transportation</Link>
+              <NavLink
+                activeStyle={{
+                  borderBottom: '1px solid white',
+                  paddingBottom: '3px'
+                }}
+                to='/home/dash/3'
+              >
+                Transportation
+              </NavLink>
             </li>
           </ul>
           <SwipeableRoutes>
