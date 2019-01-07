@@ -17,6 +17,8 @@ class Calendar extends Component {
       width: '100%',
       modalIsOpen: false,
       selectedEvent: {},
+      term: '',
+      desc: '',
       events: [
         {
           title: 'All Day Event very long title',
@@ -27,8 +29,8 @@ class Calendar extends Component {
         },
         {
           title: 'Long Event',
-          start: new Date('January 7, 2019 06:30:00'),
-          end: new Date('January 7, 2019 08:30:00'),
+          start: new Date('January 8, 2019 06:30:00'),
+          end: new Date('January 8, 2019 08:30:00'),
           desc: 'Big conference for important people'
         },
 
@@ -66,8 +68,8 @@ class Calendar extends Component {
     console.log(event);
     let newEvent = {
       title: event.title,
-      start: event.start.toLocaleString(),
-      end: event.end.toLocaleString()
+      start: moment(event.start.toLocaleString()).format('MM-DD-YYYY HH:mm:ss'),
+      end: moment(event.end.toLocaleString()).format('MM-DD-YYYY HH:mm:ss')
     };
     this.setState({
       selectedEvent: newEvent
@@ -92,14 +94,15 @@ class Calendar extends Component {
   }
 
   onSlotChange(slotInfo) {
-    var startDate = moment(slotInfo.start.toLocaleString()).format(
-      'YYYY-MM-DD HH:mm:ss'
+    const startDate = moment(slotInfo.start.toLocaleString()).format(
+      'MM-DD-YYYY HH:mm:ss'
     );
-    var endDate = moment(slotInfo.end.toLocaleString()).format(
-      'YYYY-MM-DD HH:mm:ss'
+    const endDate = moment(slotInfo.end.toLocaleString()).format(
+      'MM-DD-YYYY HH:mm:ss'
     );
     const newEvent = {
       title: '',
+      allDay: false,
       start: startDate,
       end: endDate,
       desc: ''
@@ -110,18 +113,31 @@ class Calendar extends Component {
     this.openModal();
   }
 
-  handleNewEvent(event, { start, end }) {
+  handleNewEvent(event) {
     console.log(event.target);
     const newEvent = {
       title: event.target.eventTitle,
-      start: start,
-      end: end,
+      allDay: false,
+      start: new Date(this.state.selectedEvent.start),
+      end: new Date(this.state.selectedEvent.end),
       desc: event.target.eventDesc
     };
     this.setState({
       events: [...this.state.events, newEvent]
     });
     this.closeModal();
+  }
+
+  handleTitleChange(event) {
+    this.setState({
+      term: event.target.value
+    });
+  }
+
+  handleDescChange(event) {
+    this.setState({
+      desc: event.target.value
+    });
   }
 
   render() {
@@ -143,18 +159,18 @@ class Calendar extends Component {
           <p>{this.state.selectedEvent.end}</p>
           <button onClick={this.closeModal.bind(this)}>close</button>
           <div />
-          <form onSubmit={this.handleNewEvent}>
+          <form onSubmit={this.handleNewEvent.bind(this)}>
             <input
               name='eventTitle'
               placeholder='Event Title'
-              value={this.state.selectedEvent.title}
-              onChange={this.handleChange}
+              value={this.state.term}
+              onChange={this.handleTitleChange.bind(this)}
             />
             <textarea
               name='eventDesc'
               placeholder='Event Description'
-              value={this.state.selectedEvent.desc}
-              onChange={this.handleChange}
+              value={this.state.desc}
+              onChange={this.handleDescChange.bind(this)}
             />
             <input type='submit' />
           </form>
