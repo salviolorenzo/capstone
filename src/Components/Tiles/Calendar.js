@@ -13,54 +13,21 @@ class Calendar extends Component {
     super(props);
     this.state = {
       view: 'day',
-      date: new Date(2019, 0, 6),
+      date: new Date(),
       width: '100%',
       modalIsOpen: false,
       selectedEvent: {},
       term: '',
       desc: '',
-      events: [
-        {
-          title: 'All Day Event very long title',
-          allDay: true,
-          start: new Date(2019, 0, 0),
-          end: new Date(2019, 0, 1),
-          desc: 'Big conference for important people'
-        },
-        {
-          title: 'Long Event',
-          start: new Date('January 8, 2019 06:30:00'),
-          end: new Date('January 8, 2019 08:30:00'),
-          desc: 'Big conference for important people'
-        },
-
-        {
-          title: 'DTS STARTS',
-          start: new Date(2019, 2, 10, 0, 0, 0),
-          end: new Date(2019, 2, 20, 0, 0, 0),
-          desc: 'Big conference for important people'
-        },
-
-        {
-          title: 'DTS ENDS',
-          start: new Date(2019, 10, 6, 0, 0, 0),
-          end: new Date(2019, 10, 10, 0, 0, 0),
-          desc: 'Big conference for important people'
-        },
-
-        {
-          title: 'Some Event',
-          start: new Date(2019, 0, 9, 0, 0, 0),
-          end: new Date(2019, 0, 9, 0, 0, 0),
-          desc: 'Big conference for important people'
-        },
-        {
-          title: 'Conference',
-          start: new Date(2019, 0, 11),
-          end: new Date(2019, 0, 10),
-          desc: 'Big conference for important people'
-        }
-      ]
+      events: props.events.map(item => {
+        return {
+          title: item.title,
+          allDay: item.allday,
+          start: new Date(item.eventstart),
+          end: new Date(item.eventend),
+          desc: item.description
+        };
+      })
     };
   }
 
@@ -114,16 +81,21 @@ class Calendar extends Component {
   }
 
   handleNewEvent(event) {
+    event.preventDefault();
     console.log(event.target);
     const newEvent = {
       title: event.target.eventTitle,
       allDay: false,
-      start: new Date(this.state.selectedEvent.start),
-      end: new Date(this.state.selectedEvent.end),
+      start: this.state.selectedEvent.start,
+      end: this.state.selectedEvent.end,
       desc: event.target.eventDesc
     };
-    this.setState({
-      events: [...this.state.events, newEvent]
+    fetch('/home/events/new', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8'
+      },
+      body: newEvent
     });
     this.closeModal();
   }

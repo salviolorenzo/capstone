@@ -160,7 +160,8 @@ class Home extends Component {
         tiles: [],
         weather: {},
         weatherIcon: '',
-        news: []
+        news: [],
+        events: []
       },
       board2: {
         tiles: [],
@@ -179,22 +180,19 @@ class Home extends Component {
     fetch('/home')
       .then(result => result.json())
       .then(array => {
-        let newArray = array.map(item => {
-          return item.name;
-        });
         this.setState({
-          tiles: newArray
+          events: array
         });
       });
 
     // board1 info
-    fetch('/home/1')
-      .then(r => r.json())
-      .then(array => {
-        this.setState({
-          board1: { ...this.state.board1, tiles: array }
-        });
-      });
+    // fetch('/home/1')
+    //   .then(r => r.json())
+    //   .then(array => {
+    //     this.setState({
+    //       board1: { ...this.state.board1, tiles: array }
+    //     });
+    //   });
 
     // weather api call
     if ('geolocation' in navigator) {
@@ -224,13 +222,13 @@ class Home extends Component {
       });
 
     // board 2
-    fetch('/home/2')
-      .then(r => r.json())
-      .then(array => {
-        this.setState({
-          board2: { ...this.state.board2, tiles: array }
-        });
-      });
+    // fetch('/home/2')
+    //   .then(r => r.json())
+    //   .then(array => {
+    //     this.setState({
+    //       board2: { ...this.state.board2, tiles: array }
+    //     });
+    //   });
 
     // events api call
     fetch(
@@ -255,7 +253,6 @@ class Home extends Component {
         });
       });
     fetch(
-
       `https://api.unsplash.com/search/photos?query=space&client_id=${
         keys.USKEY
       }`
@@ -326,6 +323,7 @@ class Home extends Component {
                   weather={this.state.board1.weather}
                   icon={this.state.board1.weatherIcon}
                   news={this.state.board1.news}
+                  events={this.state.events}
                   {...props}
                 />
               );

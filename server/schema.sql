@@ -39,11 +39,11 @@ create table events(
   id serial primary key,
   title text,
   allDay boolean,
-  start timestamp,
-  end timestamp,
+  eventStart timestamp,
+  eventEnd timestamp,
   description text,
   user_id integer references users(id)
-)
+);
 
 create table user_preferences(
   id serial primary key,

@@ -41,6 +41,13 @@ insert into board_tiles
   (3, 3, 1);
 
 insert into events
-  (title, start)
+  (title, allDay, eventStart, eventEnd, description, user_id)
+  values
+    ('Event 1', false, 'January 8, 2019 11:30:00', 'January 8, 2019 13:30:00', 'this is an event', 2),
+    ('Event 2', false, 'January 9, 2019 8:30:00', 'January 9, 2019 10:30:00', 'this is an event', 2),
+    ('Event 3', false, 'January 10, 2019 3:30:00', 'January 10, 2019 7:30:00', 'this is an event', 2),
+    ('Event 4', false, 'January 11, 2019 6:30:00', 'January 11, 2019 20:30:00', 'this is an event', 2),
+    ('Event 5', false, 'January 12, 2019 11:30:00', 'January 12, 2019 13:30:00', 'this is an event', 2),
+    ('Event 6', false, 'January 13, 2019 11:30:00', 'January 13, 2019 13:30:00', 'this is an event', 2);
   
 
