@@ -156,6 +156,8 @@ footer {
 
 .board {
   width: 100%;
+  min-height: 100vh;
+  height: 100%;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
@@ -282,6 +284,23 @@ footer {
   margin: auto 0;
 }
 
-.restoList li {
+/* =============================================== */
+/* MAP STYLES */
+/* =============================================== */
+.mapBoard {
+  display: flex;
   justify-content: center;
 }
+
+.mapBoard > div {
+  width: 90%;
+  height: 100%;
+  /* display: flex;
+  justify-content: center; */
+  margin: 0 auto;
+}
+
+.infoWindow h6 {
+  margin: 0;
+}
+
