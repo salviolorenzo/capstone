@@ -13,6 +13,7 @@ class Root extends Component {
       <Router>
         <div className='landing'>
           <div className='loginReg'>
+            <img src={require('../../images/DSH_LOGO.png')} />
             <ul>
               <li>
                 <Link to='/login'>Log in</Link>
@@ -21,18 +22,43 @@ class Root extends Component {
                 <Link to='/register'>Register</Link>
               </li>
             </ul>
-            <img src={require('../../images/DSH_LOGO.png')} />
             <Route path='/login' component={Login} />
             <Route path='/register' component={Register} />
           </div>
           <footer>
-            <p>Built by Lorenzo Salvio</p>
             <ul>
-              <li>Icon</li>
-              <li>Icon</li>
-              <li>Icon</li>
-              <li>Icon</li>
+              <li>
+                <a
+                  title='Email'
+                  href='mailto:salviolorenzo@gmail.com'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                >
+                  <img src={require('../../images/emailIcon.png')} />
+                </a>
+              </li>
+              <li>
+                <a
+                  title='Portfolio'
+                  href='https://www.lorenzosalvio.com'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                >
+                  <img src={require('../../images/websiteIcon.png')} />
+                </a>
+              </li>
+              <li>
+                <a
+                  tilte='GitHub'
+                  href='https://www.github.com/salviolorenzo'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                >
+                  <img src={require('../../images/gitIcon.png')} />
+                </a>
+              </li>
             </ul>
+            <p>Built by Lorenzo Salvio</p>
           </footer>
         </div>
       </Router>

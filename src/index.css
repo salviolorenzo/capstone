@@ -52,12 +52,14 @@ button:hover {
 header {
   max-width: 100%;
   min-height: 50px;
+  max-height: 100px;
   padding: 5px;
 }
 
 nav {
   width: 100%;
   height: 100%;
+  max-height: 100%;
   display: flex;
   list-style-type: none;
   padding: 0;
@@ -73,8 +75,13 @@ nav li {
   background-color: #ffffff;
 }
 
+header a {
+  max-height: 100%;
+}
+
 header img {
   max-width: 80%;
+  max-height: 50px;
 }
 
 header li {
@@ -90,18 +97,19 @@ header li {
   height: 100%;
   display: flex;
   flex-direction: column;
-  background-image: url('./images/pexels-photo-911738.jpeg');
+  background-image: url('./images/rootBg.jpeg');
   background-size: 'cover';
   background-position: center;
 }
 
 .landing img {
   max-width: 80%;
-  opacity: 0.7;
+  opacity: 0.9;
+  margin-top: 20px;
 }
 
 .loginReg {
-  height: 80%;
+  height: 90%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -110,17 +118,22 @@ header li {
 .loginReg ul {
   display: flex;
   list-style-type: none;
-  justify-content: space-evenly;
+  justify-content: center;
   margin: 0;
   width: 100%;
   padding: 10px 0;
 }
 
 .loginReg li {
-  border: 0.5px solid #d7d7d7;
+  border: 0.5px solid white;
   padding: 2px 5px;
   border-radius: 5px;
-  background-color: #ffffff;
+  margin: 0 10px;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.loginReg li > a {
+  color: white;
 }
 
 .landingForm {
@@ -130,15 +143,42 @@ header li {
   height: 50%;
   justify-content: center;
   align-items: center;
+  text-align: left;
+}
+
+.landingForm label {
+  color: white;
 }
 
 .landingForm input {
   border-radius: 5px;
+  padding: 5px;
+  border: 1px solid white;
   margin: 5px;
 }
 
 footer {
-  height: 20%;
+  /* height: 20%; */
+  color: white;
+}
+
+footer ul {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  padding: 0;
+  margin: 0;
+  justify-content: space-evenly;
+}
+
+footer li:hover {
+  transform: scale(1.2);
+  transition: transform 0.25s ease-in-out;
+}
+
+footer p {
+  margin: 1px;
+  font-size: 12px;
 }
 
 /* ======================================== */
