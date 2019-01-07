@@ -39,5 +39,8 @@ insert into board_tiles
   (1, 3, 4),
   (2, 3, 3),
   (3, 3, 1);
+
+insert into events
+  (title, start)
   
 

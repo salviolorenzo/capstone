@@ -38,10 +38,10 @@ create table preferences(
 create table events(
   id serial primary key,
   title text,
+  allDay boolean,
   start timestamp,
   end timestamp,
-  allDay boolean,
-  resource text,
+  description text,
   user_id integer references users(id)
 )
 
