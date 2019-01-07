@@ -19,6 +19,8 @@ class Calendar extends Component {
       selectedEvent: {},
       term: '',
       desc: ' ',
+      start: '',
+      end: '',
       allDay: false,
       events: props.events
     };
@@ -76,7 +78,9 @@ class Calendar extends Component {
       desc: this.state.desc
     };
     this.setState({
-      selectedEvent: newEvent
+      selectedEvent: newEvent,
+      start: newEvent.start,
+      end: newEvent.end
     });
     this.openModal();
   }
@@ -93,6 +97,18 @@ class Calendar extends Component {
     });
   }
 
+  handleStartTime(event) {
+    this.setState({
+      start: event.target.value
+    });
+  }
+
+  handleEndTime(event) {
+    this.setState({
+      end: event.target.value
+    });
+  }
+
   changeBox(event) {
     this.setState({ allDay: event.target.checked });
   }
@@ -100,10 +116,11 @@ class Calendar extends Component {
   handleNewEvent(event) {
     event.preventDefault();
     const newEvent = {
+      id: this.state.selectedEvent.id,
       title: this.state.term,
       allDay: this.state.allDay,
-      start: this.state.selectedEvent.start,
-      end: this.state.selectedEvent.end,
+      start: this.state.start,
+      end: this.state.end,
       description: this.state.desc
     };
 
@@ -127,7 +144,8 @@ class Calendar extends Component {
           desc: result.description
         };
         this.setState({
-          events: [...this.state.events, addEvent]
+          events: [...this.state.events, addEvent],
+          selectedEvent: {}
         });
       });
     this.closeModal();
@@ -204,12 +222,14 @@ class Calendar extends Component {
             <input
               type='text'
               name='start'
-              value={this.state.selectedEvent.start}
+              value={this.state.start}
+              onChange={this.handleStartTime.bind(this)}
             />
             <input
               type='text'
               name='end'
-              value={this.state.selectedEvent.end}
+              value={this.state.end}
+              onChange={this.handleEndTime.bind(this)}
             />
             <textarea
               name='eventDesc'
