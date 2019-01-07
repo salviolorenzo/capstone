@@ -160,7 +160,8 @@ class Home extends Component {
         tiles: [],
         weather: {},
         weatherIcon: '',
-        news: []
+        news: [],
+        events: []
       },
       board2: {
         tiles: [],
@@ -179,22 +180,22 @@ class Home extends Component {
     fetch('/home')
       .then(result => result.json())
       .then(array => {
-        let newArray = array.map(item => {
-          return item.name;
-        });
         this.setState({
-          tiles: newArray
+          board1: {
+            ...this.state.board1,
+            events: array
+          }
         });
       });
 
-    // board1 info
-    fetch('/home/1')
-      .then(r => r.json())
-      .then(array => {
-        this.setState({
-          board1: { ...this.state.board1, tiles: array }
-        });
-      });
+    // // board1 info
+    // fetch('/home/1')
+    //   .then(r => r.json())
+    //   .then(array => {
+    //     this.setState({
+    //       board1: { ...this.state.board1, tiles: array }
+    //     });
+    //   });
 
     // weather api call
     if ('geolocation' in navigator) {
@@ -224,13 +225,13 @@ class Home extends Component {
       });
 
     // board 2
-    fetch('/home/2')
-      .then(r => r.json())
-      .then(array => {
-        this.setState({
-          board2: { ...this.state.board2, tiles: array }
-        });
-      });
+    // fetch('/home/2')
+    //   .then(r => r.json())
+    //   .then(array => {
+    //     this.setState({
+    //       board2: { ...this.state.board2, tiles: array }
+    //     });
+    //   });
 
     // events api call
     fetch(
@@ -255,7 +256,6 @@ class Home extends Component {
         });
       });
     fetch(
-
       `https://api.unsplash.com/search/photos?query=space&client_id=${
         keys.USKEY
       }`
@@ -308,7 +308,7 @@ class Home extends Component {
         <div className='home' style={createBackSplash(this.state.bgUrl)}>
           <ul className='navList'>
             <li>
-              <Link to='/home/1'>Daily Briefing</Link>
+              <Link to='/home'>Daily Briefing</Link>
             </li>
             <li>
               <Link to='/home/2'>Events</Link>
@@ -318,7 +318,7 @@ class Home extends Component {
             </li>
           </ul>
           <Route
-            path='/home/1'
+            path='/home'
             exact
             render={props => {
               return (
@@ -326,6 +326,7 @@ class Home extends Component {
                   weather={this.state.board1.weather}
                   icon={this.state.board1.weatherIcon}
                   news={this.state.board1.news}
+                  events={this.state.board1.events}
                   {...props}
                 />
               );
@@ -333,7 +334,6 @@ class Home extends Component {
           />
           <Route
             path='/home/2'
-            exact
             render={props => {
               return (
                 <Board_2
@@ -347,7 +347,6 @@ class Home extends Component {
           />
           <Route
             path='/home/3'
-            exact
             render={props => {
               return (
                 <Board_3

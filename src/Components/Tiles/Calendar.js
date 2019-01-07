@@ -13,66 +13,33 @@ class Calendar extends Component {
     super(props);
     this.state = {
       view: 'day',
-      date: new Date(2019, 0, 6),
+      date: new Date(),
       width: '100%',
       modalIsOpen: false,
       selectedEvent: {},
       term: '',
-      desc: '',
-      events: [
-        {
-          title: 'All Day Event very long title',
-          allDay: true,
-          start: new Date(2019, 0, 0),
-          end: new Date(2019, 0, 1),
-          desc: 'Big conference for important people'
-        },
-        {
-          title: 'Long Event',
-          start: new Date('January 8, 2019 06:30:00'),
-          end: new Date('January 8, 2019 08:30:00'),
-          desc: 'Big conference for important people'
-        },
-
-        {
-          title: 'DTS STARTS',
-          start: new Date(2019, 2, 10, 0, 0, 0),
-          end: new Date(2019, 2, 20, 0, 0, 0),
-          desc: 'Big conference for important people'
-        },
-
-        {
-          title: 'DTS ENDS',
-          start: new Date(2019, 10, 6, 0, 0, 0),
-          end: new Date(2019, 10, 10, 0, 0, 0),
-          desc: 'Big conference for important people'
-        },
-
-        {
-          title: 'Some Event',
-          start: new Date(2019, 0, 9, 0, 0, 0),
-          end: new Date(2019, 0, 9, 0, 0, 0),
-          desc: 'Big conference for important people'
-        },
-        {
-          title: 'Conference',
-          start: new Date(2019, 0, 11),
-          end: new Date(2019, 0, 10),
-          desc: 'Big conference for important people'
-        }
-      ]
+      desc: ' ',
+      start: '',
+      end: '',
+      allDay: false,
+      events: props.events
     };
   }
 
   displayEvent(event) {
     console.log(event);
     let newEvent = {
+      id: event.id,
       title: event.title,
+      allDay: event.allDay,
       start: moment(event.start.toLocaleString()).format('MM-DD-YYYY HH:mm:ss'),
-      end: moment(event.end.toLocaleString()).format('MM-DD-YYYY HH:mm:ss')
+      end: moment(event.end.toLocaleString()).format('MM-DD-YYYY HH:mm:ss'),
+      desc: event.desc
     };
     this.setState({
-      selectedEvent: newEvent
+      selectedEvent: newEvent,
+      term: newEvent.title,
+      desc: event.desc
     });
     this.openModal();
   }
@@ -89,7 +56,10 @@ class Calendar extends Component {
 
   closeModal() {
     this.setState({
-      modalIsOpen: false
+      modalIsOpen: false,
+      selectedEvent: {},
+      term: '',
+      desc: ''
     });
   }
 
@@ -101,31 +71,18 @@ class Calendar extends Component {
       'MM-DD-YYYY HH:mm:ss'
     );
     const newEvent = {
-      title: '',
+      title: this.state.term,
       allDay: false,
       start: startDate,
       end: endDate,
-      desc: ''
+      desc: this.state.desc
     };
     this.setState({
-      selectedEvent: newEvent
+      selectedEvent: newEvent,
+      start: newEvent.start,
+      end: newEvent.end
     });
     this.openModal();
-  }
-
-  handleNewEvent(event) {
-    console.log(event.target);
-    const newEvent = {
-      title: event.target.eventTitle,
-      allDay: false,
-      start: new Date(this.state.selectedEvent.start),
-      end: new Date(this.state.selectedEvent.end),
-      desc: event.target.eventDesc
-    };
-    this.setState({
-      events: [...this.state.events, newEvent]
-    });
-    this.closeModal();
   }
 
   handleTitleChange(event) {
@@ -138,6 +95,90 @@ class Calendar extends Component {
     this.setState({
       desc: event.target.value
     });
+  }
+
+  handleStartTime(event) {
+    this.setState({
+      start: event.target.value
+    });
+  }
+
+  handleEndTime(event) {
+    this.setState({
+      end: event.target.value
+    });
+  }
+
+  changeBox(event) {
+    this.setState({ allDay: event.target.checked });
+  }
+
+  handleNewEvent(event) {
+    event.preventDefault();
+    const newEvent = {
+      id: this.state.selectedEvent.id,
+      title: this.state.term,
+      allDay: this.state.allDay,
+      start: this.state.start,
+      end: this.state.end,
+      description: this.state.desc
+    };
+
+    console.log(newEvent);
+    fetch('/home/events/new', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newEvent)
+    })
+      .then(r => r.json())
+      .then(result => {
+        console.log(result);
+        const addEvent = {
+          id: result.id,
+          title: result.title,
+          allDay: result.allDay,
+          start: new Date(result.eventStart),
+          end: new Date(result.eventEnd),
+          desc: result.description
+        };
+        this.setState({
+          events: [...this.state.events, addEvent],
+          selectedEvent: {}
+        });
+      });
+    this.closeModal();
+  }
+
+  handleDelete(event) {
+    event.preventDefault();
+    fetch(`/home/events/${this.state.selectedEvent.id}/delete`, {
+      method: 'POST',
+      // headers: {
+      //   'Content-Type': 'application.json'
+      // },
+      body: {
+        id: this.state.selectedEvent.id
+      }
+    })
+      .then(r => r.json())
+      .then(res => {
+        this.setState({
+          events: res.map(item => {
+            return {
+              id: item.id,
+              title: item.title,
+              allDay: item.allday,
+              start: new Date(item.eventstart),
+              end: new Date(item.eventend),
+              desc: item.description
+            };
+          }),
+          selectedEvent: {}
+        });
+      });
+    this.closeModal();
   }
 
   render() {
@@ -159,12 +200,36 @@ class Calendar extends Component {
           <p>{this.state.selectedEvent.end}</p>
           <button onClick={this.closeModal.bind(this)}>close</button>
           <div />
-          <form onSubmit={this.handleNewEvent.bind(this)}>
+          <form
+            onSubmit={event => {
+              this.handleNewEvent(event);
+            }}
+          >
             <input
-              name='eventTitle'
+              type='text'
+              name='title'
               placeholder='Event Title'
               value={this.state.term}
               onChange={this.handleTitleChange.bind(this)}
+            />
+            <input
+              type='checkbox'
+              name='allDay'
+              value={this.state.allDay}
+              onChange={this.changeBox.bind(this)}
+            />
+            All Day
+            <input
+              type='text'
+              name='start'
+              value={this.state.start}
+              onChange={this.handleStartTime.bind(this)}
+            />
+            <input
+              type='text'
+              name='end'
+              value={this.state.end}
+              onChange={this.handleEndTime.bind(this)}
             />
             <textarea
               name='eventDesc'
@@ -173,6 +238,13 @@ class Calendar extends Component {
               onChange={this.handleDescChange.bind(this)}
             />
             <input type='submit' />
+          </form>
+          <form
+            onSubmit={event => {
+              this.handleDelete(event);
+            }}
+          >
+            <input type='submit' value='Delete Event' />
           </form>
         </Modal>
 

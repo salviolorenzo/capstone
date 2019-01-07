@@ -8,7 +8,18 @@ function Board_1(props) {
   return (
     <div className='board'>
       <Weather weather={props.weather} icon={props.icon} />
-      <Calendar />
+      <Calendar
+        events={props.events.map(item => {
+          return {
+            id: item.id,
+            title: item.title,
+            allDay: item.allday,
+            start: new Date(item.eventstart),
+            end: new Date(item.eventend),
+            desc: item.description
+          };
+        })}
+      />
       <News news={props.news} />
       {/* Adjust news topics based on preferences either chosen or through machine learning  */}
       {/* Compound multiple sources to list */}

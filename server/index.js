@@ -10,6 +10,7 @@ const pgSession = require('connect-pg-simple')(session);
 const User = require('./models/User');
 const Board = require('./models/Board');
 const Tile = require('./models/Tiles');
+const Events = require('./models/Events');
 const fetch = require('node-fetch');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
@@ -77,7 +78,7 @@ app.post('/login', (req, res) => {
     req.session.user = user;
     let doesMatch = user.checkPassword(req.body.password);
     if (doesMatch) {
-      res.redirect('/home/1');
+      res.redirect('/home');
     } else {
       res.redirect('/');
     }
@@ -103,20 +104,57 @@ app.post('/logout', (req, res) => {
 });
 
 app.get('/home', (req, res) => {
-  Board.getDefaultBoard(req.session.user.id).then(result => {
-    Tile.getByBoard(result[0].id).then(tiles => {
-      res.send(tiles);
-    });
+  // Board.getDefaultBoard(req.session.user.id).then(result => {
+  //   Tile.getByBoard(result[0].id).then(tiles => {
+  //     res.send(tiles);
+  //   });
+  // });
+  Events.getAll(req.session.user.id).then(result => {
+    res.send(result);
   });
 });
 
-app.get('/home/:id', (req, res) => {
-  Board.getById(req.params.id).then(result => {
-    Tile.getByBoard(result.id).then(next => {
-      res.send(next);
-    });
+app.post('/home/events/new', (req, res) => {
+  console.log('THIS IS THE FIRST LINE =========');
+  let all_day = req.body.allDay ? true : false;
+  let title = req.body.title;
+
+  Events.addEvent(
+    title,
+    all_day,
+    req.body.start,
+    req.body.end,
+    req.body.description,
+    req.session.user.id
+  ).then(result => {
+    console.log(`this is the result ${result}`);
+    res.send(result);
   });
 });
+
+app.post('/home/events/:id/edit', (req, res) => {
+  Events.editEvent(
+    req.body.title,
+    req.body.allDay,
+    req.body.description,
+    req.session.user.id
+  ).then(res.redirect('/home'));
+});
+
+app.post('/home/events/:id/delete', (req, res) => {
+  Events.deleteEvent(req.params.id).then(result => {
+    console.log(result);
+    res.redirect('/home');
+  });
+});
+
+// app.get('/home/:id', (req, res) => {
+//   Board.getById(req.params.id).then(result => {
+//     Tile.getByBoard(result.id).then(next => {
+//       res.send(next);
+//     });
+//   });
+// });
 
 // ======================================================
 // API CALLS
