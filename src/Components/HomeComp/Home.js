@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import SwipeableRoutes from 'react-swipeable-routes';
 // import Weather from '../Tiles/Weather';
 import Board_1 from '../Boards/Board_1';
 import Board_2 from '../Boards/Board_2';
@@ -317,45 +318,47 @@ class Home extends Component {
               <Link to='/home/dash/3'>Transportation</Link>
             </li>
           </ul>
-          <Route
-            path='/home/dash/1'
-            render={props => {
-              return (
-                <Board_1
-                  weather={this.state.board1.weather}
-                  icon={this.state.board1.weatherIcon}
-                  news={this.state.board1.news}
-                  events={this.state.board1.events}
-                  {...props}
-                />
-              );
-            }}
-          />
-          <Route
-            path='/home/dash/2'
-            render={props => {
-              return (
-                <Board_2
-                  events={this.state.board2.events}
-                  {...props}
-                  handleEventType={this.handleEventType.bind(this)}
-                  restaurants={this.state.board2.restaurants}
-                />
-              );
-            }}
-          />
-          <Route
-            path='/home/dash/3'
-            render={props => {
-              return (
-                <Board_3
-                  coords={this.state.coords}
-                  markers={this.state.board2.restaurants}
-                  {...props}
-                />
-              );
-            }}
-          />
+          <SwipeableRoutes>
+            <Route
+              path='/home/dash/1'
+              render={props => {
+                return (
+                  <Board_1
+                    weather={this.state.board1.weather}
+                    icon={this.state.board1.weatherIcon}
+                    news={this.state.board1.news}
+                    events={this.state.board1.events}
+                    {...props}
+                  />
+                );
+              }}
+            />
+            <Route
+              path='/home/dash/2'
+              render={props => {
+                return (
+                  <Board_2
+                    events={this.state.board2.events}
+                    {...props}
+                    handleEventType={this.handleEventType.bind(this)}
+                    restaurants={this.state.board2.restaurants}
+                  />
+                );
+              }}
+            />
+            <Route
+              path='/home/dash/3'
+              render={props => {
+                return (
+                  <Board_3
+                    coords={this.state.coords}
+                    markers={this.state.board2.restaurants}
+                    {...props}
+                  />
+                );
+              }}
+            />
+          </SwipeableRoutes>
         </div>
       </Router>
     );
