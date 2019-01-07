@@ -43,11 +43,32 @@ insert into board_tiles
 insert into events
   (title, allDay, eventStart, eventEnd, description, user_id)
   values
-    ('Event 1', false, 'January 8, 2019 11:30:00', 'January 8, 2019 13:30:00', 'this is an event', 2),
-    ('Event 2', false, 'January 9, 2019 8:30:00', 'January 9, 2019 10:30:00', 'this is an event', 2),
-    ('Event 3', false, 'January 10, 2019 3:30:00', 'January 10, 2019 7:30:00', 'this is an event', 2),
-    ('Event 4', false, 'January 11, 2019 6:30:00', 'January 11, 2019 20:30:00', 'this is an event', 2),
-    ('Event 5', false, 'January 12, 2019 11:30:00', 'January 12, 2019 13:30:00', 'this is an event', 2),
-    ('Event 6', false, 'January 13, 2019 11:30:00', 'January 13, 2019 13:30:00', 'this is an event', 2);
+    ('Lunch Meeting', false, 'January 8, 2019 11:30:00', 'January 8, 2019 13:30:00', 'Lunch with John', 2),
+    ('Sales Meeting', false, 'January 8, 2019 9:30:00', 'January 8, 2019 10:30:00', 'Meeting with new clients', 2),
+    ('Sales Meeting', false, 'January 8, 2019 14:30:00', 'January 8, 2019 15:30:00', 'Meeting with new clients', 2),
+    ('Sales Meeting', false, 'January 8, 2019 15:30:00', 'January 8, 2019 16:30:00', 'Meeting with new clients', 2),
+    ('Staff Meeting', false, 'January 9, 2019 8:30:00', 'January 9, 2019 10:30:00', '', 2),
+    ('Team Building Exercise', false, 'January 10, 2019 5:30:00', 'January 10, 2019 7:30:00', 'Team Workout', 2),
+    ('Sales Event', false, 'January 11, 2019 9:30:00', 'January 11, 2019 12:30:00', 'Pitch meeting', 2),
+    ('Lunch Meeting', false, 'January 12, 2019 11:30:00', 'January 12, 2019 13:30:00', 'Lunch with Marissa', 2),
+    ('Lunch Meeting', false, 'January 14, 2019 11:30:00', 'January 14, 2019 13:30:00', 'Lunch with Jack', 2),
+    ('Lunch Meeting', false, 'January 15, 2019 11:30:00', 'January 15, 2019 13:30:00', 'Lunch with John', 2),
+    ('Sales Meeting', false, 'January 15, 2019 9:30:00', 'January 15, 2019 10:30:00', 'Meeting with new clients', 2),
+    ('Sales Meeting', false, 'January 15, 2019 14:30:00', 'January 15, 2019 15:30:00', 'Meeting with new clients', 2),
+    ('Sales Meeting', false, 'January 15, 2019 15:30:00', 'January 15, 2019 16:30:00', 'Meeting with new clients', 2),
+    ('Staff Meeting', false, 'January 16, 2019 8:30:00', 'January 16, 2019 10:30:00', '', 2),
+    ('Team Building Exercise', false, 'January 17, 2019 5:30:00', 'January 17, 2019 7:30:00', 'Team Workout', 2),
+    ('Sales Event', false, 'January 18, 2019 9:30:00', 'January 18, 2019 12:30:00', 'Pitch meeting', 2),
+    ('Lunch Meeting', false, 'January 18, 2019 11:30:00', 'January 18, 2019 13:30:00', 'Lunch with Marissa', 2),
+    ('Lunch Meeting', false, 'January 21, 2019 11:30:00', 'January 21, 2019 13:30:00', 'Lunch with Jack', 2),
+    ('Lunch Meeting', false, 'January 22, 2019 11:30:00', 'January 22, 2019 13:30:00', 'Lunch with John', 2),
+    ('Sales Meeting', false, 'January 22, 2019 9:30:00', 'January 22, 2019 10:30:00', 'Meeting with new clients', 2),
+    ('Sales Meeting', false, 'January 22, 2019 14:30:00', 'January 22, 2019 15:30:00', 'Meeting with new clients', 2),
+    ('Sales Meeting', false, 'January 22, 2019 15:30:00', 'January 22, 2019 16:30:00', 'Meeting with new clients', 2),
+    ('Staff Meeting', false, 'January 23, 2019 8:30:00', 'January 23, 2019 10:30:00', '', 2),
+    ('Team Building Exercise', false, 'January 24, 2019 5:30:00', 'January 24, 2019 7:30:00', 'Team Workout', 2),
+    ('Sales Event', false, 'January 25, 2019 9:30:00', 'January 25, 2019 12:30:00', 'Pitch meeting', 2),
+    ('Lunch Meeting', false, 'January 25, 2019 11:30:00', 'January 25, 2019 13:30:00', 'Lunch with Marissa', 2),
+    ('Lunch Meeting', false, 'January 26, 2019 11:30:00', 'January 26, 2019 13:30:00', 'Lunch with Jack', 2);
   
 

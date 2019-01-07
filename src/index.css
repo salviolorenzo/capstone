@@ -24,6 +24,15 @@ body,
   height: 100%;
 }
 
+html {
+  box-sizing: border-box;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
 a {
   text-decoration: none;
   color: black;
@@ -31,6 +40,10 @@ a {
 
 ul {
   list-style-type: none;
+}
+
+button:hover {
+  cursor: pointer;
 }
 
 /* ======================================== */
@@ -180,6 +193,10 @@ footer {
   opacity: 0.9;
 }
 
+.tile h3 {
+  margin: 5px;
+}
+
 /* ======================================== */
 /* NEWS STYLES */
 /* ======================================== */
@@ -304,3 +321,97 @@ footer {
   margin: 0;
 }
 
+/* ======================================== */
+/* CALENDAR STYLES */
+/* ======================================== */
+
+.calendarTile {
+  padding: 5px;
+}
+
+.calendarHeader {
+  width: 100%;
+  display: flex;
+  min-height: 25px;
+
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 5px;
+}
+
+.calendarBtn {
+  width: 30%;
+  background-color: #d7d7d7;
+  border-radius: 5px;
+  border: 1px solid white;
+  padding: 2px;
+}
+
+.calendarBtn:active {
+  background-color: rgb(113, 165, 254);
+  transform: scale(1.05);
+  transition: transform 0.1s;
+}
+
+.ReactModal__Content {
+  opacity: 0.9;
+  height: 50%;
+  border-radius: 10px !important;
+  background-color: #e4e4e4 !important;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.closeBtn {
+  height: 30px;
+  position: absolute;
+  right: 3px;
+  top: 3px;
+  border-radius: 10px;
+  background-color: red;
+  opacity: 0.5;
+  color: white;
+}
+
+.modalForm {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.modalForm label {
+  display: flex;
+  width: 80%;
+  justify-content: space-evenly;
+}
+
+.modalForm input,
+.modalForm textarea {
+  width: 70%;
+  border-radius: 5px;
+  padding: 5px;
+  border: 1px solid grey;
+}
+
+.modalText {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  max-height: 30%;
+  align-items: center;
+}
+
+.modalText h2,
+.modalText p {
+  margin-bottom: 0;
+}
+
+.modalDelete {
+  background-color: rgb(252, 109, 109);
+  border-radius: 5px;
+  border: 1px solid grey;
+}
