@@ -21,6 +21,7 @@ class Calendar extends Component {
       desc: '',
       events: props.events.map(item => {
         return {
+          id: item.id,
           title: item.title,
           allDay: item.allday,
           start: new Date(item.eventstart),
@@ -34,12 +35,16 @@ class Calendar extends Component {
   displayEvent(event) {
     console.log(event);
     let newEvent = {
+      id: event.id,
       title: event.title,
       start: moment(event.start.toLocaleString()).format('MM-DD-YYYY HH:mm:ss'),
-      end: moment(event.end.toLocaleString()).format('MM-DD-YYYY HH:mm:ss')
+      end: moment(event.end.toLocaleString()).format('MM-DD-YYYY HH:mm:ss'),
+      desc: event.desc
     };
     this.setState({
-      selectedEvent: newEvent
+      selectedEvent: newEvent,
+      term: newEvent.title,
+      desc: event.desc
     });
     this.openModal();
   }
@@ -80,32 +85,6 @@ class Calendar extends Component {
     this.openModal();
   }
 
-  handleNewEvent(event) {
-    event.preventDefault();
-    console.log(event.target);
-    const newEvent = {
-      title: this.state.term,
-      allDay: false,
-      eventStart: this.state.selectedEvent.start,
-      eventEnd: this.state.selectedEvent.end,
-      desc: this.state.desc
-    };
-    fetch('/home/events/new', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8'
-      },
-      body: JSON.stringify(newEvent)
-    })
-      .then(r => r.json())
-      .then(console.log);
-    this.setState({
-      term: '',
-      desc: ''
-    });
-    this.closeModal();
-  }
-
   handleTitleChange(event) {
     this.setState({
       term: event.target.value
@@ -137,12 +116,24 @@ class Calendar extends Component {
           <p>{this.state.selectedEvent.end}</p>
           <button onClick={this.closeModal.bind(this)}>close</button>
           <div />
-          <form onSubmit={this.handleNewEvent.bind(this)}>
+          <form action='/home/events/new' method='post'>
             <input
-              name='eventTitle'
+              type='text'
+              name='title'
               placeholder='Event Title'
               value={this.state.term}
               onChange={this.handleTitleChange.bind(this)}
+            />
+            <input type='checkbox' name='allDay' value='true' /> All Day
+            <input
+              type='text'
+              name='start'
+              value={this.state.selectedEvent.start}
+            />
+            <input
+              type='text'
+              name='end'
+              value={this.state.selectedEvent.end}
             />
             <textarea
               name='eventDesc'
@@ -151,6 +142,12 @@ class Calendar extends Component {
               onChange={this.handleDescChange.bind(this)}
             />
             <input type='submit' />
+          </form>
+          <form
+            action={`/home/event/${this.state.selectedEvent.id}/delete`}
+            method='DELETE'
+          >
+            <input type='submit' value='Delete Event' />
           </form>
         </Modal>
 

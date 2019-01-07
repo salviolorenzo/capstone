@@ -10,15 +10,15 @@ class Events {
     this.description = description;
   }
 
-  static addEvent(title, allDay, eventStart, eventEnd, description) {
+  static addEvent(title, allDay, eventStart, eventEnd, description, user_id) {
     return db
       .one(
         `insert into events
-        (title, allDay, eventStart, eventEnd, description)
+        (title, allDay, eventStart, eventEnd, description, user_id)
         values
-        ($1, $2, $3, $4, $5)
+        ($1, $2, $3, $4, $5, $6)
         returning id`,
-        [title, allDay, eventStart, eventEnd, description]
+        [title, allDay, eventStart, eventEnd, description, user_id]
       )
       .then(result => {
         return new Events(

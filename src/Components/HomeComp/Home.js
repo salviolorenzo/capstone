@@ -316,7 +316,6 @@ class Home extends Component {
           </ul>
           <Route
             path='/home/1'
-            exact
             render={props => {
               return (
                 <Board_1
@@ -331,7 +330,6 @@ class Home extends Component {
           />
           <Route
             path='/home/2'
-            exact
             render={props => {
               return (
                 <Board_2
@@ -345,7 +343,6 @@ class Home extends Component {
           />
           <Route
             path='/home/3'
-            exact
             render={props => {
               return (
                 <Board_3

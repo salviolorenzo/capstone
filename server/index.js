@@ -116,15 +116,17 @@ app.get('/home', (req, res) => {
 
 app.post('/home/events/new', (req, res) => {
   console.log('THIS IS THE FIRST LINE =========');
+  let all_day = req.body.allDay ? true : false;
   Events.addEvent(
     req.body.title,
-    req.body.allDay,
+    all_day,
     req.body.start,
     req.body.end,
-    req.body.description
+    req.body.description,
+    req.session.user.id
   ).then(result => {
     console.log(`this is the result ${result}`);
-    res.send(result);
+    res.redirect('/home/');
   });
 });
 
@@ -135,6 +137,10 @@ app.post('/home/events/:id/edit', (req, res) => {
     req.body.description,
     req.session.user.id
   ).then(res.redirect('/home'));
+});
+
+app.delete('/home/events/:id/delete', (req, res) => {
+  Events.deleteEvent(req.params.id).then(res.redirect('/home'));
 });
 
 // app.get('/home/:id', (req, res) => {
