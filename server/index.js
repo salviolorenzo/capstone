@@ -117,8 +117,9 @@ app.get('/home', (req, res) => {
 app.post('/home/events/new', (req, res) => {
   console.log('THIS IS THE FIRST LINE =========');
   let all_day = req.body.allDay ? true : false;
+  let title = req.body.title;
   Events.addEvent(
-    req.body.title,
+    title,
     all_day,
     req.body.start,
     req.body.end,

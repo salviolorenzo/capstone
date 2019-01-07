@@ -1,7 +1,7 @@
 const db = require('./db');
 
 class Events {
-  constructor(id, title, eventStart, eventEnd, allDay, description) {
+  constructor(id, title, allDay, eventStart, eventEnd, description) {
     this.id = id;
     this.title = title;
     this.allDay = allDay;

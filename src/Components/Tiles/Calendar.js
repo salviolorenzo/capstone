@@ -19,6 +19,7 @@ class Calendar extends Component {
       selectedEvent: {},
       term: '',
       desc: ' ',
+      allDay: false,
       events: props.events
     };
   }
@@ -53,7 +54,10 @@ class Calendar extends Component {
 
   closeModal() {
     this.setState({
-      modalIsOpen: false
+      modalIsOpen: false,
+      selectedEvent: {},
+      term: '',
+      desc: ''
     });
   }
 
@@ -89,7 +93,45 @@ class Calendar extends Component {
     });
   }
 
-  handleNewEvent(event) {}
+  changeBox(event) {
+    this.setState({ allDay: event.target.checked });
+  }
+
+  handleNewEvent(event) {
+    event.preventDefault();
+    const newEvent = {
+      title: this.state.term,
+      allDay: this.state.allDay,
+      start: this.state.selectedEvent.start,
+      end: this.state.selectedEvent.end,
+      description: this.state.desc
+    };
+
+    console.log(newEvent);
+    fetch('/home/events/new', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newEvent)
+    })
+      .then(r => r.json())
+      .then(result => {
+        console.log(result);
+        const addEvent = {
+          id: result.id,
+          title: result.title,
+          allDay: result.allDay,
+          start: new Date(result.eventStart),
+          end: new Date(result.eventEnd),
+          desc: result.description
+        };
+        this.setState({
+          events: [...this.state.events, addEvent]
+        });
+      });
+    this.closeModal();
+  }
 
   handleDelete(event) {
     event.preventDefault();
@@ -152,7 +194,13 @@ class Calendar extends Component {
               value={this.state.term}
               onChange={this.handleTitleChange.bind(this)}
             />
-            <input type='checkbox' name='allDay' value='true' /> All Day
+            <input
+              type='checkbox'
+              name='allDay'
+              value={this.state.allDay}
+              onChange={this.changeBox.bind(this)}
+            />
+            All Day
             <input
               type='text'
               name='start'
