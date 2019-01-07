@@ -181,11 +181,14 @@ class Home extends Component {
       .then(result => result.json())
       .then(array => {
         this.setState({
-          events: array
+          board1: {
+            ...this.state.board1,
+            events: array
+          }
         });
       });
 
-    // board1 info
+    // // board1 info
     // fetch('/home/1')
     //   .then(r => r.json())
     //   .then(array => {
@@ -305,7 +308,7 @@ class Home extends Component {
         <div className='home' style={createBackSplash(this.state.bgUrl)}>
           <ul className='navList'>
             <li>
-              <Link to='/home/1'>Daily Briefing</Link>
+              <Link to='/home'>Daily Briefing</Link>
             </li>
             <li>
               <Link to='/home/2'>Events</Link>
@@ -315,14 +318,15 @@ class Home extends Component {
             </li>
           </ul>
           <Route
-            path='/home/1'
+            path='/home'
+            exact
             render={props => {
               return (
                 <Board_1
                   weather={this.state.board1.weather}
                   icon={this.state.board1.weatherIcon}
                   news={this.state.board1.news}
-                  events={this.state.events}
+                  events={this.state.board1.events}
                   {...props}
                 />
               );

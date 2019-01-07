@@ -126,7 +126,7 @@ app.post('/home/events/new', (req, res) => {
     req.session.user.id
   ).then(result => {
     console.log(`this is the result ${result}`);
-    res.redirect('/home/');
+    res.send(result);
   });
 });
 
@@ -139,8 +139,11 @@ app.post('/home/events/:id/edit', (req, res) => {
   ).then(res.redirect('/home'));
 });
 
-app.delete('/home/events/:id/delete', (req, res) => {
-  Events.deleteEvent(req.params.id).then(res.redirect('/home'));
+app.post('/home/events/:id/delete', (req, res) => {
+  Events.deleteEvent(req.params.id).then(result => {
+    console.log(result);
+    res.redirect('/home');
+  });
 });
 
 // app.get('/home/:id', (req, res) => {

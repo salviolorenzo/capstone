@@ -18,17 +18,8 @@ class Calendar extends Component {
       modalIsOpen: false,
       selectedEvent: {},
       term: '',
-      desc: '',
-      events: props.events.map(item => {
-        return {
-          id: item.id,
-          title: item.title,
-          allDay: item.allday,
-          start: new Date(item.eventstart),
-          end: new Date(item.eventend),
-          desc: item.description
-        };
-      })
+      desc: ' ',
+      events: props.events
     };
   }
 
@@ -37,6 +28,7 @@ class Calendar extends Component {
     let newEvent = {
       id: event.id,
       title: event.title,
+      allDay: event.allDay,
       start: moment(event.start.toLocaleString()).format('MM-DD-YYYY HH:mm:ss'),
       end: moment(event.end.toLocaleString()).format('MM-DD-YYYY HH:mm:ss'),
       desc: event.desc
@@ -73,11 +65,11 @@ class Calendar extends Component {
       'MM-DD-YYYY HH:mm:ss'
     );
     const newEvent = {
-      title: '',
+      title: this.state.term,
       allDay: false,
       start: startDate,
       end: endDate,
-      desc: ''
+      desc: this.state.desc
     };
     this.setState({
       selectedEvent: newEvent
@@ -95,6 +87,38 @@ class Calendar extends Component {
     this.setState({
       desc: event.target.value
     });
+  }
+
+  handleNewEvent(event) {}
+
+  handleDelete(event) {
+    event.preventDefault();
+    fetch(`/home/events/${this.state.selectedEvent.id}/delete`, {
+      method: 'POST',
+      // headers: {
+      //   'Content-Type': 'application.json'
+      // },
+      body: {
+        id: this.state.selectedEvent.id
+      }
+    })
+      .then(r => r.json())
+      .then(res => {
+        this.setState({
+          events: res.map(item => {
+            return {
+              id: item.id,
+              title: item.title,
+              allDay: item.allday,
+              start: new Date(item.eventstart),
+              end: new Date(item.eventend),
+              desc: item.description
+            };
+          }),
+          selectedEvent: {}
+        });
+      });
+    this.closeModal();
   }
 
   render() {
@@ -116,7 +140,11 @@ class Calendar extends Component {
           <p>{this.state.selectedEvent.end}</p>
           <button onClick={this.closeModal.bind(this)}>close</button>
           <div />
-          <form action='/home/events/new' method='post'>
+          <form
+            onSubmit={event => {
+              this.handleNewEvent(event);
+            }}
+          >
             <input
               type='text'
               name='title'
@@ -144,8 +172,9 @@ class Calendar extends Component {
             <input type='submit' />
           </form>
           <form
-            action={`/home/event/${this.state.selectedEvent.id}/delete`}
-            method='DELETE'
+            onSubmit={event => {
+              this.handleDelete(event);
+            }}
           >
             <input type='submit' value='Delete Event' />
           </form>
