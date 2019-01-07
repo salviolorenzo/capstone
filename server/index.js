@@ -115,13 +115,17 @@ app.get('/home', (req, res) => {
 });
 
 app.post('/home/events/new', (req, res) => {
+  console.log('THIS IS THE FIRST LINE =========');
   Events.addEvent(
     req.body.title,
     req.body.allDay,
     req.body.start,
     req.body.end,
     req.body.description
-  ).then(res.redirect('/home'));
+  ).then(result => {
+    console.log(`this is the result ${result}`);
+    res.send(result);
+  });
 });
 
 app.post('/home/events/:id/edit', (req, res) => {

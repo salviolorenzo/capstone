@@ -84,18 +84,24 @@ class Calendar extends Component {
     event.preventDefault();
     console.log(event.target);
     const newEvent = {
-      title: event.target.eventTitle,
+      title: this.state.term,
       allDay: false,
-      start: this.state.selectedEvent.start,
-      end: this.state.selectedEvent.end,
-      desc: event.target.eventDesc
+      eventStart: this.state.selectedEvent.start,
+      eventEnd: this.state.selectedEvent.end,
+      desc: this.state.desc
     };
     fetch('/home/events/new', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json; charset=UTF-8'
       },
-      body: newEvent
+      body: JSON.stringify(newEvent)
+    })
+      .then(r => r.json())
+      .then(console.log);
+    this.setState({
+      term: '',
+      desc: ''
     });
     this.closeModal();
   }
