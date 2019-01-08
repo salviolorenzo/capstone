@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom';
 import SwipeableRoutes from 'react-swipeable-routes';
+import moment from 'moment';
 // import Weather from '../Tiles/Weather';
 import Board_1 from '../Boards/Board_1';
 import Board_2 from '../Boards/Board_2';
@@ -162,7 +163,16 @@ class Home extends Component {
         weather: {},
         weatherIcon: '',
         news: [],
-        events: []
+        calendar: {
+          selectedEvent: {},
+          modalIsOpen: false,
+          term: '',
+          desc: ' ',
+          start: '',
+          end: '',
+          allDay: false,
+          events: []
+        }
       },
       board2: {
         tiles: [],
@@ -184,7 +194,10 @@ class Home extends Component {
         this.setState({
           board1: {
             ...this.state.board1,
-            events: array
+            calendar: {
+              ...this.state.board1.calendar,
+              events: array
+            }
           }
         });
       });
@@ -303,6 +316,225 @@ class Home extends Component {
       });
   }
 
+  displayEvent(event) {
+    console.log(event.id);
+    const newEvent = {
+      id: event.id,
+      title: event.title,
+      allDay: event.allDay,
+      start: moment(event.start.toLocaleString()).format('MM-DD-YYYY HH:mm:ss'),
+      end: moment(event.end.toLocaleString()).format('MM-DD-YYYY HH:mm:ss'),
+      desc: event.desc
+    };
+    console.log(newEvent);
+    this.setState(
+      {
+        board1: {
+          ...this.state.board1,
+          calendar: {
+            ...this.state.board1.calendar,
+            selectedEvent: newEvent,
+            term: newEvent.title,
+            desc: newEvent.desc,
+            start: newEvent.start,
+            end: newEvent.end
+          }
+        }
+      },
+      this.openModal
+    );
+  }
+
+  openModal() {
+    this.setState({
+      board1: {
+        ...this.state.board1,
+        calendar: {
+          ...this.state.board1.calendar,
+          modalIsOpen: true
+        }
+      }
+    });
+  }
+
+  afterOpenModal() {
+    console.log('opened');
+  }
+
+  closeModal() {
+    this.setState({
+      board1: {
+        ...this.state.board1,
+        calendar: {
+          ...this.state.board1.calendar,
+          modalIsOpen: false,
+          selectedEvent: {},
+          term: '',
+          desc: ''
+        }
+      }
+    });
+  }
+
+  onSlotChange(slotInfo) {
+    const startDate = moment(slotInfo.start.toLocaleString()).format(
+      'MM-DD-YYYY HH:mm:ss'
+    );
+    const endDate = moment(slotInfo.end.toLocaleString()).format(
+      'MM-DD-YYYY HH:mm:ss'
+    );
+    const newEvent = {
+      title: this.state.board1.calendar.term,
+      allDay: false,
+      start: startDate,
+      end: endDate,
+      description: this.state.board1.calendar.desc
+    };
+    this.setState({
+      board1: {
+        ...this.state.board1,
+        calendar: {
+          ...this.state.board1.calendar,
+          selectedEvent: newEvent,
+          start: newEvent.start,
+          end: newEvent.end
+        }
+      }
+    });
+    this.openModal();
+  }
+
+  handleNewEvent(event) {
+    event.preventDefault();
+    const newEvent = {
+      id: this.state.board1.calendar.selectedEvent.id,
+      title: this.state.board1.calendar.term,
+      allDay: this.state.board1.calendar.allDay,
+      start: this.state.board1.calendar.start,
+      end: this.state.board1.calendar.end,
+      description: this.state.board1.calendar.desc
+    };
+
+    console.log(newEvent);
+    fetch('/home/events/new', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newEvent)
+    })
+      .then(r => r.json())
+      .then(result => {
+        console.log(result);
+        const addEvent = {
+          id: result.id,
+          title: result.title,
+          allday: result.allDay,
+          eventstart: result.eventStart,
+          eventend: result.eventEnd,
+          description: result.description
+        };
+        this.setState(
+          {
+            board1: {
+              ...this.state.board1,
+              calendar: {
+                ...this.state.board1.calendar,
+                events: [...this.state.board1.calendar.events, addEvent],
+                selectedEvent: {}
+              }
+            }
+          },
+          this.closeModal
+        );
+      });
+  }
+
+  handleDelete(e) {
+    e.preventDefault();
+    fetch(
+      `/home/events/${this.state.board1.calendar.selectedEvent.id}/delete`,
+      {
+        method: 'POST'
+      }
+    )
+      .then(r => r.json())
+      // .then(console.log);
+      .then(res => {
+        this.setState({
+          board1: {
+            ...this.state.board1,
+            calendar: {
+              ...this.state.board1.calendar,
+              events: res,
+              selectedEvent: {}
+            }
+          }
+        });
+      });
+    this.closeModal();
+  }
+
+  handleTitleChange(event) {
+    this.setState({
+      board1: {
+        ...this.state.board1,
+        calendar: {
+          ...this.state.board1.calendar,
+          term: event.target.value
+        }
+      }
+    });
+  }
+
+  handleDescChange(event) {
+    this.setState({
+      board1: {
+        ...this.state.board1,
+        calendar: {
+          ...this.state.board1.calendar,
+          desc: event.target.value
+        }
+      }
+    });
+  }
+
+  handleStartTime(event) {
+    this.setState({
+      board1: {
+        ...this.state.board1,
+        calendar: {
+          ...this.state.board1.calendar,
+          start: event.target.value
+        }
+      }
+    });
+  }
+
+  handleEndTime(event) {
+    this.setState({
+      board1: {
+        ...this.state.board1,
+        calendar: {
+          ...this.state.board1.calendar,
+          end: event.target.value
+        }
+      }
+    });
+  }
+
+  changeBox(event) {
+    this.setState({
+      board1: {
+        ...this.state.board1,
+        calendar: {
+          ...this.state.board1.calendar,
+          allDay: event.target.checked
+        }
+      }
+    });
+  }
+
   render() {
     return (
       <Router>
@@ -351,7 +583,26 @@ class Home extends Component {
                     weather={this.state.board1.weather}
                     icon={this.state.board1.weatherIcon}
                     news={this.state.board1.news}
-                    events={this.state.board1.events}
+                    events={this.state.board1.calendar.events}
+                    allDay={this.state.board1.calendar.allDay}
+                    selectedEvent={this.state.board1.calendar.selectedEvent}
+                    modalIsOpen={this.state.board1.calendar.modalIsOpen}
+                    term={this.state.board1.calendar.term}
+                    desc={this.state.board1.calendar.desc}
+                    start={this.state.board1.calendar.start}
+                    end={this.state.board1.calendar.end}
+                    displayEvent={this.displayEvent.bind(this)}
+                    openModal={this.openModal.bind(this)}
+                    afterOpenModal={this.afterOpenModal.bind(this)}
+                    closeModal={this.closeModal.bind(this)}
+                    onSlotChange={this.onSlotChange.bind(this)}
+                    handleNewEvent={this.handleNewEvent.bind(this)}
+                    handleDelete={this.handleDelete.bind(this)}
+                    handleTitleChange={this.handleTitleChange.bind(this)}
+                    handleDescChange={this.handleDescChange.bind(this)}
+                    handleStartTime={this.handleStartTime.bind(this)}
+                    handleEndTime={this.handleEndTime.bind(this)}
+                    changeBox={this.changeBox.bind(this)}
                     {...props}
                   />
                 );
