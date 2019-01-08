@@ -269,6 +269,20 @@ footer p {
   color: black;
 }
 
+.newsSearch {
+  width: 100%;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+
+#newsBar {
+  height: 80%;
+  border-radius: 5px;
+  width: 200px;
+  margin: 0 10px;
+}
+
 /* ======================================== */
 /* WEATHER STYLES */
 /* ======================================== */

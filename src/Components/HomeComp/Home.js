@@ -567,32 +567,36 @@ class Home extends Component {
   // NEWS QUERY
   handleNewsSearch(event) {
     event.preventDefault();
-    fetch(
-      `https://newsapi.org/v2/top-headlines?q=${
-        this.state.board1.news.queryTerm
-      }&apiKey=${keys.NEWSKEY}`
-    )
-      .then(r => r.json())
-      .then(result => {
-        console.log(result);
-        let newArray = result.articles.map(item => {
-          return {
-            source: item.source.name,
-            title: item.title,
-            url: item.url,
-            description: item.description
-          };
-        });
-        this.setState({
-          board1: {
-            ...this.state.board1,
-            news: {
-              ...this.state.board1.news,
-              articles: newArray
+    if (this.state.board1.news.queryTerm) {
+      fetch(
+        `https://newsapi.org/v2/top-headlines?q=${
+          this.state.board1.news.queryTerm
+        }&apiKey=${keys.NEWSKEY}`
+      )
+        .then(r => r.json())
+        .then(result => {
+          console.log(result);
+          let newArray = result.articles.map(item => {
+            return {
+              source: item.source.name,
+              title: item.title,
+              url: item.url,
+              description: item.description
+            };
+          });
+          this.setState({
+            board1: {
+              ...this.state.board1,
+              news: {
+                ...this.state.board1.news,
+                articles: newArray
+              }
             }
-          }
+          });
         });
-      });
+    } else {
+      return null;
+    }
   }
 
   render() {

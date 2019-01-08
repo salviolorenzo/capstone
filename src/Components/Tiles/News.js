@@ -11,6 +11,7 @@ function News(props) {
         }}
       >
         <input
+          id='newsBar'
           type='text'
           name='search'
           value={props.queryTerm}
