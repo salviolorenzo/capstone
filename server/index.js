@@ -160,25 +160,25 @@ app.post('/home/events/:id/delete', (req, res) => {
 // API CALLS
 // ======================================================
 
-app.get('/home/:id/news', (req, res) => {
-  fetch(
-    `https://newsapi.org/v2/top-headlines?country=us&apiKey=${
-      process.env.NEWSKEY
-    }`
-  )
-    .then(r => r.json())
-    .then(result => {
-      let newArray = result.articles.map(item => {
-        return {
-          source: item.source.name,
-          title: item.title,
-          url: item.url,
-          description: item.description
-        };
-      });
-      res.send(newArray);
-    });
-});
+// app.get('/home/:id/news', (req, res) => {
+//   fetch(
+//     `https://newsapi.org/v2/top-headlines?country=us&apiKey=${
+//       process.env.NEWSKEY
+//     }`
+//   )
+//     .then(r => r.json())
+//     .then(result => {
+//       let newArray = result.articles.map(item => {
+//         return {
+//           source: item.source.name,
+//           title: item.title,
+//           url: item.url,
+//           description: item.description
+//         };
+//       });
+//       res.send(newArray);
+//     });
+// });
 
 // GOOGLE AUTH
 app.get('/auth/google', passport.authenticate('google'));

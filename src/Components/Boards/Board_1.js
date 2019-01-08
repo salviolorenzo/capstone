@@ -39,7 +39,12 @@ function Board_1(props) {
         handleEndTime={props.handleEndTime}
         changeBox={props.changeBox}
       />
-      <News news={props.news} />
+      <News
+        news={props.news}
+        handleNewsSearch={props.handleNewsSearch}
+        queryTerm={props.queryTerm}
+        handleQueryTerm={props.handleQueryTerm}
+      />
       {/* Adjust news topics based on preferences either chosen or through machine learning  */}
       {/* Compound multiple sources to list */}
       {/* Truth-meter ??? */}

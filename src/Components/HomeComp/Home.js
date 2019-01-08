@@ -162,7 +162,10 @@ class Home extends Component {
         tiles: [],
         weather: {},
         weatherIcon: '',
-        news: [],
+        news: {
+          articles: [],
+          queryTerm: ''
+        },
         calendar: {
           selectedEvent: {},
           modalIsOpen: false,
@@ -226,14 +229,27 @@ class Home extends Component {
       getRestInfo(object);
     }
     // news api call
-    fetch('/home/1/news')
+    fetch(
+      `https://newsapi.org/v2/top-headlines?country=us&apiKey=${keys.NEWSKEY}`
+    )
       .then(r => r.json())
       .then(result => {
         console.log(result);
+        let newArray = result.articles.map(item => {
+          return {
+            source: item.source.name,
+            title: item.title,
+            url: item.url,
+            description: item.description
+          };
+        });
         this.setState({
           board1: {
             ...this.state.board1,
-            news: result
+            news: {
+              ...this.state.board1.news,
+              articles: newArray
+            }
           }
         });
       });
@@ -535,6 +551,50 @@ class Home extends Component {
     });
   }
 
+  handleQueryTerm(event) {
+    this.setState({
+      board1: {
+        ...this.state.board1,
+        news: {
+          ...this.state.board1.news,
+          queryTerm: event.target.value
+        }
+      }
+    });
+    console.log(event.target.value);
+  }
+
+  // NEWS QUERY
+  handleNewsSearch(event) {
+    event.preventDefault();
+    fetch(
+      `https://newsapi.org/v2/top-headlines?q=${
+        this.state.board1.news.queryTerm
+      }&apiKey=${keys.NEWSKEY}`
+    )
+      .then(r => r.json())
+      .then(result => {
+        console.log(result);
+        let newArray = result.articles.map(item => {
+          return {
+            source: item.source.name,
+            title: item.title,
+            url: item.url,
+            description: item.description
+          };
+        });
+        this.setState({
+          board1: {
+            ...this.state.board1,
+            news: {
+              ...this.state.board1.news,
+              articles: newArray
+            }
+          }
+        });
+      });
+  }
+
   render() {
     return (
       <Router>
@@ -582,7 +642,7 @@ class Home extends Component {
                   <Board_1
                     weather={this.state.board1.weather}
                     icon={this.state.board1.weatherIcon}
-                    news={this.state.board1.news}
+                    news={this.state.board1.news.articles}
                     events={this.state.board1.calendar.events}
                     allDay={this.state.board1.calendar.allDay}
                     selectedEvent={this.state.board1.calendar.selectedEvent}
@@ -603,6 +663,9 @@ class Home extends Component {
                     handleStartTime={this.handleStartTime.bind(this)}
                     handleEndTime={this.handleEndTime.bind(this)}
                     changeBox={this.changeBox.bind(this)}
+                    handleNewsSearch={this.handleNewsSearch.bind(this)}
+                    queryTerm={this.state.board1.news.queryTerm}
+                    handleQueryTerm={this.handleQueryTerm.bind(this)}
                     {...props}
                   />
                 );
