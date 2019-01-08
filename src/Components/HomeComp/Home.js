@@ -271,6 +271,7 @@ class Home extends Component {
     )
       .then(r => r.json())
       .then(result => {
+        console.log(result);
         let newArray = result._embedded.events.map(event => {
           return {
             name: event.name,
@@ -278,7 +279,8 @@ class Home extends Component {
             url: event.url,
             date: event.dates.start.localDate,
             type: event.classifications[0].segment.name,
-            subType: event.classifications[0].genre.name
+            subType: event.classifications[0].genre.name,
+            venue: event._embedded.venues[0]
           };
         });
         this.setState({

@@ -4,12 +4,13 @@ const eventTypes = ['Music', 'Sports'];
 
 function Tickets(props) {
   return (
-    <div className='tile'>
+    <div className='tile eventTile'>
       <h3>Events</h3>
       <ul className='eventType'>
-        {eventTypes.map(item => {
+        {eventTypes.map((item, index) => {
           return (
             <li
+              key={index}
               onClick={event => {
                 props.handleEventType(item, event);
               }}
