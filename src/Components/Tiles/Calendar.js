@@ -15,76 +15,69 @@ class Calendar extends Component {
       view: 'day',
       date: new Date(),
       width: '100%',
-      modalIsOpen: false,
-      selectedEvent: {},
-      term: '',
-      desc: ' ',
-      start: '',
-      end: '',
       allDay: false,
-      events: props.events,
       header: `Today's Agenda`
     };
   }
 
-  displayEvent(event) {
-    console.log(event);
-    let newEvent = {
-      id: event.id,
-      title: event.title,
-      allDay: event.allDay,
-      start: moment(event.start.toLocaleString()).format('MM-DD-YYYY HH:mm:ss'),
-      end: moment(event.end.toLocaleString()).format('MM-DD-YYYY HH:mm:ss'),
-      desc: event.desc
-    };
-    this.setState({
-      selectedEvent: newEvent,
-      term: newEvent.title,
-      desc: event.desc
-    });
-    this.openModal();
-  }
+  // displayEvent(event) {
+  //   console.log(event);
+  //   let newEvent = {
+  //     id: event.id,
+  //     title: event.title,
+  //     allDay: event.allDay,
+  //     start: moment(event.start.toLocaleString()).format('MM-DD-YYYY HH:mm:ss'),
+  //     end: moment(event.end.toLocaleString()).format('MM-DD-YYYY HH:mm:ss'),
+  //     desc: event.desc
+  //   };
+  //   this.setState({
+  //     selectedEvent: newEvent,
+  //     term: newEvent.title,
+  //     desc: event.desc
+  //   });
+  //   this.openModal();
+  // }
 
-  openModal() {
-    this.setState({
-      modalIsOpen: true
-    });
-  }
+  // openModal() {
+  //   this.setState({
+  //     modalIsOpen: true
+  //   });
+  // }
 
-  afterOpenModal() {
-    console.log('opened');
-  }
+  // afterOpenModal() {
+  //   console.log('opened');
+  // }
 
-  closeModal() {
-    this.setState({
-      modalIsOpen: false,
-      selectedEvent: {},
-      term: '',
-      desc: ''
-    });
-  }
+  // closeModal() {
+  //   this.setState({
+  //     modalIsOpen: false,
+  //     selectedEvent: {},
+  //     term: '',
+  //     desc: ''
+  //   });
+  // }
 
-  onSlotChange(slotInfo) {
-    const startDate = moment(slotInfo.start.toLocaleString()).format(
-      'MM-DD-YYYY HH:mm:ss'
-    );
-    const endDate = moment(slotInfo.end.toLocaleString()).format(
-      'MM-DD-YYYY HH:mm:ss'
-    );
-    const newEvent = {
-      title: this.state.term,
-      allDay: false,
-      start: startDate,
-      end: endDate,
-      desc: this.state.desc
-    };
-    this.setState({
-      selectedEvent: newEvent,
-      start: newEvent.start,
-      end: newEvent.end
-    });
-    this.openModal();
-  }
+  // onSlotChange(slotInfo) {
+  //   const startDate = moment(slotInfo.start.toLocaleString()).format(
+  //     'MM-DD-YYYY HH:mm:ss'
+  //   );
+  //   const endDate = moment(slotInfo.end.toLocaleString()).format(
+  //     'MM-DD-YYYY HH:mm:ss'
+  //   );
+  //   const newEvent = {
+  //     title: this.state.term,
+  //     allDay: false,
+  //     start: startDate,
+  //     end: endDate,
+  //     desc: this.state.desc
+  //   };
+  //   this.setState({
+  //     selectedEvent: newEvent,
+  //     start: newEvent.start,
+  //     end: newEvent.end
+  //   });
+  //   this.openModal();
+  // }
 
   handleTitleChange(event) {
     this.setState({
@@ -114,73 +107,73 @@ class Calendar extends Component {
     this.setState({ allDay: event.target.checked });
   }
 
-  handleNewEvent(event) {
-    event.preventDefault();
-    const newEvent = {
-      id: this.state.selectedEvent.id,
-      title: this.state.term,
-      allDay: this.state.allDay,
-      start: this.state.start,
-      end: this.state.end,
-      description: this.state.desc
-    };
+  // handleNewEvent(event) {
+  //   event.preventDefault();
+  //   const newEvent = {
+  //     id: this.state.selectedEvent.id,
+  //     title: this.state.term,
+  //     allDay: this.state.allDay,
+  //     start: this.state.start,
+  //     end: this.state.end,
+  //     description: this.state.desc
+  //   };
 
-    console.log(newEvent);
-    fetch('/home/events/new', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(newEvent)
-    })
-      .then(r => r.json())
-      .then(result => {
-        console.log(result);
-        const addEvent = {
-          id: result.id,
-          title: result.title,
-          allDay: result.allDay,
-          start: new Date(result.eventStart),
-          end: new Date(result.eventEnd),
-          desc: result.description
-        };
-        this.setState({
-          events: [...this.state.events, addEvent],
-          selectedEvent: {}
-        });
-      });
-    this.closeModal();
-  }
+  //   console.log(newEvent);
+  //   fetch('/home/events/new', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify(newEvent)
+  //   })
+  //     .then(r => r.json())
+  //     .then(result => {
+  //       console.log(result);
+  //       const addEvent = {
+  //         id: result.id,
+  //         title: result.title,
+  //         allDay: result.allDay,
+  //         start: new Date(result.eventStart),
+  //         end: new Date(result.eventEnd),
+  //         desc: result.description
+  //       };
+  //       this.setState({
+  //         events: [...this.state.events, addEvent],
+  //         selectedEvent: {}
+  //       });
+  //     });
+  //   this.closeModal();
+  // }
 
-  handleDelete(event) {
-    event.preventDefault();
-    fetch(`/home/events/${this.state.selectedEvent.id}/delete`, {
-      method: 'POST',
-      // headers: {
-      //   'Content-Type': 'application.json'
-      // },
-      body: {
-        id: this.state.selectedEvent.id
-      }
-    })
-      .then(r => r.json())
-      .then(res => {
-        this.setState({
-          events: res.map(item => {
-            return {
-              id: item.id,
-              title: item.title,
-              allDay: item.allday,
-              start: new Date(item.eventstart),
-              end: new Date(item.eventend),
-              desc: item.description
-            };
-          }),
-          selectedEvent: {}
-        });
-      });
-    this.closeModal();
-  }
+  // handleDelete(event) {
+  //   event.preventDefault();
+  //   fetch(`/home/events/${this.state.selectedEvent.id}/delete`, {
+  //     method: 'POST',
+  //     // headers: {
+  //     //   'Content-Type': 'application.json'
+  //     // },
+  //     body: {
+  //       id: this.state.selectedEvent.id
+  //     }
+  //   })
+  //     .then(r => r.json())
+  //     .then(res => {
+  //       this.setState({
+  //         events: res.map(item => {
+  //           return {
+  //             id: item.id,
+  //             title: item.title,
+  //             allDay: item.allday,
+  //             start: new Date(item.eventstart),
+  //             end: new Date(item.eventend),
+  //             desc: item.description
+  //           };
+  //         }),
+  //         selectedEvent: {}
+  //       });
+  //     });
+  //   this.closeModal();
+  // }
 
   isAllDay(allDay) {
     if (allDay) {
@@ -239,7 +232,10 @@ class Calendar extends Component {
           onRequestClose={this.closeModal}
           contentLabel='Example Modal'
         >
-          <button onClick={this.closeModal.bind(this)} className='closeBtn'>
+          <button
+            onClick={this.props.closeModal.bind(this)}
+            className='closeBtn'
+          >
             X
           </button>
           <div className='modalText'>
@@ -298,7 +294,7 @@ class Calendar extends Component {
           // events={events}
           step={60}
           localizer={localizer}
-          events={this.state.events}
+          events={this.props.events}
           onSelectEvent={event => this.displayEvent(event)}
           onSelectSlot={event => {
             this.onSlotChange(event);
