@@ -19,6 +19,25 @@ function Board_1(props) {
             desc: item.description
           };
         })}
+        selectedEvent={props.selectedEvent}
+        modalIsOpen={props.modalIsOpen}
+        allDay={props.allDay}
+        term={props.term}
+        desc={props.desc}
+        start={props.start}
+        end={props.end}
+        displayEvent={props.displayEvent}
+        openModal={props.openModal}
+        afterOpenModal={props.afterOpenModal}
+        closeModal={props.closeModal}
+        onSlotChange={props.onSlotChange}
+        handleNewEvent={props.handleNewEvent}
+        handleDelete={props.handleDelete}
+        handleTitleChange={props.handleTitleChange}
+        handleDescChange={props.handleDescChange}
+        handleStartTime={props.handleStartTime}
+        handleEndTime={props.handleEndTime}
+        changeBox={props.changeBox}
       />
       <News news={props.news} />
       {/* Adjust news topics based on preferences either chosen or through machine learning  */}
