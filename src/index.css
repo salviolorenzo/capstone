@@ -269,6 +269,20 @@ footer p {
   color: black;
 }
 
+.newsSearch {
+  width: 100%;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+
+#newsBar {
+  height: 80%;
+  border-radius: 5px;
+  width: 200px;
+  margin: 0 10px;
+}
+
 /* ======================================== */
 /* WEATHER STYLES */
 /* ======================================== */
@@ -447,8 +461,13 @@ footer p {
   width: 100%;
   display: flex;
   flex-direction: column;
-  max-height: 30%;
+  max-height: 40%;
   align-items: center;
+}
+
+.saveBtn {
+  background-color: #3174ad;
+  color: white;
 }
 
 .modalText h2,
