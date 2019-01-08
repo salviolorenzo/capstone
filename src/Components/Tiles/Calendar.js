@@ -257,6 +257,7 @@ class Calendar extends Component {
                 type='checkbox'
                 name='allDay'
                 value={this.props.allDay}
+                checked={this.props.allDay}
                 onChange={this.props.changeBox}
               />
               All Day
