@@ -8,7 +8,6 @@ import Board_2 from '../Boards/Board_2';
 import Board_3 from '../Boards/Board_3';
 import Settings from '../Settings/SettingComp';
 import Header from '../Header';
-
 import keys from '../../config';
 import day from '../../images/weather_icons/animated/day.svg';
 import cloudy from '../../images/weather_icons/animated/cloudy.svg';
@@ -16,22 +15,6 @@ import rainyDay from '../../images/weather_icons/animated/rainy-3.svg';
 import rainy from '../../images/weather_icons/animated/rainy-6.svg';
 import snow from '../../images/weather_icons/animated/snowy-6.svg';
 import thunder from '../../images/weather_icons/animated/thunder.svg';
-
-function pickBgTerm(array) {
-  if (array.length === 0) {
-    return 'space';
-  } else {
-    let newArray = array.map(object => {
-      return object.term;
-    });
-    if (newArray.length === 1) {
-      return newArray[0];
-    } else {
-      let ranNum = Math.floor(Math.random() * (newArray.length - 1));
-      return newArray[ranNum];
-    }
-  }
-}
 
 function createBackSplash(url) {
   const style = {
@@ -183,6 +166,7 @@ class Home extends Component {
         array: []
       },
       bgQuery: '',
+      newsQuery: '',
       bgUrl: '',
       board1: {
         tiles: [],
@@ -216,6 +200,19 @@ class Home extends Component {
   }
 
   componentDidMount() {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(getWeather.bind(this));
+      navigator.geolocation.getCurrentPosition(getRestInfo.bind(this));
+    } else {
+      let object = {
+        coords: {
+          latitude: 34,
+          longitude: -84
+        }
+      };
+      getWeather(object);
+      getRestInfo(object);
+    }
     // home component with boards and tiles
     fetch('/home')
       .then(result => result.json())
@@ -256,7 +253,8 @@ class Home extends Component {
             if (this.state.userPreferences.array.length === 0) {
               this.setState(
                 {
-                  bgQuery: 'space'
+                  bgQuery: 'space',
+                  newsQuery: `country=us`
                 },
                 () => {
                   fetch(
@@ -268,24 +266,59 @@ class Home extends Component {
                     .then(object => {
                       console.log(object);
                       let ranNum = Math.floor(Math.random() * 9);
-                      this.setState({
-                        bgUrl: object.results[ranNum].urls.regular
-                      });
+                      fetch(
+                        `https://newsapi.org/v2/top-headlines?${
+                          this.state.newsQuery
+                        }&apiKey=${keys.NEWSKEY}`
+                      )
+                        .then(r => r.json())
+                        .then(result => {
+                          console.log(result);
+                          let newArray = result.articles.map(item => {
+                            return {
+                              source: item.source.name,
+                              title: item.title,
+                              url: item.url,
+                              description: item.description
+                            };
+                          });
+                          this.setState({
+                            board1: {
+                              ...this.state.board1,
+                              news: {
+                                ...this.state.board1.news,
+                                articles: newArray
+                              }
+                            },
+                            bgUrl: object.results[ranNum].urls.regular
+                          });
+                        });
                     });
                 }
               );
             } else {
-              let newArray = this.state.userPreferences.array
+              let bgArray = this.state.userPreferences.array
                 .filter(item => {
                   return item.type === 'background';
                 })
                 .map(object => {
                   return object.term;
                 });
-              if (newArray.length === 1) {
+              let newsArray = this.state.userPreferences.array
+                .filter(item => {
+                  return item.type === 'news_source';
+                })
+                .map(object => {
+                  return object.term;
+                });
+
+              if (bgArray.length === 1 && newsArray.length === 1) {
+                let bg_query = bgArray[0];
+                let news_query = newsArray[0];
                 this.setState(
                   {
-                    bgQuery: newArray[0]
+                    bgQuery: bg_query,
+                    newsQuery: news_query
                   },
                   () => {
                     fetch(
@@ -297,17 +330,42 @@ class Home extends Component {
                       .then(object => {
                         console.log(object);
                         let ranNum = Math.floor(Math.random() * 9);
-                        this.setState({
-                          bgUrl: object.results[ranNum].urls.regular
-                        });
+                        fetch(
+                          `https://newsapi.org/v2/top-headlines?${
+                            this.state.newsQuery
+                          }&apiKey=${keys.NEWSKEY}`
+                        )
+                          .then(r => r.json())
+                          .then(result => {
+                            console.log(result);
+                            let newArray = result.articles.map(item => {
+                              return {
+                                source: item.source.name,
+                                title: item.title,
+                                url: item.url,
+                                description: item.description
+                              };
+                            });
+                            this.setState({
+                              board1: {
+                                ...this.state.board1,
+                                news: {
+                                  ...this.state.board1.news,
+                                  articles: newArray
+                                }
+                              },
+                              bgUrl: object.results[ranNum].urls.regular
+                            });
+                          });
                       });
                   }
                 );
-              } else {
-                let ranNum = Math.floor(Math.random() * (newArray.length - 1));
+              } else if(){}
+              else {
+                let ranNum = Math.floor(Math.random() * (bgArray.length - 1));
                 this.setState(
                   {
-                    bgQuery: newArray[ranNum]
+                    bgQuery: bgArray[ranNum]
                   },
                   () => {
                     fetch(
@@ -330,24 +388,11 @@ class Home extends Component {
           }
         );
       });
-
-    // weather api call
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(getWeather.bind(this));
-      navigator.geolocation.getCurrentPosition(getRestInfo.bind(this));
-    } else {
-      let object = {
-        coords: {
-          latitude: 34,
-          longitude: -84
-        }
-      };
-      getWeather(object);
-      getRestInfo(object);
-    }
     // news api call
     fetch(
-      `https://newsapi.org/v2/top-headlines?country=us&apiKey=${keys.NEWSKEY}`
+      `https://newsapi.org/v2/top-headlines?${this.state.newsQuery}&apiKey=${
+        keys.NEWSKEY
+      }`
     )
       .then(r => r.json())
       .then(result => {
