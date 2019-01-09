@@ -7,7 +7,7 @@ import eventIcon from '../../images/eventIcon.png';
 function createStyles() {
   const mapStyles = {
     width: '90%',
-    height: '70%'
+    height: '50%'
   };
   return mapStyles;
 }
