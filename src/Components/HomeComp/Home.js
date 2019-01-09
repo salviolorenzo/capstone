@@ -161,6 +161,11 @@ class Home extends Component {
       coords: {},
       tiles: [],
       userInfo: {},
+      userPreferences: {
+        bgTerm: '',
+        sourceTerm: '',
+        array: []
+      },
       bgUrl: '',
       board1: {
         tiles: [],
@@ -193,7 +198,7 @@ class Home extends Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     // home component with boards and tiles
     fetch('/home')
       .then(result => result.json())
@@ -214,6 +219,17 @@ class Home extends Component {
       .then(object => {
         this.setState({
           userInfo: object
+        });
+      });
+
+    fetch('/home/settings/preferences')
+      .then(r => r.json())
+      .then(result => {
+        let prefArray = result.map(item => {
+          return { id: item.id, term: item.term, type: item.type };
+        });
+        this.setState({
+          userPreferences: prefArray
         });
       });
 
@@ -678,6 +694,18 @@ class Home extends Component {
     }
   }
 
+  handleBgTermChange(event) {}
+
+  handleNewsTermChange(event) {}
+
+  handleNewBackground(event) {
+    event.preventDefault();
+  }
+
+  handleNewsSource(event) {
+    event.preventDefault();
+  }
+
   render() {
     return (
       <>
@@ -725,6 +753,9 @@ class Home extends Component {
                 return (
                   <Settings
                     userInfo={this.state.userInfo}
+                    preferences={this.state.userPreferences.array}
+                    handleNewBackground={this.handleNewBackground.bind(this)}
+                    handleNewsSource={this.handleNewsSource.bind(this)}
                     handleNewName={this.handleNewName.bind(this)}
                     handleNewEmail={this.handleNewEmail.bind(this)}
                     handleInfoSubmit={this.handleInfoSubmit.bind(this)}

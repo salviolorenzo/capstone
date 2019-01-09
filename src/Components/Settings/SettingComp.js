@@ -34,6 +34,8 @@ function Settings(props) {
           return (
             <UserPref
               preferences={props.preferences}
+              handleBgTermChange={props.handleBgTermChange}
+              handleNewsTermChange={props.handleNewsTermChange}
               handleNewBackground={props.handleNewBackground}
               handleNewsSource={props.handleNewsSource}
               {...routeProps}

@@ -14,6 +14,10 @@ function UserPref(props) {
           type='text'
           placeholder='Landscape, Mountains, City'
           name='bgTerm'
+          value={props.bgTerm}
+          onChange={event => {
+            props.handleBgTermChange(event);
+          }}
         />
         <input type='submit' value='Add' />
       </form>
@@ -23,7 +27,15 @@ function UserPref(props) {
           props.handleNewsSource(event);
         }}
       >
-        <input type='text' placeholder='BBC, CNN, Fox' name='newsTerm' />
+        <input
+          type='text'
+          placeholder='BBC, CNN, Fox'
+          name='newsTerm'
+          value={props.newsTerm}
+          onChange={event => {
+            props.handleNewsTermChange(event);
+          }}
+        />
         <input type='submit' value='Add' />
       </form>
       {/* <ul>
