@@ -31,7 +31,14 @@ function Settings(props) {
       <Route
         path='/home/settings/preferences'
         render={routeProps => {
-          return <UserPref {...routeProps} />;
+          return (
+            <UserPref
+              preferences={props.preferences}
+              handleNewBackground={props.handleNewBackground}
+              handleNewsSource={props.handleNewsSource}
+              {...routeProps}
+            />
+          );
         }}
       />
     </div>

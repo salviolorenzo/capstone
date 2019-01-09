@@ -137,6 +137,8 @@ app.post('/home/settings/info', (req, res) => {
     .then(res.redirect('/home/settings'));
 });
 
+app.get('/home/preferences', (req, res) => {});
+
 app.post('/home/events/new', (req, res) => {
   console.log('THIS IS THE FIRST LINE =========');
   let all_day = req.body.allDay ? true : false;
