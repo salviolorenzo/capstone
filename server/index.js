@@ -122,9 +122,14 @@ app.get('/home/settings/preferences', (req, res) => {
 });
 
 app.post('/home/settings/preferences', (req, res) => {
-  Preferences.addPref(req.session.user.id, req.body.id, req.body.value).then(
-    console.log
-  );
+  Preferences.addPref(
+    req.session.user.id,
+    req.body.id,
+    req.body.value,
+    req.body.type
+  ).then(result => {
+    res.send(result);
+  });
 });
 
 app.get('/home/settings', (req, res) => {

@@ -17,6 +17,22 @@ import rainy from '../../images/weather_icons/animated/rainy-6.svg';
 import snow from '../../images/weather_icons/animated/snowy-6.svg';
 import thunder from '../../images/weather_icons/animated/thunder.svg';
 
+function pickBgTerm(array) {
+  if (array.length === 0) {
+    return 'space';
+  } else {
+    let newArray = array.map(object => {
+      return object.term;
+    });
+    if (newArray.length === 1) {
+      return newArray[0];
+    } else {
+      let ranNum = Math.floor(Math.random() * (newArray.length - 1));
+      return newArray[ranNum];
+    }
+  }
+}
+
 function createBackSplash(url) {
   const style = {
     backgroundImage: `url(${url})`,
@@ -163,7 +179,7 @@ class Home extends Component {
       userInfo: {},
       userPreferences: {
         bgTerm: '',
-        sourceTerm: '',
+        newsTerm: '',
         array: []
       },
       bgUrl: '',
@@ -229,18 +245,12 @@ class Home extends Component {
           return { id: item.id, term: item.term, type: item.type };
         });
         this.setState({
-          userPreferences: prefArray
+          userPreferences: {
+            ...this.state.userPreferences,
+            array: prefArray
+          }
         });
       });
-
-    // // board1 info
-    // fetch('/home/1')
-    //   .then(r => r.json())
-    //   .then(array => {
-    //     this.setState({
-    //       board1: { ...this.state.board1, tiles: array }
-    //     });
-    //   });
 
     // weather api call
     if ('geolocation' in navigator) {
@@ -315,10 +325,11 @@ class Home extends Component {
           board2: { ...this.state.board2, events: newArray }
         });
       });
+
     fetch(
-      `https://api.unsplash.com/search/photos?query=space&client_id=${
-        keys.USKEY
-      }`
+      `https://api.unsplash.com/search/photos?query=${pickBgTerm(
+        this.state.userPreferences.array
+      )}&client_id=${keys.USKEY}`
     )
       .then(r => r.json())
       .then(object => {
@@ -694,16 +705,76 @@ class Home extends Component {
     }
   }
 
-  handleBgTermChange(event) {}
+  handleBgTermChange(event) {
+    this.setState({
+      userPreferences: {
+        ...this.state.userPreferences,
+        bgTerm: event.target.value
+      }
+    });
+  }
 
-  handleNewsTermChange(event) {}
+  handleNewsTermChange(event) {
+    this.setState({
+      userPreferences: {
+        ...this.state.userPreferences,
+        newsTerm: event.target.value
+      }
+    });
+  }
 
   handleNewBackground(event) {
     event.preventDefault();
+    if (this.state.userPreferences.bgTerm !== '') {
+      let object = {
+        id: 1,
+        value: this.state.userPreferences.bgTerm,
+        type: 'background'
+      };
+      fetch('/home/settings/preferences', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(object)
+      })
+        .then(r => r.json())
+        .then(result => {
+          this.setState({
+            userPreferences: {
+              ...this.state.userPreferences,
+              array: [...this.state.userPreferences.array, result]
+            }
+          });
+        });
+    }
   }
 
   handleNewsSource(event) {
     event.preventDefault();
+    if (this.state.userPreferences.newsTerm !== '') {
+      let object = {
+        id: 2,
+        value: this.state.userPreferences.newsTerm,
+        type: 'news_source'
+      };
+      fetch('/home/settings/preferences', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(object)
+      })
+        .then(r => r.json())
+        .then(result => {
+          this.setState({
+            userPreferences: {
+              ...this.state.userPreferences,
+              array: [...this.state.userPreferences.array, result]
+            }
+          });
+        });
+    }
   }
 
   render() {
@@ -754,6 +825,10 @@ class Home extends Component {
                   <Settings
                     userInfo={this.state.userInfo}
                     preferences={this.state.userPreferences.array}
+                    bgTerm={this.state.userPreferences.bgTerm}
+                    newsTerm={this.state.userPreferences.newsTerm}
+                    handleBgTermChange={this.handleBgTermChange.bind(this)}
+                    handleNewsTermChange={this.handleNewsTermChange.bind(this)}
                     handleNewBackground={this.handleNewBackground.bind(this)}
                     handleNewsSource={this.handleNewsSource.bind(this)}
                     handleNewName={this.handleNewName.bind(this)}

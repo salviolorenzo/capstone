@@ -1,6 +1,7 @@
 import React from 'react';
 // -- Adjust background pictures
 // -- Add preffered news sources
+
 function UserPref(props) {
   return (
     <div className='settingsDiv'>
@@ -38,16 +39,24 @@ function UserPref(props) {
         />
         <input type='submit' value='Add' />
       </form>
-      {/* <ul>
-        {props.preferences.news.map((item, index) => {
-          return <li key={index}>{item}</li>;
-        })}
-      </ul> */}
-      {/* <ul>
-        {props.preferences.backgrounds.map((item, index) => {
-          return <li key={index}>{item}</li>;
-        })}
-      </ul> */}
+      <ul className='preferenceList'>
+        {props.preferences
+          .filter(object => {
+            return object.type === 'background';
+          })
+          .map((item, index) => {
+            return <li key={index}>{item.term}</li>;
+          })}
+      </ul>
+      <ul className='preferenceList'>
+        {props.preferences
+          .filter(object => {
+            return object.type === 'news_source';
+          })
+          .map((item, index) => {
+            return <li key={index}>{item.term}</li>;
+          })}
+      </ul>
     </div>
   );
 }
