@@ -114,6 +114,10 @@ app.get('/home', (req, res) => {
   });
 });
 
+app.get('/home/settings', (req, res) => {
+  User.getUserById(req.session.user.id).then(result => res.send(result));
+});
+
 app.post('/home/events/new', (req, res) => {
   console.log('THIS IS THE FIRST LINE =========');
   let all_day = req.body.allDay ? true : false;
@@ -160,50 +164,30 @@ app.post('/home/events/:id/delete', (req, res) => {
 // API CALLS
 // ======================================================
 
-// app.get('/home/:id/news', (req, res) => {
-//   fetch(
-//     `https://newsapi.org/v2/top-headlines?country=us&apiKey=${
-//       process.env.NEWSKEY
-//     }`
-//   )
-//     .then(r => r.json())
-//     .then(result => {
-//       let newArray = result.articles.map(item => {
-//         return {
-//           source: item.source.name,
-//           title: item.title,
-//           url: item.url,
-//           description: item.description
-//         };
-//       });
-//       res.send(newArray);
-//     });
-// });
-
 // GOOGLE AUTH
-app.get('/auth/google', passport.authenticate('google'));
+// app.get('/auth/google', passport.authenticate('google'));
 
-app.get(
-  '/auth/google/callback',
-  passport.authenticate('google', { failureRedirect: '/' }),
-  function(req, res) {
-    res.redirect('/home');
-  }
-);
+// app.get(
+//   '/auth/google/callback',
+//   passport.authenticate('google', { failureRedirect: '/' }),
+//   function(req, res) {
+//     res.redirect('/home');
+//   }
+// );
 
 // =======================================================
 // GITHUB AUTH ==========================================
 // =======================================================
-app.get('/auth/github', passport.authenticate('github'));
+// app.get('/auth/github', passport.authenticate('github'));
 
-app.get(
-  '/auth/github/callback',
-  passport.authenticate('github', { failureRedirect: '/login' }),
-  function(req, res) {
-    // Successful authentication, redirect home.
-    res.redirect('/');
-  }
-);
+// app.get(
+//   '/auth/github/callback',
+//   passport.authenticate('github', { failureRedirect: '/login' }),
+//   function(req, res) {
+//     // Successful authentication, redirect home.
+//     res.redirect('/');
+//   }
+// );
 
 // =======================================================
 app.listen(4000, () => {

@@ -16,10 +16,8 @@ class Dashboard extends Component {
     return (
       <Router>
         <div className='dashboard'>
-          <Header />
           <Route path='/home/dash' component={Home} />
           {/* <Route path='/boards' component={BoardList} /> */}
-          <Route path='/settings' component={Setting} />
         </div>
       </Router>
     );

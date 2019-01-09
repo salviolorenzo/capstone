@@ -42,33 +42,34 @@ class User {
     return bcrypt.compareSync(password, this.password);
   }
 
-  // static FBFind(fb_id) {
-  //   return db
-  //     .one(`select * from users where facebook_id =$1`, [fb_id])
-  //     .then(user => {
-  //       return new User(
-  //         user.id,
-  //         user.name,
-  //         user.email,
-  //         user.password,
-  //         user.github_id,
-  //         user.facebook_id,
-  //         user.twitter_id,
-  //         user.linkedin_id,
-  //         user.instagram_id,
-  //         user.email_id
-  //       );
-  //     });
-  // }
+  static updateName(newName, user_id) {
+    return db.result(
+      `update users
+      set name=$1
+      where id=$2`,
+      [newName, user_id]
+    );
+  }
 
-  // static updateFBId(fb_id, id) {
-  //   return db.result(
-  //     `update users
-  //     set fb_id=$1
-  //     where id=$2`,
-  //     [fb_id, id]
-  //   );
-  // }
+  static updateEmail(newEmail, user_id) {
+    return db.result(
+      `update users
+      set email=$1
+      where id=$2`,
+      [newEmail, user_id]
+    );
+  }
+
+  static updatePass(newPass, user_id) {
+    const salt = bcrypt.genSaltSync(saltRounds);
+    const hash = bcrypt.hashSync(newPass, salt);
+    return db.result(
+      `update users
+      set password=$1
+      where id=$2`,
+      [hash, user_id]
+    );
+  }
 }
 
 module.exports = User;
