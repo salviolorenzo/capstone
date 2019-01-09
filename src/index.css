@@ -570,3 +570,7 @@ footer p {
 .settingsForm label {
   font-size: 12px;
 }
+
+.preferenceList li {
+  background-color: white;
+}

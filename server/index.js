@@ -11,6 +11,7 @@ const User = require('./models/User');
 const Board = require('./models/Board');
 const Tile = require('./models/Tiles');
 const Events = require('./models/Events');
+const Preferences = require('./models/Preferences');
 const fetch = require('node-fetch');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
@@ -110,6 +111,23 @@ app.get('/home', (req, res) => {
   //   });
   // });
   Events.getAll(req.session.user.id).then(result => {
+    res.send(result);
+  });
+});
+
+app.get('/home/settings/preferences', (req, res) => {
+  Preferences.getPref(req.session.user.id).then(result => {
+    res.send(result);
+  });
+});
+
+app.post('/home/settings/preferences', (req, res) => {
+  Preferences.addPref(
+    req.session.user.id,
+    req.body.id,
+    req.body.value,
+    req.body.type
+  ).then(result => {
     res.send(result);
   });
 });

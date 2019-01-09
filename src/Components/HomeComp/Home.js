@@ -17,6 +17,22 @@ import rainy from '../../images/weather_icons/animated/rainy-6.svg';
 import snow from '../../images/weather_icons/animated/snowy-6.svg';
 import thunder from '../../images/weather_icons/animated/thunder.svg';
 
+function pickBgTerm(array) {
+  if (array.length === 0) {
+    return 'space';
+  } else {
+    let newArray = array.map(object => {
+      return object.term;
+    });
+    if (newArray.length === 1) {
+      return newArray[0];
+    } else {
+      let ranNum = Math.floor(Math.random() * (newArray.length - 1));
+      return newArray[ranNum];
+    }
+  }
+}
+
 function createBackSplash(url) {
   const style = {
     backgroundImage: `url(${url})`,
@@ -161,6 +177,12 @@ class Home extends Component {
       coords: {},
       tiles: [],
       userInfo: {},
+      userPreferences: {
+        bgTerm: '',
+        newsTerm: '',
+        array: []
+      },
+      bgQuery: '',
       bgUrl: '',
       board1: {
         tiles: [],
@@ -193,7 +215,7 @@ class Home extends Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     // home component with boards and tiles
     fetch('/home')
       .then(result => result.json())
@@ -217,14 +239,97 @@ class Home extends Component {
         });
       });
 
-    // // board1 info
-    // fetch('/home/1')
-    //   .then(r => r.json())
-    //   .then(array => {
-    //     this.setState({
-    //       board1: { ...this.state.board1, tiles: array }
-    //     });
-    //   });
+    fetch('/home/settings/preferences')
+      .then(r => r.json())
+      .then(result => {
+        let prefArray = result.map(item => {
+          return { id: item.id, term: item.term, type: item.type };
+        });
+        this.setState(
+          {
+            userPreferences: {
+              ...this.state.userPreferences,
+              array: prefArray
+            }
+          },
+          () => {
+            if (this.state.userPreferences.array.length === 0) {
+              this.setState(
+                {
+                  bgQuery: 'space'
+                },
+                () => {
+                  fetch(
+                    `https://api.unsplash.com/search/photos?query=${
+                      this.state.bgQuery
+                    }&client_id=${keys.USKEY}`
+                  )
+                    .then(r => r.json())
+                    .then(object => {
+                      console.log(object);
+                      let ranNum = Math.floor(Math.random() * 9);
+                      this.setState({
+                        bgUrl: object.results[ranNum].urls.regular
+                      });
+                    });
+                }
+              );
+            } else {
+              let newArray = this.state.userPreferences.array
+                .filter(item => {
+                  return item.type === 'background';
+                })
+                .map(object => {
+                  return object.term;
+                });
+              if (newArray.length === 1) {
+                this.setState(
+                  {
+                    bgQuery: newArray[0]
+                  },
+                  () => {
+                    fetch(
+                      `https://api.unsplash.com/search/photos?query=${
+                        this.state.bgQuery
+                      }&client_id=${keys.USKEY}`
+                    )
+                      .then(r => r.json())
+                      .then(object => {
+                        console.log(object);
+                        let ranNum = Math.floor(Math.random() * 9);
+                        this.setState({
+                          bgUrl: object.results[ranNum].urls.regular
+                        });
+                      });
+                  }
+                );
+              } else {
+                let ranNum = Math.floor(Math.random() * (newArray.length - 1));
+                this.setState(
+                  {
+                    bgQuery: newArray[ranNum]
+                  },
+                  () => {
+                    fetch(
+                      `https://api.unsplash.com/search/photos?query=${
+                        this.state.bgQuery
+                      }&client_id=${keys.USKEY}`
+                    )
+                      .then(r => r.json())
+                      .then(object => {
+                        console.log(object);
+                        let ranNum = Math.floor(Math.random() * 9);
+                        this.setState({
+                          bgUrl: object.results[ranNum].urls.regular
+                        });
+                      });
+                  }
+                );
+              }
+            }
+          }
+        );
+      });
 
     // weather api call
     if ('geolocation' in navigator) {
@@ -297,19 +402,6 @@ class Home extends Component {
         });
         this.setState({
           board2: { ...this.state.board2, events: newArray }
-        });
-      });
-    fetch(
-      `https://api.unsplash.com/search/photos?query=space&client_id=${
-        keys.USKEY
-      }`
-    )
-      .then(r => r.json())
-      .then(object => {
-        console.log(object);
-        let ranNum = Math.floor(Math.random() * 9);
-        this.setState({
-          bgUrl: object.results[ranNum].urls.regular
         });
       });
 
@@ -678,6 +770,78 @@ class Home extends Component {
     }
   }
 
+  handleBgTermChange(event) {
+    this.setState({
+      userPreferences: {
+        ...this.state.userPreferences,
+        bgTerm: event.target.value
+      }
+    });
+  }
+
+  handleNewsTermChange(event) {
+    this.setState({
+      userPreferences: {
+        ...this.state.userPreferences,
+        newsTerm: event.target.value
+      }
+    });
+  }
+
+  handleNewBackground(event) {
+    event.preventDefault();
+    if (this.state.userPreferences.bgTerm !== '') {
+      let object = {
+        id: 1,
+        value: this.state.userPreferences.bgTerm,
+        type: 'background'
+      };
+      fetch('/home/settings/preferences', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(object)
+      })
+        .then(r => r.json())
+        .then(result => {
+          this.setState({
+            userPreferences: {
+              ...this.state.userPreferences,
+              array: [...this.state.userPreferences.array, result]
+            }
+          });
+        });
+    }
+  }
+
+  handleNewsSource(event) {
+    event.preventDefault();
+    if (this.state.userPreferences.newsTerm !== '') {
+      let object = {
+        id: 2,
+        value: this.state.userPreferences.newsTerm,
+        type: 'news_source'
+      };
+      fetch('/home/settings/preferences', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(object)
+      })
+        .then(r => r.json())
+        .then(result => {
+          this.setState({
+            userPreferences: {
+              ...this.state.userPreferences,
+              array: [...this.state.userPreferences.array, result]
+            }
+          });
+        });
+    }
+  }
+
   render() {
     return (
       <>
@@ -725,6 +889,13 @@ class Home extends Component {
                 return (
                   <Settings
                     userInfo={this.state.userInfo}
+                    preferences={this.state.userPreferences.array}
+                    bgTerm={this.state.userPreferences.bgTerm}
+                    newsTerm={this.state.userPreferences.newsTerm}
+                    handleBgTermChange={this.handleBgTermChange.bind(this)}
+                    handleNewsTermChange={this.handleNewsTermChange.bind(this)}
+                    handleNewBackground={this.handleNewBackground.bind(this)}
+                    handleNewsSource={this.handleNewsSource.bind(this)}
                     handleNewName={this.handleNewName.bind(this)}
                     handleNewEmail={this.handleNewEmail.bind(this)}
                     handleInfoSubmit={this.handleInfoSubmit.bind(this)}

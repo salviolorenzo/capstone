@@ -31,8 +31,8 @@ create table board_tiles(
 
 create table preferences(
   id serial primary key,
-  name text, 
-  content text
+  type text, 
+  value text
 );
 
 create table events(
@@ -47,8 +47,9 @@ create table events(
 
 create table user_preferences(
   id serial primary key,
+  term text,  
   user_id integer references users(id),
-  preferences_id integer references preferences(id)  
+  pref_id integer references preferences(id)
 );
 -- create table accounts(
 --   id serial primary key, 

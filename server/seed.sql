@@ -40,6 +40,18 @@ insert into board_tiles
   (2, 3, 3),
   (3, 3, 1);
 
+insert into preferences
+  (type)
+  values
+  ('background'),
+  ('news_source');
+
+insert into user_preferences
+  (user_id, pref_id, term)
+  values
+  (2, 1, 'sky'),
+  (2, 2, 'CNN');
+
 insert into events
   (title, allDay, eventStart, eventEnd, description, user_id)
   values
