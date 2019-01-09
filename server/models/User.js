@@ -27,7 +27,9 @@ class User {
   }
 
   static getUserById(id) {
-    return db.one(`select * from users where id=$1`, [id]);
+    return db.one(`select * from users where id=$1`, [id]).then(result => {
+      return new User(result.id, result.name, result.email, result.password);
+    });
   }
 
   static getByEmail(email) {
@@ -42,32 +44,32 @@ class User {
     return bcrypt.compareSync(password, this.password);
   }
 
-  static updateName(newName, user_id) {
+  updateName(newName) {
     return db.result(
       `update users
       set name=$1
       where id=$2`,
-      [newName, user_id]
+      [newName, this.id]
     );
   }
 
-  static updateEmail(newEmail, user_id) {
+  updateEmail(newEmail) {
     return db.result(
       `update users
       set email=$1
       where id=$2`,
-      [newEmail, user_id]
+      [newEmail, this.id]
     );
   }
 
-  static updatePass(newPass, user_id) {
+  updatePass(newPass) {
     const salt = bcrypt.genSaltSync(saltRounds);
     const hash = bcrypt.hashSync(newPass, salt);
     return db.result(
       `update users
       set password=$1
       where id=$2`,
-      [hash, user_id]
+      [hash, this.id]
     );
   }
 }

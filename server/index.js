@@ -118,6 +118,25 @@ app.get('/home/settings', (req, res) => {
   User.getUserById(req.session.user.id).then(result => res.send(result));
 });
 
+app.post('/home/settings/info', (req, res) => {
+  User.getUserById(req.session.user.id)
+    .then(user => {
+      let didMatch = user.checkPassword(req.body.password);
+      if (didMatch) {
+        if (req.body.name !== user.name && req.body.name !== '') {
+          user.updateName(req.body.name);
+        }
+        if (req.body.email !== user.email && req.body.email !== '') {
+          user.updateEmail(req.body.email);
+        }
+        if (req.body.newPass && req.body.newPass !== '') {
+          user.updatePass(req.body.newPass);
+        }
+      }
+    })
+    .then(res.redirect('/home/settings'));
+});
+
 app.post('/home/events/new', (req, res) => {
   console.log('THIS IS THE FIRST LINE =========');
   let all_day = req.body.allDay ? true : false;

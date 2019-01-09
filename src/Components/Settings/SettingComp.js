@@ -9,23 +9,31 @@ import UserPref from './UserPref';
 // -- Add preffered news sources
 
 function Settings(props) {
-  console.log('Settings is here');
   return (
     <div>
+      <Link to='/home/settings/info'>User Information</Link>
+      <Link to='/home/settings/preferences'>User Preferences</Link>
       <Route
         path='/home/settings/info'
-        render={props => {
-          return <UserInfo {...props} />;
+        exact
+        render={routeProps => {
+          return (
+            <UserInfo
+              user={props.userInfo}
+              handleNewName={props.handleNewName}
+              handleInfoSubmit={props.handleInfoSubmit}
+              handleNewEmail={props.handleNewEmail}
+              {...routeProps}
+            />
+          );
         }}
       />
       <Route
         path='/home/settings/preferences'
-        render={props => {
-          return <UserPref />;
+        render={routeProps => {
+          return <UserPref {...routeProps} />;
         }}
       />
-      <Link to='/home/settings/info'>User Information</Link>
-      <Link to='/home/settings/preferences'>User Preferences</Link>
     </div>
   );
 }

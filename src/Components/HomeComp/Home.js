@@ -193,7 +193,7 @@ class Home extends Component {
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
     // home component with boards and tiles
     fetch('/home')
       .then(result => result.json())
@@ -613,6 +613,71 @@ class Home extends Component {
     }
   }
 
+  // SETTINGS COMPONENT
+  handleNewName(event) {
+    this.setState({
+      userInfo: {
+        ...this.state.userInfo,
+        name: event.target.value
+      }
+    });
+  }
+  handleNewEmail(event) {
+    this.setState({
+      userInfo: {
+        ...this.state.userInfo,
+        email: event.target.value
+      }
+    });
+  }
+
+  handleInfoSubmit(event) {
+    event.preventDefault();
+    if (
+      event.target.newPass.value.length >= 8 &&
+      event.target.newPass.value === event.target.confirmNewPass.value
+    ) {
+      const infoObject = {
+        name: event.target.name.value,
+        email: event.target.email.value,
+        password: event.target.curPass.value,
+        newPass: event.target.newPass.value
+      };
+      fetch('/home/settings/info', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(infoObject)
+      })
+        .then(r => r.json())
+        .then(result => {
+          this.setState({
+            userInfo: result
+          });
+        });
+    } else {
+      const infoObject = {
+        name: event.target.name.value,
+        email: event.target.email.value,
+        password: event.target.curPass.value
+      };
+      fetch('/home/settings/info', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(infoObject)
+      })
+        .then(r => r.json())
+        .then(result => {
+          this.setState({
+            userInfo: result
+          });
+        });
+    }
+  }
+
   render() {
     return (
       <>
@@ -657,7 +722,15 @@ class Home extends Component {
             <Route
               path='/home/settings'
               render={props => {
-                return <Settings user={this.state.userInfo} {...props} />;
+                return (
+                  <Settings
+                    userInfo={this.state.userInfo}
+                    handleNewName={this.handleNewName.bind(this)}
+                    handleNewEmail={this.handleNewEmail.bind(this)}
+                    handleInfoSubmit={this.handleInfoSubmit.bind(this)}
+                    {...props}
+                  />
+                );
               }}
             />
             <Route
