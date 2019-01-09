@@ -14,14 +14,10 @@ class Dashboard extends Component {
 
   render() {
     return (
-      <Router>
-        <div className='dashboard'>
-          <Header />
-          <Route path='/home/dash' component={Home} />
-          {/* <Route path='/boards' component={BoardList} /> */}
-          <Route path='/settings' component={Setting} />
-        </div>
-      </Router>
+      <div className='dashboard'>
+        <Route path='/home/dash' exact component={Home} />
+        {/* <Route path='/boards' component={BoardList} /> */}
+      </div>
     );
   }
 }

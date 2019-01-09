@@ -78,7 +78,7 @@ app.post('/login', (req, res) => {
     req.session.user = user;
     let doesMatch = user.checkPassword(req.body.password);
     if (doesMatch) {
-      res.redirect('/home/dash/1');
+      res.redirect('/home/dash1');
     } else {
       res.redirect('/');
     }
@@ -93,7 +93,7 @@ app.post('/register', (req, res) => {
       Board.addBoard('Board 1', true, req.session.user.id);
       Board.addBoard('Board 2', true, req.session.user.id);
       Board.addBoard('Board 3', true, req.session.user.id);
-      res.redirect('/home/dash/1');
+      res.redirect('/home/dash1');
     }
   );
 });
@@ -113,6 +113,31 @@ app.get('/home', (req, res) => {
     res.send(result);
   });
 });
+
+app.get('/home/settings', (req, res) => {
+  User.getUserById(req.session.user.id).then(result => res.send(result));
+});
+
+app.post('/home/settings/info', (req, res) => {
+  User.getUserById(req.session.user.id)
+    .then(user => {
+      let didMatch = user.checkPassword(req.body.password);
+      if (didMatch) {
+        if (req.body.name !== user.name && req.body.name !== '') {
+          user.updateName(req.body.name);
+        }
+        if (req.body.email !== user.email && req.body.email !== '') {
+          user.updateEmail(req.body.email);
+        }
+        if (req.body.newPass && req.body.newPass !== '') {
+          user.updatePass(req.body.newPass);
+        }
+      }
+    })
+    .then(res.redirect('/home/settings'));
+});
+
+app.get('/home/preferences', (req, res) => {});
 
 app.post('/home/events/new', (req, res) => {
   console.log('THIS IS THE FIRST LINE =========');
@@ -160,50 +185,30 @@ app.post('/home/events/:id/delete', (req, res) => {
 // API CALLS
 // ======================================================
 
-// app.get('/home/:id/news', (req, res) => {
-//   fetch(
-//     `https://newsapi.org/v2/top-headlines?country=us&apiKey=${
-//       process.env.NEWSKEY
-//     }`
-//   )
-//     .then(r => r.json())
-//     .then(result => {
-//       let newArray = result.articles.map(item => {
-//         return {
-//           source: item.source.name,
-//           title: item.title,
-//           url: item.url,
-//           description: item.description
-//         };
-//       });
-//       res.send(newArray);
-//     });
-// });
-
 // GOOGLE AUTH
-app.get('/auth/google', passport.authenticate('google'));
+// app.get('/auth/google', passport.authenticate('google'));
 
-app.get(
-  '/auth/google/callback',
-  passport.authenticate('google', { failureRedirect: '/' }),
-  function(req, res) {
-    res.redirect('/home');
-  }
-);
+// app.get(
+//   '/auth/google/callback',
+//   passport.authenticate('google', { failureRedirect: '/' }),
+//   function(req, res) {
+//     res.redirect('/home');
+//   }
+// );
 
 // =======================================================
 // GITHUB AUTH ==========================================
 // =======================================================
-app.get('/auth/github', passport.authenticate('github'));
+// app.get('/auth/github', passport.authenticate('github'));
 
-app.get(
-  '/auth/github/callback',
-  passport.authenticate('github', { failureRedirect: '/login' }),
-  function(req, res) {
-    // Successful authentication, redirect home.
-    res.redirect('/');
-  }
-);
+// app.get(
+//   '/auth/github/callback',
+//   passport.authenticate('github', { failureRedirect: '/login' }),
+//   function(req, res) {
+//     // Successful authentication, redirect home.
+//     res.redirect('/');
+//   }
+// );
 
 // =======================================================
 app.listen(4000, () => {

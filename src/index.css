@@ -554,3 +554,19 @@ footer p {
 .infoWindow h6 {
   margin: 0;
 }
+
+/* ================================== */
+/* SETTINGS STYLES */
+/* ================================== */
+
+.settingsForm {
+  display: flex;
+  flex-direction: column;
+  background-color: #c4dcd3;
+  text-align: left;
+  align-items: center;
+}
+
+.settingsForm label {
+  font-size: 12px;
+}
