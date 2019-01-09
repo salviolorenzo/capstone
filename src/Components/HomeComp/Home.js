@@ -6,7 +6,7 @@ import moment from 'moment';
 import Board_1 from '../Boards/Board_1';
 import Board_2 from '../Boards/Board_2';
 import Board_3 from '../Boards/Board_3';
-import Setting from '../Settings/SettingComp';
+import Settings from '../Settings/SettingComp';
 import Header from '../Header';
 
 import keys from '../../config';
@@ -206,6 +206,14 @@ class Home extends Component {
               events: array
             }
           }
+        });
+      });
+
+    fetch('/home/settings')
+      .then(r => r.json())
+      .then(object => {
+        this.setState({
+          userInfo: object
         });
       });
 
@@ -609,110 +617,116 @@ class Home extends Component {
     return (
       <>
         <Header />
-        <Router>
-          <div className='home' style={createBackSplash(this.state.bgUrl)}>
-            <ul className='navList'>
-              <li>
-                <NavLink
-                  activeStyle={{
-                    borderBottom: '1px solid white',
-                    paddingBottom: '3px'
-                  }}
-                  to='/home/dash/1'
-                >
-                  Daily Briefing
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  activeStyle={{
-                    borderBottom: '1px solid white',
-                    paddingBottom: '3px'
-                  }}
-                  to='/home/dash/2'
-                >
-                  Events
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  activeStyle={{
-                    borderBottom: '1px solid white',
-                    paddingBottom: '3px'
-                  }}
-                  to='/home/dash/3'
-                >
-                  Transportation
-                </NavLink>
-              </li>
-            </ul>
-            <SwipeableRoutes>
-              <Route
-                path='/home/dash/1'
-                render={props => {
-                  return (
-                    <Board_1
-                      weather={this.state.board1.weather}
-                      icon={this.state.board1.weatherIcon}
-                      news={this.state.board1.news.articles}
-                      events={this.state.board1.calendar.events}
-                      allDay={this.state.board1.calendar.allDay}
-                      selectedEvent={this.state.board1.calendar.selectedEvent}
-                      modalIsOpen={this.state.board1.calendar.modalIsOpen}
-                      term={this.state.board1.calendar.term}
-                      desc={this.state.board1.calendar.desc}
-                      start={this.state.board1.calendar.start}
-                      end={this.state.board1.calendar.end}
-                      displayEvent={this.displayEvent.bind(this)}
-                      openModal={this.openModal.bind(this)}
-                      afterOpenModal={this.afterOpenModal.bind(this)}
-                      closeModal={this.closeModal.bind(this)}
-                      onSlotChange={this.onSlotChange.bind(this)}
-                      handleNewEvent={this.handleNewEvent.bind(this)}
-                      handleDelete={this.handleDelete.bind(this)}
-                      handleTitleChange={this.handleTitleChange.bind(this)}
-                      handleDescChange={this.handleDescChange.bind(this)}
-                      handleStartTime={this.handleStartTime.bind(this)}
-                      handleEndTime={this.handleEndTime.bind(this)}
-                      changeBox={this.changeBox.bind(this)}
-                      handleNewsSearch={this.handleNewsSearch.bind(this)}
-                      queryTerm={this.state.board1.news.queryTerm}
-                      handleQueryTerm={this.handleQueryTerm.bind(this)}
-                      {...props}
-                    />
-                  );
+        <div className='home' style={createBackSplash(this.state.bgUrl)}>
+          <ul className='navList'>
+            <li>
+              <NavLink
+                activeStyle={{
+                  borderBottom: '1px solid white',
+                  paddingBottom: '3px'
                 }}
-              />
-              <Route
-                path='/home/dash/2'
-                render={props => {
-                  return (
-                    <Board_2
-                      events={this.state.board2.events}
-                      {...props}
-                      handleEventType={this.handleEventType.bind(this)}
-                      restaurants={this.state.board2.restaurants}
-                    />
-                  );
+                to='/home/dash1'
+              >
+                Daily Briefing
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                activeStyle={{
+                  borderBottom: '1px solid white',
+                  paddingBottom: '3px'
                 }}
-              />
-              <Route
-                path='/home/dash/3'
-                render={props => {
-                  return (
-                    <Board_3
-                      coords={this.state.coords}
-                      markers={this.state.board2.restaurants}
-                      events={this.state.board2.events}
-                      {...props}
-                    />
-                  );
+                to='/home/dash2'
+              >
+                Events
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                activeStyle={{
+                  borderBottom: '1px solid white',
+                  paddingBottom: '3px'
                 }}
-              />
-            </SwipeableRoutes>
-            <Route path='/home/settings' component={Setting} />
-          </div>
-        </Router>
+                to='/home/dash3'
+              >
+                Transportation
+              </NavLink>
+            </li>
+          </ul>
+          <SwipeableRoutes>
+            <Route
+              path='/home/settings'
+              render={props => {
+                return <Settings user={this.state.userInfo} {...props} />;
+              }}
+            />
+            <Route
+              path='/home/dash1'
+              exact
+              render={props => {
+                return (
+                  <Board_1
+                    weather={this.state.board1.weather}
+                    icon={this.state.board1.weatherIcon}
+                    news={this.state.board1.news.articles}
+                    events={this.state.board1.calendar.events}
+                    allDay={this.state.board1.calendar.allDay}
+                    selectedEvent={this.state.board1.calendar.selectedEvent}
+                    modalIsOpen={this.state.board1.calendar.modalIsOpen}
+                    term={this.state.board1.calendar.term}
+                    desc={this.state.board1.calendar.desc}
+                    start={this.state.board1.calendar.start}
+                    end={this.state.board1.calendar.end}
+                    displayEvent={this.displayEvent.bind(this)}
+                    openModal={this.openModal.bind(this)}
+                    afterOpenModal={this.afterOpenModal.bind(this)}
+                    closeModal={this.closeModal.bind(this)}
+                    onSlotChange={this.onSlotChange.bind(this)}
+                    handleNewEvent={this.handleNewEvent.bind(this)}
+                    handleDelete={this.handleDelete.bind(this)}
+                    handleTitleChange={this.handleTitleChange.bind(this)}
+                    handleDescChange={this.handleDescChange.bind(this)}
+                    handleStartTime={this.handleStartTime.bind(this)}
+                    handleEndTime={this.handleEndTime.bind(this)}
+                    changeBox={this.changeBox.bind(this)}
+                    handleNewsSearch={this.handleNewsSearch.bind(this)}
+                    queryTerm={this.state.board1.news.queryTerm}
+                    handleQueryTerm={this.handleQueryTerm.bind(this)}
+                    {...props}
+                  />
+                );
+              }}
+            />
+            <Route
+              path='/home/dash2'
+              exact
+              render={props => {
+                return (
+                  <Board_2
+                    events={this.state.board2.events}
+                    {...props}
+                    handleEventType={this.handleEventType.bind(this)}
+                    restaurants={this.state.board2.restaurants}
+                  />
+                );
+              }}
+            />
+            <Route
+              path='/home/dash3'
+              exact
+              render={props => {
+                return (
+                  <Board_3
+                    coords={this.state.coords}
+                    markers={this.state.board2.restaurants}
+                    events={this.state.board2.events}
+                    {...props}
+                  />
+                );
+              }}
+            />
+          </SwipeableRoutes>
+        </div>
       </>
     );
   }

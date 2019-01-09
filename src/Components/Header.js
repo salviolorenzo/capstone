@@ -9,7 +9,7 @@ function Header(props) {
           <Link to='/home/settings'>Settings</Link>
         </li>
 
-        <Link to='/home/dash/1'>
+        <Link to='/home/dash1'>
           <img src={require('../images/DSH_LOGO.png')} />
         </Link>
         {/* <li>
