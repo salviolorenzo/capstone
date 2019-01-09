@@ -2,6 +2,14 @@ import React, { Component } from 'react';
 
 const eventTypes = ['Music', 'Sports'];
 
+function displayVenue(item) {
+  if (item.venue !== undefined) {
+    return item.venue.name;
+  } else {
+    return null;
+  }
+}
+
 function Tickets(props) {
   return (
     <div className='tile eventTile'>
@@ -15,7 +23,7 @@ function Tickets(props) {
                 props.handleEventType(item, event);
               }}
             >
-              {item}
+              <button>{item}</button>
             </li>
           );
         })}
@@ -31,7 +39,7 @@ function Tickets(props) {
                   <br />
                   {item.date}
                   <br />
-                  {item.venue.name}
+                  {displayVenue(item)}
                 </div>
               </a>
             </li>

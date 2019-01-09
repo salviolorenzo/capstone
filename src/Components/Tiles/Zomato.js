@@ -8,14 +8,20 @@ function Zomato(props) {
         {props.restaurants.map((item, index) => {
           return (
             <li key={index}>
-              {item.name}
+              <h4>{item.name}</h4>
               <br />
               {`${item.location.address}, ${item.location.city}`}
               <br />
               {`Rating: ${item.avg_rating}/5`}
               <br />
-              <a href={item.menu} target='_blank' rel='noreferrer noopener'>
-                Menu
+              {`Pricing: ${item.price}/4`}
+              <a
+                className='menuLink'
+                href={item.menu}
+                target='_blank'
+                rel='noreferrer noopener'
+              >
+                <p>Menu</p>
               </a>
             </li>
           );

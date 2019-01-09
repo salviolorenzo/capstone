@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Map, GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
 import keys from '../../config';
 import yourLocImg from '../../images/yourLocation.png';
+import restoIcon from '../../images/restoIcon.png';
+import eventIcon from '../../images/eventIcon.png';
 function createStyles() {
   const mapStyles = {
     width: '90%',
@@ -9,6 +11,7 @@ function createStyles() {
   };
   return mapStyles;
 }
+
 class MapContainer extends Component {
   constructor(props) {
     super(props);
@@ -40,11 +43,25 @@ class MapContainer extends Component {
     }
   }
 
+  foodOrShow(criteria) {
+    if (criteria === undefined) {
+      return <h4>{this.state.selectedPlace.categories}</h4>;
+    } else {
+      return (
+        <>
+          <h6>{this.state.selectedPlace.categories}</h6>
+          <h5>{`Avg. Rating: ${this.state.selectedPlace.rating}/5`}</h5>
+          <h5>{`Pricing: ${this.state.selectedPlace.pricing}/4`}</h5>
+        </>
+      );
+    }
+  }
+
   render() {
     return (
       <Map
         google={this.props.google}
-        zoom={12}
+        zoom={14}
         style={createStyles()}
         initialCenter={{
           lat: parseFloat(this.state.location.lat),
@@ -66,11 +83,33 @@ class MapContainer extends Component {
               categories={item.category}
               rating={item.avg_rating}
               pricing={item.price}
+              url={item.menu}
               position={{
                 lat: parseFloat(item.location.latitude),
                 lng: parseFloat(item.location.longitude)
               }}
               onClick={this.onMarkerClick.bind(this)}
+              icon={{
+                url: restoIcon
+              }}
+            />
+          );
+        })}
+        {this.props.events.map((item, index) => {
+          return (
+            <Marker
+              key={index}
+              name={item.name}
+              categories={item.date}
+              url={item.url}
+              position={{
+                lat: parseFloat(item.venue.location.latitude),
+                lng: parseFloat(item.venue.location.longitude)
+              }}
+              onClick={this.onMarkerClick.bind(this)}
+              icon={{
+                url: eventIcon
+              }}
             />
           );
         })}
@@ -80,10 +119,10 @@ class MapContainer extends Component {
           onClose={this.onClose.bind(this)}
         >
           <div className='infoWindow'>
-            <h4>{this.state.selectedPlace.name}</h4>
-            <h6>{this.state.selectedPlace.categories}</h6>
-            <h5>{`Avg. Rating: ${this.state.selectedPlace.rating}/5`}</h5>
-            <h5>{`Pricing: ${this.state.selectedPlace.pricing}/4`}</h5>
+            <a href={this.state.selectedPlace.url}>
+              <h4>{this.state.selectedPlace.name}</h4>
+            </a>
+            {this.foodOrShow(this.state.selectedPlace.rating)}
           </div>
         </InfoWindow>
       </Map>

@@ -697,6 +697,7 @@ class Home extends Component {
                   <Board_3
                     coords={this.state.coords}
                     markers={this.state.board2.restaurants}
+                    events={this.state.board2.events}
                     {...props}
                   />
                 );

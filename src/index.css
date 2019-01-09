@@ -417,10 +417,26 @@ footer p {
   display: flex;
   justify-content: space-evenly;
   padding: 0;
+  margin: 0;
+  min-height: 20px;
 }
 
-.eventTile {
-  max-height: 500px;
+.eventType button {
+  background-color: #3174ad;
+  color: white;
+  min-width: 50px;
+  padding: 0 10px 3px 10px;
+  border-radius: 10px;
+  /* border: 1px solid grey; */
+}
+
+.eventType:hover {
+  cursor: pointer;
+}
+
+.eventTile,
+.restoTile {
+  max-height: 600px;
 }
 
 .eventList,
@@ -435,16 +451,14 @@ footer p {
   border-radius: 5px;
 }
 
-.eventList a,
-.restoList a {
+.eventList a {
   min-width: 100%;
   min-height: 100%;
   display: flex;
   justify-content: center;
 }
 
-.eventList li,
-.restoList li {
+.eventList li {
   padding: 3px;
   margin: 5px 0;
   width: 90%;
@@ -473,7 +487,8 @@ footer p {
   align-items: center;
 }
 
-.eventText h5 {
+.eventText h5,
+.restoList h4 {
   margin: 0;
 }
 
@@ -487,6 +502,34 @@ footer p {
 /* =============================================== */
 /* RESTAURANTS STYLES */
 /* =============================================== */
+
+.restoList li {
+  padding: 5px 10px;
+  margin: 5px 0;
+  width: 90%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  min-height: 125px;
+  font-size: 12px;
+  justify-content: center;
+  border-radius: 5px;
+  background-color: #c4dcd3;
+}
+
+.menuLink {
+  width: 50%;
+  border-radius: 10px;
+  border: 1px solid grey;
+  background-color: #3174ad;
+  color: white;
+}
+
+.menuLink p {
+  margin: 0;
+}
 
 /* =============================================== */
 /* BOARD3 STYLES */

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Header from './Header';
 import Home from './HomeComp/Home';
+import Setting from './Settings/SettingComp';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import BoardList from './Boards/Boards';
 
@@ -18,7 +19,7 @@ class Dashboard extends Component {
           <Header />
           <Route path='/home/dash' component={Home} />
           {/* <Route path='/boards' component={BoardList} /> */}
-          <Route path='/settings' component={Settings} />
+          <Route path='/settings' component={Setting} />
         </div>
       </Router>
     );
