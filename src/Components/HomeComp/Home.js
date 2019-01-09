@@ -182,6 +182,7 @@ class Home extends Component {
         newsTerm: '',
         array: []
       },
+      bgQuery: '',
       bgUrl: '',
       board1: {
         tiles: [],
@@ -244,12 +245,90 @@ class Home extends Component {
         let prefArray = result.map(item => {
           return { id: item.id, term: item.term, type: item.type };
         });
-        this.setState({
-          userPreferences: {
-            ...this.state.userPreferences,
-            array: prefArray
+        this.setState(
+          {
+            userPreferences: {
+              ...this.state.userPreferences,
+              array: prefArray
+            }
+          },
+          () => {
+            if (this.state.userPreferences.array.length === 0) {
+              this.setState(
+                {
+                  bgQuery: 'space'
+                },
+                () => {
+                  fetch(
+                    `https://api.unsplash.com/search/photos?query=${
+                      this.state.bgQuery
+                    }&client_id=${keys.USKEY}`
+                  )
+                    .then(r => r.json())
+                    .then(object => {
+                      console.log(object);
+                      let ranNum = Math.floor(Math.random() * 9);
+                      this.setState({
+                        bgUrl: object.results[ranNum].urls.regular
+                      });
+                    });
+                }
+              );
+            } else {
+              let newArray = this.state.userPreferences.array
+                .filter(item => {
+                  return item.type === 'background';
+                })
+                .map(object => {
+                  return object.term;
+                });
+              if (newArray.length === 1) {
+                this.setState(
+                  {
+                    bgQuery: newArray[0]
+                  },
+                  () => {
+                    fetch(
+                      `https://api.unsplash.com/search/photos?query=${
+                        this.state.bgQuery
+                      }&client_id=${keys.USKEY}`
+                    )
+                      .then(r => r.json())
+                      .then(object => {
+                        console.log(object);
+                        let ranNum = Math.floor(Math.random() * 9);
+                        this.setState({
+                          bgUrl: object.results[ranNum].urls.regular
+                        });
+                      });
+                  }
+                );
+              } else {
+                let ranNum = Math.floor(Math.random() * (newArray.length - 1));
+                this.setState(
+                  {
+                    bgQuery: newArray[ranNum]
+                  },
+                  () => {
+                    fetch(
+                      `https://api.unsplash.com/search/photos?query=${
+                        this.state.bgQuery
+                      }&client_id=${keys.USKEY}`
+                    )
+                      .then(r => r.json())
+                      .then(object => {
+                        console.log(object);
+                        let ranNum = Math.floor(Math.random() * 9);
+                        this.setState({
+                          bgUrl: object.results[ranNum].urls.regular
+                        });
+                      });
+                  }
+                );
+              }
+            }
           }
-        });
+        );
       });
 
     // weather api call
@@ -323,20 +402,6 @@ class Home extends Component {
         });
         this.setState({
           board2: { ...this.state.board2, events: newArray }
-        });
-      });
-
-    fetch(
-      `https://api.unsplash.com/search/photos?query=${pickBgTerm(
-        this.state.userPreferences.array
-      )}&client_id=${keys.USKEY}`
-    )
-      .then(r => r.json())
-      .then(object => {
-        console.log(object);
-        let ranNum = Math.floor(Math.random() * 9);
-        this.setState({
-          bgUrl: object.results[ranNum].urls.regular
         });
       });
 
