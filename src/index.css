@@ -69,10 +69,13 @@ nav {
 }
 
 nav li {
-  border: 0.5px solid #d7d7d7;
-  padding: 2px 5px;
+  /* padding: 2px 5px; */
   border-radius: 5px;
-  background-color: #ffffff;
+}
+
+nav button {
+  background-color: rgb(235, 235, 235);
+  border-radius: 10px;
 }
 
 header a {
@@ -198,7 +201,7 @@ footer p {
 
 .navList a {
   color: white;
-  text-shadow: 1px 1px 1px #000000;
+  text-shadow: 1px 1px #000000;
 }
 
 .selectedClass {
@@ -257,13 +260,18 @@ footer p {
   padding: 0;
   list-style-type: none;
   overflow: scroll;
+  display: flex;
+  flex-direction: column;
   scroll-behavior: smooth;
+  align-items: center;
+  width: 100%;
   border-radius: 5px;
 }
 
 .newsList li {
   padding: 8px;
   margin: 0 5px 5px 5px;
+  width: 95%;
   border-radius: 5px;
   background-color: #fefefe;
 }
@@ -275,9 +283,9 @@ footer p {
 
 .newsSearch {
   width: 100%;
+  min-height: 20px;
   display: flex;
-  justify-content: left;
-  align-items: center;
+  justify-content: center;
 }
 
 #newsBar {
@@ -578,6 +586,11 @@ footer p {
 
 .settingsLinks button {
   border-radius: 10px;
+}
+
+.settingsLinks button:active {
+  color: white;
+  background-color: #3174ad;
 }
 
 .settingsForm {

@@ -6,7 +6,9 @@ function Header(props) {
     <header>
       <nav>
         <li>
-          <Link to='/home/settings'>Settings</Link>
+          <Link to='/home/settings'>
+            <button>Settings</button>
+          </Link>
         </li>
 
         <Link to='/home/dash1'>
@@ -16,7 +18,9 @@ function Header(props) {
           <Link to='/boards'>Boards</Link>
         </li> */}
         <form method='POST' action='/logout'>
-          <input type='submit' value='Log Out' />
+          <button type='submit' value='Log Out'>
+            Log Out
+          </button>
         </form>
       </nav>
     </header>
