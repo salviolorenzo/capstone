@@ -132,6 +132,12 @@ app.post('/home/settings/preferences', (req, res) => {
   });
 });
 
+app.post('/home/settings/preferences/:id', (req, res) => {
+  Preferences.removePref(req.params.id).then(
+    res.redirect('/home/settings/preferences')
+  );
+});
+
 app.get('/home/settings', (req, res) => {
   User.getUserById(req.session.user.id).then(result => res.send(result));
 });

@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 
 function UserInfo(props) {
   return (
-    <div className='settingsDiv'>
-      <h3>Adjust your information.</h3>
+    <div className='settingsDiv tile'>
+      <h4>Adjust your information.</h4>
       <form
         className='settingsForm userInfo'
         onSubmit={event => {
@@ -55,7 +55,7 @@ function UserInfo(props) {
             name='confirmNewPass'
           />
         </label>
-        <input type='submit' value='Save' />
+        <input type='submit' value='Save' className='saveBtn' />
       </form>
     </div>
   );

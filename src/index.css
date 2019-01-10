@@ -69,10 +69,13 @@ nav {
 }
 
 nav li {
-  border: 0.5px solid #d7d7d7;
-  padding: 2px 5px;
+  /* padding: 2px 5px; */
   border-radius: 5px;
-  background-color: #ffffff;
+}
+
+nav button {
+  background-color: rgb(235, 235, 235);
+  border-radius: 10px;
 }
 
 header a {
@@ -198,6 +201,7 @@ footer p {
 
 .navList a {
   color: white;
+  text-shadow: 1px 1px #000000;
 }
 
 .selectedClass {
@@ -219,6 +223,7 @@ footer p {
   height: 100%;
   display: flex;
   justify-content: center;
+  align-items: flex-start;
   flex-wrap: wrap;
 }
 
@@ -228,7 +233,7 @@ footer p {
   width: 90%;
   /* background-color: #f0eeee; */
   display: flex;
-  margin: 5px 0;
+  margin: 5px;
   align-items: center;
   border-radius: 10px;
   box-shadow: 0 1px 1px 1px grey;
@@ -249,22 +254,25 @@ footer p {
 /* ======================================== */
 /* NEWS STYLES */
 /* ======================================== */
-.news {
-  background-color: rgb(211, 211, 211);
-}
+
 .newsList {
   padding: 0;
   list-style-type: none;
   overflow: scroll;
+  display: flex;
+  flex-direction: column;
   scroll-behavior: smooth;
+  align-items: center;
+  width: 100%;
   border-radius: 5px;
 }
 
 .newsList li {
   padding: 8px;
   margin: 0 5px 5px 5px;
+  width: 95%;
   border-radius: 5px;
-  background-color: #fefefe;
+  background-color: rgb(225, 225, 225);
 }
 
 .newsList a,
@@ -274,9 +282,9 @@ footer p {
 
 .newsSearch {
   width: 100%;
+  min-height: 20px;
   display: flex;
-  justify-content: left;
-  align-items: center;
+  justify-content: center;
 }
 
 #newsBar {
@@ -305,6 +313,10 @@ footer p {
   min-height: 40%;
   justify-content: space-evenly;
   margin: 0;
+}
+
+.weatherList li {
+  padding: 10px 0;
 }
 
 /* ======================================== */
@@ -394,6 +406,7 @@ footer p {
 .saveBtn {
   background-color: #3174ad;
   color: white;
+  border-radius: 5px;
 }
 
 .modalText h2,
@@ -436,7 +449,7 @@ footer p {
 
 .eventTile,
 .restoTile {
-  max-height: 600px;
+  max-height: 550px;
 }
 
 .eventList,
@@ -559,18 +572,129 @@ footer p {
 /* SETTINGS STYLES */
 /* ================================== */
 
+.settings {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.settingsLinks {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  margin: 10px 0;
+}
+
+.settingsLinks button {
+  border-radius: 10px;
+}
+
+.settingsLinks button:active {
+  color: white;
+  background-color: #3174ad;
+}
+
 .settingsForm {
   display: flex;
   flex-direction: column;
-  background-color: #c4dcd3;
+  margin: auto;
+  justify-content: center;
+  /* background-color: #c4dcd3; */
   text-align: left;
   align-items: center;
 }
 
 .settingsForm label {
   font-size: 12px;
+  margin: 3px;
+}
+
+.settingsForm input {
+  border-radius: 5px;
+  border: 1px solid rgb(213, 213, 213);
+  margin: 3px;
+}
+
+.settingsDiv h4 {
+  margin-bottom: 5px;
+}
+
+.userInfo {
+  margin-bottom: 20px;
+}
+
+.prefDiv {
+  min-height: 200px;
+}
+
+.userPref {
+  margin: 10px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.userPref input,
+.userPref select {
+  width: 50%;
+  border-radius: 5px;
+  border: 1px solid rgb(213, 213, 213);
+  padding: 1.5px;
+  margin: 3px;
+}
+
+.userPref button {
+  margin: 0;
+}
+
+.listContainer {
+  width: 90%;
+  display: flex;
+  margin: 5px 0;
+  /* align-items: center; */
+  border-radius: 10px;
+  box-shadow: 0 1px 1px 1px grey;
+  background-color: rgb(238, 238, 238);
+  color: black;
+  justify-content: center;
+  background-color: #fefefe;
+  opacity: 0.9;
+}
+
+.preferenceList {
+  width: 50%;
+  padding: 0;
+  margin: 5px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.preferenceList h5 {
+  margin: 8px 0;
 }
 
 .preferenceList li {
-  background-color: white;
+  background-color: rgb(220, 220, 220);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 3px;
+  border-radius: 10px;
+}
+
+.preferenceList button {
+  color: white;
+  background-color: red;
+  opacity: 0.5;
+  border-radius: 10px;
+}
+
+.prefName {
+  width: 80%;
+  padding: 5px 0 5px 20px;
 }
