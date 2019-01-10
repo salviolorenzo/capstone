@@ -8,7 +8,11 @@ function Board_2(props) {
     <div className='board'>
       {/* Events happening near you */}
       {/* Calendar of events that you might like, cross referenced with your normal calendar data || CAN I MAKE IT ? */}
-      <Tickets handleEventType={props.handleEventType} events={props.events} />
+      <Tickets
+        handleEventType={props.handleEventType}
+        events={props.events}
+        addToCalendar={props.addToCalendar}
+      />
       <Zomato restaurants={props.restaurants} />
       {/* Ticket list items can have prices next to them  */}
     </div>

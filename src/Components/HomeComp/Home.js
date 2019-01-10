@@ -685,37 +685,53 @@ class Home extends Component {
   }
 
   handleEventType(item, event) {
-    this.setState({
-      board2: {
-        ...this.state.board2,
-        category: item
+    this.setState(
+      {
+        board2: {
+          ...this.state.board2,
+          category: item
+        }
+      },
+      () => {
+        fetch(
+          `https://app.ticketmaster.com/discovery/v2/events.json?&latlong=${
+            this.state.coords.lat
+          },${
+            this.state.coords.long
+          }&radius=20&unit=miles&size=50&classificationName=${
+            this.state.board2.category
+          }&sort=date,asc&apikey=${keys.TMKEY}`
+        )
+          .then(r => r.json())
+          .then(result => {
+            let newArray = result._embedded.events.map(event => {
+              if (event._embedded.venues[0]) {
+                return {
+                  name: event.name,
+                  img: event.images[0].url,
+                  url: event.url,
+                  date: event.dates.start.localDate,
+                  type: event.classifications[0].segment.name,
+                  subType: event.classifications[0].genre.name,
+                  venue: event._embedded.venues[0]
+                };
+              } else {
+                return {
+                  name: event.name,
+                  img: event.images[0].url,
+                  url: event.url,
+                  date: event.dates.start.localDate,
+                  type: event.classifications[0].segment.name,
+                  subType: event.classifications[0].genre.name
+                };
+              }
+            });
+            this.setState({
+              board2: { ...this.state.board2, events: newArray }
+            });
+          });
       }
-    });
-    fetch(
-      `https://app.ticketmaster.com/discovery/v2/events.json?&latlong=${
-        this.state.coords.lat
-      },${
-        this.state.coords.long
-      }&radius=20&unit=miles&size=50&classificationName=${
-        this.state.board2.category
-      }&sort=date,asc&apikey=${keys.TMKEY}`
-    )
-      .then(r => r.json())
-      .then(result => {
-        let newArray = result._embedded.events.map(event => {
-          return {
-            name: event.name,
-            img: event.images[0].url,
-            url: event.url,
-            date: event.dates.start.localDate,
-            type: event.classifications[0].segment.name,
-            subType: event.classifications[0].genre.name
-          };
-        });
-        this.setState({
-          board2: { ...this.state.board2, events: newArray }
-        });
-      });
+    );
   }
 
   displayEvent(event) {
@@ -1148,6 +1164,10 @@ class Home extends Component {
     });
   }
 
+  addToCalendar() {
+    return;
+  }
+
   render() {
     return (
       <>
@@ -1256,6 +1276,7 @@ class Home extends Component {
                   <Board_2
                     events={this.state.board2.events}
                     {...props}
+                    addToCalendar={this.addToCalendar.bind(this)}
                     handleEventType={this.handleEventType.bind(this)}
                     restaurants={this.state.board2.restaurants}
                   />
