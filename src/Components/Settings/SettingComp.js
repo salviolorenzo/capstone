@@ -10,9 +10,15 @@ import UserPref from './UserPref';
 
 function Settings(props) {
   return (
-    <div>
-      <Link to='/home/settings/info'>User Information</Link>
-      <Link to='/home/settings/preferences'>User Preferences</Link>
+    <div className='settings'>
+      <div className='settingsLinks'>
+        <Link to='/home/settings/info'>
+          <button>User Information</button>
+        </Link>
+        <Link to='/home/settings/preferences'>
+          <button>User Preferences</button>
+        </Link>
+      </div>
       <Route
         path='/home/settings/info'
         exact
@@ -40,6 +46,7 @@ function Settings(props) {
               handleNewsTermChange={props.handleNewsTermChange}
               handleNewBackground={props.handleNewBackground}
               handleNewsSource={props.handleNewsSource}
+              handlePrefDelete={props.handlePrefDelete}
               {...routeProps}
             />
           );

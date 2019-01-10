@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 function UserInfo(props) {
   return (
-    <div className='settingsDiv'>
+    <div className='settingsDiv tile'>
       <h3>Adjust your information.</h3>
       <form
         className='settingsForm userInfo'
@@ -55,7 +55,7 @@ function UserInfo(props) {
             name='confirmNewPass'
           />
         </label>
-        <input type='submit' value='Save' />
+        <input type='submit' value='Save' className='saveBtn' />
       </form>
     </div>
   );

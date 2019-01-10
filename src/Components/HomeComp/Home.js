@@ -1071,6 +1071,31 @@ class Home extends Component {
     }
   }
 
+  handlePrefDelete(item) {
+    console.log(item);
+    let index = this.state.userPreferences.array.indexOf(item);
+    let array = this.state.userPreferences.array;
+    console.log(index);
+    array.splice(index, 1);
+
+    fetch(`/home/settings/preferences/${item.id}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(result => {
+      console.log(result);
+      this.setState({
+        userPreferences: {
+          ...this.state.userPreferences,
+          array: this.state.userPreferences.array.filter(
+            pref => pref.id !== item.id
+          )
+        }
+      });
+    });
+  }
+
   render() {
     return (
       <>
@@ -1128,6 +1153,7 @@ class Home extends Component {
                     handleNewName={this.handleNewName.bind(this)}
                     handleNewEmail={this.handleNewEmail.bind(this)}
                     handleInfoSubmit={this.handleInfoSubmit.bind(this)}
+                    handlePrefDelete={this.handlePrefDelete.bind(this)}
                     {...props}
                   />
                 );
