@@ -37,6 +37,14 @@ function UserPref(props) {
             props.handleNewsTermChange(event);
           }}
         />
+        <select>
+          <option value='abc-news'>ABC News</option>
+          <option value='abc-news-au'>ABC News(AU)</option>
+          <option value='ars-technica'>Ars Technica</option>
+          <option value='associated-press'>Associated Press</option>
+          <option value='axios'>Axios</option>
+        </select>
+
         <input type='submit' value='Add' />
       </form>
       <ul className='preferenceList'>

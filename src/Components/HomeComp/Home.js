@@ -607,42 +607,6 @@ class Home extends Component {
           }
         );
       });
-    // news api call
-    // fetch(
-    //   `https://newsapi.org/v2/top-headlines?${this.state.newsQuery}&apiKey=${
-    //     keys.NEWSKEY
-    //   }`
-    // )
-    //   .then(r => r.json())
-    //   .then(result => {
-    //     console.log(result);
-    //     let newArray = result.articles.map(item => {
-    //       return {
-    //         source: item.source.name,
-    //         title: item.title,
-    //         url: item.url,
-    //         description: item.description
-    //       };
-    //     });
-    //     this.setState({
-    //       board1: {
-    //         ...this.state.board1,
-    //         news: {
-    //           ...this.state.board1.news,
-    //           articles: newArray
-    //         }
-    //       }
-    //     });
-    //   });
-
-    // board 2
-    // fetch('/home/2')
-    //   .then(r => r.json())
-    //   .then(array => {
-    //     this.setState({
-    //       board2: { ...this.state.board2, tiles: array }
-    //     });
-    //   });
 
     // events api call
     fetch(
