@@ -4,10 +4,9 @@ import React from 'react';
 
 function UserPref(props) {
   return (
-    <div className='settingsDiv tile'>
-      <h3>Adjust your background and news preferences.</h3>
-
-      <div className='addForms'>
+    <>
+      <div className='prefDiv tile'>
+        <h4>Adjust your background and news preferences.</h4>
         <form
           className='settingsForm userPref'
           onSubmit={event => {
@@ -23,7 +22,9 @@ function UserPref(props) {
               props.handleBgTermChange(event);
             }}
           />
-          <input type='submit' value='Add' />
+          <button type='submit' value='Add'>
+            Add
+          </button>
         </form>
         <form
           className='settingsForm userPref'
@@ -31,13 +32,6 @@ function UserPref(props) {
             props.handleNewsSource(event);
           }}
         >
-          {/* <input
-          type='text'
-          placeholder='BBC, CNN, Fox'
-          name='newsTerm'
-          value={props.newsTerm}
-          
-        /> */}
           <select
             onChange={event => {
               props.handleNewsTermChange(event);
@@ -114,50 +108,57 @@ function UserPref(props) {
             <option value='wired'>Wired</option>
           </select>
 
-          <input type='submit' value='Add' />
+          <button type='submit' value='Add'>
+            Add
+          </button>
         </form>
       </div>
-      <ul className='preferenceList'>
-        {props.preferences
-          .filter(object => {
-            return object.type === 'background';
-          })
-          .map((item, index) => {
-            return (
-              <li key={index}>
-                <div className='prefName'>{item.term}</div>
-                <button
-                  onClick={() => {
-                    props.handlePrefDelete(item);
-                  }}
-                >
-                  X
-                </button>
-              </li>
-            );
-          })}
-      </ul>
-      <ul className='preferenceList'>
-        {props.preferences
-          .filter(object => {
-            return object.type === 'news_source';
-          })
-          .map((item, index) => {
-            return (
-              <li key={index}>
-                <div className='prefName'>{item.term}</div>
-                <button
-                  onClick={() => {
-                    props.handlePrefDelete(item);
-                  }}
-                >
-                  X
-                </button>
-              </li>
-            );
-          })}
-      </ul>
-    </div>
+      <div className='listContainer'>
+        <ul className='preferenceList'>
+          <h5>Backgrounds</h5>
+          {props.preferences
+            .filter(object => {
+              return object.type === 'background';
+            })
+            .map((item, index) => {
+              return (
+                <li key={index}>
+                  <div className='prefName'>{item.term}</div>
+                  <button
+                    onClick={() => {
+                      props.handlePrefDelete(item);
+                    }}
+                  >
+                    X
+                  </button>
+                </li>
+              );
+            })}
+        </ul>
+        <ul className='preferenceList'>
+          <h5>News Sources</h5>
+
+          {props.preferences
+            .filter(object => {
+              return object.type === 'news_source';
+            })
+            .map((item, index) => {
+              return (
+                <li key={index}>
+                  <div className='prefName'>{item.term}</div>
+                  <button
+                    onClick={() => {
+                      props.handlePrefDelete(item);
+                    }}
+                  >
+                    X
+                  </button>
+                </li>
+              );
+            })}
+        </ul>
+      </div>
+    </>
   );
 }
 

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 function UserInfo(props) {
   return (
     <div className='settingsDiv tile'>
-      <h3>Adjust your information.</h3>
+      <h4>Adjust your information.</h4>
       <form
         className='settingsForm userInfo'
         onSubmit={event => {

@@ -198,6 +198,7 @@ footer p {
 
 .navList a {
   color: white;
+  text-shadow: 1px 1px 1px #000000;
 }
 
 .selectedClass {
@@ -579,9 +580,6 @@ footer p {
   border-radius: 10px;
 }
 
-.settingsDiv {
-}
-
 .settingsForm {
   display: flex;
   flex-direction: column;
@@ -603,6 +601,84 @@ footer p {
   margin: 3px;
 }
 
+.settingsDiv h4 {
+  margin-bottom: 5px;
+}
+
+.userInfo {
+  margin-bottom: 20px;
+}
+
+.prefDiv {
+  min-height: 200px;
+}
+
+.userPref {
+  margin: 10px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.userPref input,
+.userPref select {
+  width: 50%;
+  border-radius: 5px;
+  border: 1px solid rgb(213, 213, 213);
+  padding: 1.5px;
+  margin: 3px;
+}
+
+.userPref button {
+  margin: 0;
+}
+
+.listContainer {
+  width: 90%;
+  display: flex;
+  margin: 5px 0;
+  /* align-items: center; */
+  border-radius: 10px;
+  box-shadow: 0 1px 1px 1px grey;
+  background-color: rgb(238, 238, 238);
+  color: black;
+  justify-content: center;
+  background-color: #fefefe;
+  opacity: 0.9;
+}
+
+.preferenceList {
+  width: 50%;
+  padding: 0;
+  margin: 5px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.preferenceList h5 {
+  margin: 8px 0;
+}
+
 .preferenceList li {
-  background-color: white;
+  background-color: rgb(220, 220, 220);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 3px;
+  border-radius: 10px;
+}
+
+.preferenceList button {
+  color: white;
+  background-color: red;
+  opacity: 0.5;
+  border-radius: 10px;
+}
+
+.prefName {
+  width: 80%;
+  padding: 5px 0 5px 20px;
 }
