@@ -353,7 +353,7 @@ footer p {
 
 .ReactModal__Content {
   opacity: 0.9;
-  height: 50%;
+  height: 60%;
   border-radius: 10px !important;
   background-color: #e4e4e4 !important;
   display: flex;
