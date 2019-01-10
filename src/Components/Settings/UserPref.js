@@ -28,13 +28,6 @@ function UserPref(props) {
           props.handleNewsSource(event);
         }}
       >
-        {/* <input
-          type='text'
-          placeholder='BBC, CNN, Fox'
-          name='newsTerm'
-          value={props.newsTerm}
-          
-        /> */}
         <select
           onChange={event => {
             props.handleNewsTermChange(event);
