@@ -49,8 +49,7 @@ insert into preferences
 insert into user_preferences
   (user_id, pref_id, term)
   values
-  (2, 1, 'sky'),
-  (2, 2, 'CNN');
+  (2, 1, 'sky');
 
 insert into events
   (title, allDay, eventStart, eventEnd, description, user_id)
