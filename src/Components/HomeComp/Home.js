@@ -153,6 +153,52 @@ function getRestInfo(object) {
     });
 }
 
+function getEvents(object) {
+  let date;
+  let location = {
+    lat: object.coords.latitude.toFixed(4),
+    long: object.coords.longitude.toFixed(4)
+  };
+  fetch(
+    `https://app.ticketmaster.com/discovery/v2/events.json?&latlong=${
+      location.lat
+    },${location.long}&radius=20&unit=miles&size=50&classificationName=${
+      this.state.board2.category
+    }&sort=date,asc&apikey=${keys.TMKEY}`
+  )
+    .then(r => r.json())
+    .then(result => {
+      console.log(result);
+      let newArray = result._embedded.events.map(event => {
+        return {
+          name: event.name,
+          img: event.images[0].url,
+          url: event.url,
+          date: event.dates.start.localDate,
+          type: event.classifications[0].segment.name,
+          subType: event.classifications[0].genre.name,
+          venue: event._embedded.venues[0]
+        };
+      });
+      this.setState({
+        board2: { ...this.state.board2, events: newArray }
+      });
+    });
+}
+
+// function getMeetups(object) {
+//   let location = {
+//     lat: object.coords.latitude.toFixed(4),
+//     long: object.coords.longitude.toFixed(4)
+//   };
+//   this.state.board2.topics.forEach(item => {
+//     fetch(
+//       `https://api.meetup.com/find/upcoming_events?photo-host=public&topic_category=${item}&page=20&radius=10&lon=${
+//         location.long
+//       }&lat=${location.lat}&sign=true&key=${keys.MEETKEY}`
+//     ).then(console.log);
+//   });
+// }
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -203,6 +249,7 @@ class Home extends Component {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(getWeather.bind(this));
       navigator.geolocation.getCurrentPosition(getRestInfo.bind(this));
+      navigator.geolocation.getCurrentPosition(getEvents.bind(this));
     } else {
       let object = {
         coords: {
@@ -212,6 +259,7 @@ class Home extends Component {
       };
       getWeather(object);
       getRestInfo(object);
+      getEvents(object);
     }
     // home component with boards and tiles
     fetch('/home')
@@ -609,29 +657,29 @@ class Home extends Component {
       });
 
     // events api call
-    fetch(
-      `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=${
-        this.state.board2.category
-      }&dmaId=220&apikey=${keys.TMKEY}`
-    )
-      .then(r => r.json())
-      .then(result => {
-        console.log(result);
-        let newArray = result._embedded.events.map(event => {
-          return {
-            name: event.name,
-            img: event.images[0].url,
-            url: event.url,
-            date: event.dates.start.localDate,
-            type: event.classifications[0].segment.name,
-            subType: event.classifications[0].genre.name,
-            venue: event._embedded.venues[0]
-          };
-        });
-        this.setState({
-          board2: { ...this.state.board2, events: newArray }
-        });
-      });
+    // fetch(
+    //   `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=${
+    //     this.state.board2.category
+    //   }&dmaId=220&apikey=${keys.TMKEY}`
+    // )
+    //   .then(r => r.json())
+    //   .then(result => {
+    //     console.log(result);
+    //     let newArray = result._embedded.events.map(event => {
+    //       return {
+    //         name: event.name,
+    //         img: event.images[0].url,
+    //         url: event.url,
+    //         date: event.dates.start.localDate,
+    //         type: event.classifications[0].segment.name,
+    //         subType: event.classifications[0].genre.name,
+    //         venue: event._embedded.venues[0]
+    //       };
+    //     });
+    //     this.setState({
+    //       board2: { ...this.state.board2, events: newArray }
+    //     });
+    //   });
 
     // restaurants api call
   }
@@ -644,9 +692,13 @@ class Home extends Component {
       }
     });
     fetch(
-      `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=${
+      `https://app.ticketmaster.com/discovery/v2/events.json?&latlong=${
+        this.state.coords.lat
+      },${
+        this.state.coords.long
+      }&radius=20&unit=miles&size=50&classificationName=${
         this.state.board2.category
-      }&dmaId=220&apikey=${keys.TMKEY}`
+      }&sort=date,asc&apikey=${keys.TMKEY}`
     )
       .then(r => r.json())
       .then(result => {
@@ -1232,3 +1284,9 @@ class Home extends Component {
 }
 
 export default Home;
+
+/*tech : 292
+sports: 282
+arts: 122
+social: 272
+business: 522 */
