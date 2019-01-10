@@ -1045,6 +1045,7 @@ class Home extends Component {
 
   handleNewsSource(event) {
     event.preventDefault();
+    console.log(event.select);
     if (this.state.userPreferences.newsTerm !== '') {
       let object = {
         id: 2,
