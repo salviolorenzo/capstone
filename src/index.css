@@ -800,4 +800,22 @@ footer p {
 }
 
 @media screen and (min-width: 1100px) {
+  .eventList li,
+  .restoList li {
+    width: 30%;
+  }
+
+  .weatherTile {
+    width: 25%;
+    height: 400px;
+  }
+
+  .calendarTile {
+    max-height: 400px;
+    width: 64%;
+  }
+
+  .news {
+    max-height: 700px;
+  }
 }

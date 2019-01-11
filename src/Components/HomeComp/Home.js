@@ -118,8 +118,7 @@ function getRestInfo(object) {
           category: item.restaurant.cuisines,
           price: item.restaurant.price_range,
           avg_rating: item.restaurant.user_rating.aggregate_rating,
-          menu: item.restaurant.menu_url,
-          type: 'nearby'
+          menu: item.restaurant.menu_url
         };
       });
       fetch(
@@ -137,11 +136,13 @@ function getRestInfo(object) {
               category: item.restaurant.cuisines,
               price: item.restaurant.price_range,
               avg_rating: item.restaurant.user_rating.aggregate_rating,
-              menu: item.restaurant.menu_url,
-              type: 'best'
+              menu: item.restaurant.menu_url
             };
           });
-          let restoArray = nearbyArray.concat(bestArray);
+          let filteredArray = nearbyArray.filter(val =>
+            bestArray.includes(val)
+          );
+          let restoArray = bestArray.concat(filteredArray);
           console.log(restoArray);
           this.setState({
             board2: {
