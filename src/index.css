@@ -594,10 +594,24 @@ footer p {
   align-items: center;
 }
 
+.mapLegend li {
+  display: flex;
+  align-items: center;
+}
+
 #restoLegend {
   background-color: red;
-  /* height: 90%; */
+  height: 90%;
   padding: 5px;
+  margin: 1px;
+  border-radius: 3px;
+}
+#eventLegend {
+  background-color: #327bb6;
+  height: 90%;
+  padding: 5px;
+  margin: 1px;
+  border-radius: 3px;
 }
 
 .mapBoard > div {
