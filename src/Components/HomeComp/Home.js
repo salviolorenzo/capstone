@@ -154,7 +154,6 @@ function getRestInfo(object) {
 }
 
 function getEvents(object) {
-  let date;
   let location = {
     lat: object.coords.latitude.toFixed(4),
     long: object.coords.longitude.toFixed(4)
@@ -175,8 +174,9 @@ function getEvents(object) {
           img: event.images[0].url,
           url: event.url,
           date: event.dates.start.localDate,
+          time: event.dates.start.localTime,
           type: event.classifications[0].segment.name,
-          subType: event.classifications[0].genre.name,
+          genre: event.classifications[0].genre.name,
           venue: event._embedded.venues[0]
         };
       });
@@ -684,7 +684,7 @@ class Home extends Component {
     // restaurants api call
   }
 
-  handleEventType(item, event) {
+  handleEventType(item) {
     this.setState(
       {
         board2: {
@@ -711,8 +711,9 @@ class Home extends Component {
                   img: event.images[0].url,
                   url: event.url,
                   date: event.dates.start.localDate,
+                  time: event.dates.start.localTime,
                   type: event.classifications[0].segment.name,
-                  subType: event.classifications[0].genre.name,
+                  genre: event.classifications[0].genre.name,
                   venue: event._embedded.venues[0]
                 };
               } else {
@@ -721,8 +722,9 @@ class Home extends Component {
                   img: event.images[0].url,
                   url: event.url,
                   date: event.dates.start.localDate,
+                  time: event.dates.start.localTime,
                   type: event.classifications[0].segment.name,
-                  subType: event.classifications[0].genre.name
+                  genre: event.classifications[0].genre.name
                 };
               }
             });
@@ -1164,8 +1166,49 @@ class Home extends Component {
     });
   }
 
-  addToCalendar() {
-    return;
+  addToCalendar(item) {
+    console.log(item);
+    const newEvent = {
+      title: item.name,
+      allDay: false,
+      start: `${item.date} ${item.time}`,
+      end: `${item.date} 23:59:00`,
+      description: `Genre: ${item.genre}, Venue: ${item.venue.name}`
+    };
+
+    console.log(newEvent);
+    fetch('/home/events/new', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newEvent)
+    })
+      .then(r => r.json())
+      .then(result => {
+        console.log(result);
+        const addEvent = {
+          id: result.id,
+          title: result.title,
+          allday: result.allDay,
+          eventstart: result.eventStart,
+          eventend: result.eventEnd,
+          description: result.description
+        };
+        this.setState(
+          {
+            board1: {
+              ...this.state.board1,
+              calendar: {
+                ...this.state.board1.calendar,
+                events: [...this.state.board1.calendar.events, addEvent],
+                selectedEvent: {}
+              }
+            }
+          },
+          this.closeModal
+        );
+      });
   }
 
   render() {
