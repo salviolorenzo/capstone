@@ -205,7 +205,10 @@ footer p {
 
 .navList a {
   color: white;
-  text-shadow: 1px 1px #000000;
+  text-shadow: 0 1px 1px #000000;
+  font-weight: 500;
+  padding: 0 2px;
+  text-align: center;
 }
 
 .selectedClass {
@@ -591,10 +594,12 @@ footer p {
 .mapLegend {
   width: 100%;
   background-color: #fefefe;
-  opacity: 0.8;
+  /* opacity: 0.9; */
+  box-shadow: 0 1px 1px 1px grey;
+
   display: flex;
   border-radius: 5px;
-  padding: 0;
+  padding: 2px 0;
   justify-content: space-evenly;
   align-items: center;
   margin: 3px 0;
@@ -603,6 +608,7 @@ footer p {
 .mapLegend li {
   display: flex;
   align-items: center;
+  font-weight: 700;
 }
 
 #restoLegend {
