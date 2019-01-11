@@ -118,8 +118,7 @@ function getRestInfo(object) {
           category: item.restaurant.cuisines,
           price: item.restaurant.price_range,
           avg_rating: item.restaurant.user_rating.aggregate_rating,
-          menu: item.restaurant.menu_url,
-          type: 'nearby'
+          menu: item.restaurant.menu_url
         };
       });
       fetch(
@@ -137,11 +136,13 @@ function getRestInfo(object) {
               category: item.restaurant.cuisines,
               price: item.restaurant.price_range,
               avg_rating: item.restaurant.user_rating.aggregate_rating,
-              menu: item.restaurant.menu_url,
-              type: 'best'
+              menu: item.restaurant.menu_url
             };
           });
-          let restoArray = nearbyArray.concat(bestArray);
+          let filteredArray = nearbyArray.filter(val =>
+            bestArray.includes(val)
+          );
+          let restoArray = bestArray.concat(filteredArray);
           console.log(restoArray);
           this.setState({
             board2: {
@@ -154,6 +155,10 @@ function getRestInfo(object) {
 }
 
 function getEvents(object) {
+  let date = `${moment(new Date().toLocaleDateString('en-US')).format(
+    'YYYY-MM-DD'
+  )}T00:00:00Z`;
+  console.log(date);
   let location = {
     lat: object.coords.latitude.toFixed(4),
     long: object.coords.longitude.toFixed(4)
@@ -161,7 +166,9 @@ function getEvents(object) {
   fetch(
     `https://app.ticketmaster.com/discovery/v2/events.json?&latlong=${
       location.lat
-    },${location.long}&radius=20&unit=miles&size=50&classificationName=${
+    },${
+      location.long
+    }&radius=20&unit=miles&size=50&startDateTime=${date}&includeTBD=no&classificationName=${
       this.state.board2.category
     }&sort=date,asc&apikey=${keys.TMKEY}`
   )
@@ -345,20 +352,26 @@ class Home extends Component {
                 }
               );
             } else {
-              let bgArray = this.state.userPreferences.array
-                .filter(item => {
-                  return item.type === 'background';
-                })
-                .map(object => {
+              let bgArray = this.state.userPreferences.array.filter(item => {
+                return item.type === 'background';
+              });
+              if (bgArray.length >= 1) {
+                bgArray.map(object => {
                   return object.term;
                 });
-              let newsArray = this.state.userPreferences.array
-                .filter(item => {
-                  return item.type === 'news_source';
-                })
-                .map(object => {
+              } else {
+                bgArray = [];
+              }
+              let newsArray = this.state.userPreferences.array.filter(item => {
+                return item.type === 'news_source';
+              });
+              if (newsArray.length >= 1) {
+                newsArray.map(object => {
                   return object.term;
                 });
+              } else {
+                newsArray = [];
+              }
               if (bgArray.length === 1 && newsArray.length === 0) {
                 let bg_query = bgArray[0];
                 this.setState(
@@ -411,6 +424,55 @@ class Home extends Component {
                   {
                     bgQuery: 'space',
                     newsQuery: `sources=${newsArray[0]}`
+                  },
+                  () => {
+                    fetch(
+                      `https://api.unsplash.com/search/photos?query=${
+                        this.state.bgQuery
+                      }&client_id=${keys.USKEY}`
+                    )
+                      .then(r => r.json())
+                      .then(object => {
+                        console.log(object);
+                        let ranNum = Math.floor(Math.random() * 9);
+                        fetch(
+                          `https://newsapi.org/v2/top-headlines?${
+                            this.state.newsQuery
+                          }&apiKey=${keys.NEWSKEY}`
+                        )
+                          .then(r => r.json())
+                          .then(result => {
+                            console.log(result);
+                            let newArray = result.articles.map(item => {
+                              return {
+                                source: item.source.name,
+                                title: item.title,
+                                url: item.url,
+                                description: item.description
+                              };
+                            });
+                            this.setState({
+                              board1: {
+                                ...this.state.board1,
+                                news: {
+                                  ...this.state.board1.news,
+                                  articles: newArray
+                                }
+                              },
+                              bgUrl: object.results[ranNum].urls.regular
+                            });
+                          });
+                      });
+                  }
+                );
+              } else if (bgArray.length === 0 && newsArray.length > 1) {
+                let news_query = `sources=${newsArray.map(item => {
+                  return `${item}`;
+                })}`;
+                this.setState(
+                  {
+                    bgQuery: 'space',
+                    newsQuery: news_query
                   },
                   () => {
                     fetch(
@@ -600,7 +662,55 @@ class Home extends Component {
                       });
                   }
                 );
-              } else {
+              } else if (bgArray.length > 1 && newsArray.length === 0) {
+                let ranNum = Math.floor(Math.random() * (bgArray.length - 1));
+                let bg_query = bgArray[ranNum];
+                this.setState(
+                  {
+                    bgQuery: bg_query,
+                    newsQuery: 'country=us'
+                  },
+                  () => {
+                    fetch(
+                      `https://api.unsplash.com/search/photos?query=${
+                        this.state.bgQuery
+                      }&client_id=${keys.USKEY}`
+                    )
+                      .then(r => r.json())
+                      .then(object => {
+                        console.log(object);
+                        let ranNum = Math.floor(Math.random() * 9);
+                        fetch(
+                          `https://newsapi.org/v2/top-headlines?${
+                            this.state.newsQuery
+                          }&apiKey=${keys.NEWSKEY}`
+                        )
+                          .then(r => r.json())
+                          .then(result => {
+                            console.log(result);
+                            let newArray = result.articles.map(item => {
+                              return {
+                                source: item.source.name,
+                                title: item.title,
+                                url: item.url,
+                                description: item.description
+                              };
+                            });
+                            this.setState({
+                              board1: {
+                                ...this.state.board1,
+                                news: {
+                                  ...this.state.board1.news,
+                                  articles: newArray
+                                }
+                              },
+                              bgUrl: object.results[ranNum].urls.regular
+                            });
+                          });
+                      });
+                  }
+                );
+              } else if (bgArray.length > 1 && newsArray.length > 1) {
                 let ranNum = Math.floor(Math.random() * (bgArray.length - 1));
                 let news_query = `sources=${newsArray.map(item => {
                   return `${item}`;
@@ -685,6 +795,9 @@ class Home extends Component {
   }
 
   handleEventType(item) {
+    let date = `${moment(new Date().toLocaleDateString('en-US')).format(
+      'YYYY-MM-DD'
+    )}T00:00:00Z`;
     this.setState(
       {
         board2: {
@@ -698,7 +811,7 @@ class Home extends Component {
             this.state.coords.lat
           },${
             this.state.coords.long
-          }&radius=20&unit=miles&size=50&classificationName=${
+          }&radius=20&unit=miles&size=50&startDateTime=${date}&includeTBD=no&classificationName=${
             this.state.board2.category
           }&sort=date,asc&apikey=${keys.TMKEY}`
         )
@@ -1253,7 +1366,7 @@ class Home extends Component {
           </ul>
           <SwipeableRoutes>
             <Route
-              path='/home/settings'
+              path='/home/settings/info'
               render={props => {
                 return (
                   <Settings

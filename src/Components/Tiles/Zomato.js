@@ -9,12 +9,13 @@ function Zomato(props) {
           return (
             <li key={index}>
               <h4>{item.name}</h4>
-              <br />
-              {`${item.location.address}, ${item.location.city}`}
-              <br />
-              {`Rating: ${item.avg_rating}/5`}
-              <br />
-              {`Pricing: ${item.price}/4`}
+              <div>
+                {`${item.location.address}, ${item.location.city}`}
+                <br />
+                {`Rating: ${item.avg_rating}/5`}
+                <br />
+                {`Pricing: ${item.price}/4`}
+              </div>
               <a
                 className='menuLink'
                 href={item.menu}

@@ -35,7 +35,7 @@ function Tickets(props) {
               <img src={item.img} />
               <div className='eventText'>
                 <a href={item.url} target='_blank' rel='norefferer noopener'>
-                  <h5>{item.name}</h5>
+                  <h4>{item.name}</h4>
                 </a>
 
                 <div>

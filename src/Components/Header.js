@@ -6,7 +6,7 @@ function Header(props) {
     <header>
       <nav>
         <li>
-          <Link to='/home/settings'>
+          <Link to='/home/settings/info'>
             <button>Settings</button>
           </Link>
         </li>
