@@ -466,6 +466,7 @@ footer p {
   list-style-type: none;
   overflow: scroll;
   padding: 0;
+  width: 90%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -483,7 +484,7 @@ footer p {
 .eventList li {
   padding: 0 3px;
   margin: 5px 0;
-  width: 90%;
+  width: 100%;
   /* height: 100%; */
   display: flex;
   flex-direction: row;
@@ -529,8 +530,9 @@ footer p {
 }
 
 .eventList img {
-  max-width: 30%;
-  max-height: 95px;
+  width: 30%;
+  max-width: 134px;
+  max-height: 90px;
   border-radius: 5px;
   float: left;
   margin: auto 0;
@@ -542,7 +544,7 @@ footer p {
 .restoList li {
   padding: 5px 10px;
   margin: 5px 0;
-  width: 90%;
+  width: 100%;
   height: 100%;
   display: flex;
   flex-direction: row;
@@ -782,9 +784,7 @@ footer p {
   .eventType button {
     width: 50%;
   }
-}
 
-@media screen and (min-width: 900px) {
   .eventList,
   .restoList {
     width: 100%;
@@ -792,30 +792,70 @@ footer p {
     flex-wrap: wrap;
     justify-content: space-evenly;
   }
-
   .eventList li,
   .restoList li {
     width: 47%;
   }
 }
 
+@media screen and (min-width: 900px) {
+  /* None Needed */
+}
+
 @media screen and (min-width: 1100px) {
   .eventList li,
   .restoList li {
-    width: 30%;
+    width: 31%;
   }
 
   .weatherTile {
     width: 25%;
-    height: 400px;
+    height: 500px;
+    max-height: 500px;
+    padding-top: 30px;
+  }
+
+  .weatherIcon {
+    min-width: 200px;
   }
 
   .calendarTile {
-    max-height: 400px;
+    max-height: 500px;
     width: 64%;
   }
 
   .news {
-    max-height: 700px;
+    min-height: 600px;
+  }
+}
+@media screen and (min-width: 1400px) {
+  .weatherTile {
+    width: 25%;
+    height: 550px;
+    max-height: 550px;
+  }
+
+  .weatherIcon {
+    min-width: 250px;
+  }
+
+  .calendarTile {
+    max-height: 550px;
+    height: 550px;
+    width: 64%;
+  }
+
+  .news {
+    min-height: 550px;
+  }
+
+  .eventTile,
+  .restoTile {
+    max-height: 600px;
+  }
+
+  .eventList li,
+  .restoList li {
+    width: 23%;
   }
 }
