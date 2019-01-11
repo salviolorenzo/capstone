@@ -472,10 +472,10 @@ footer p {
 }
 
 .eventList li {
-  padding: 3px;
+  padding: 0 3px;
   margin: 5px 0;
   width: 90%;
-  height: 100%;
+  /* height: 100%; */
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -488,6 +488,13 @@ footer p {
 
 .eventList li {
   background-color: rgb(213, 222, 230);
+}
+
+.eventList a:hover {
+  color: white;
+  transform: scale(1.1);
+  transition: transform 0.25s;
+  text-shadow: 0 1px 1px grey;
 }
 
 .eventList button {
@@ -507,15 +514,15 @@ footer p {
   align-items: center;
 }
 
-.eventText h5,
+.eventText h4,
 .restoList h4 {
   margin: 0;
 }
 
-.eventList li img {
+.eventList img {
   max-width: 30%;
-  max-height: 100%;
-  border-radius: 10px;
+  max-height: 95px;
+  border-radius: 5px;
   float: left;
   margin: auto 0;
 }
@@ -539,12 +546,20 @@ footer p {
   background-color: #c3dadf;
 }
 
+.restoList li > div {
+  width: 100%;
+}
+
 .menuLink {
   width: 50%;
   border-radius: 10px;
   border: 0.5px solid grey;
   background-color: #3174ad;
   color: white;
+}
+
+.restoList h4 {
+  width: 100%;
 }
 
 .menuLink p {
@@ -704,4 +719,15 @@ footer p {
 .prefName {
   width: 80%;
   padding: 5px 0 5px 20px;
+}
+
+/* ======= ======= ======= ======= ======= */
+/* MEDIA QUERIES */
+/* ======= ======= ======= ======= ======= */
+
+@media screen and (min-width: 500px) {
+  /* None necessary yet */
+}
+
+@media screen and (min-width: 768px) {
 }
