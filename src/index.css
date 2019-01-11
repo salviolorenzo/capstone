@@ -584,7 +584,6 @@ footer p {
 .mapBoard {
   display: flex;
   justify-content: center;
-  /* height: 100vh; */
 }
 
 .mapLegend {
@@ -596,7 +595,7 @@ footer p {
   padding: 0;
   justify-content: space-evenly;
   align-items: center;
-  margin: 3px;
+  margin: 3px 0;
 }
 
 .mapLegend li {
@@ -622,10 +621,16 @@ footer p {
 .mapBoard > div {
   width: 90%;
   opacity: 0.9;
+
   /* height: 80%; */
   /* display: flex;
   justify-content: center; */
   margin: 0 auto;
+}
+
+.mapBoard > div > div > div {
+  height: 80vh !important;
+  border-radius: 5px;
 }
 
 .infoWindow h6 {
