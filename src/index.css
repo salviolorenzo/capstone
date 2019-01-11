@@ -592,6 +592,7 @@ footer p {
   padding: 0;
   justify-content: space-evenly;
   align-items: center;
+  margin: 3px;
 }
 
 .mapLegend li {

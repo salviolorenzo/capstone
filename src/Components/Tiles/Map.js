@@ -16,10 +16,6 @@ class MapContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      location: {
-        lat: props.coords.lat,
-        lng: props.coords.long
-      },
       showingInfoWindow: false,
       activeMarker: {},
       selectedPlace: {}
@@ -62,10 +58,12 @@ class MapContainer extends Component {
       <>
         <ul className='mapLegend'>
           <li>
-            <button id='restoLegend' />Restaurants
+            <button id='restoLegend' />
+            Restaurants
           </li>
           <li>
-            <button id='eventLegend' />Events
+            <button id='eventLegend' />
+            Events
           </li>
         </ul>
         <Map
@@ -73,8 +71,8 @@ class MapContainer extends Component {
           zoom={14}
           style={createStyles()}
           initialCenter={{
-            lat: parseFloat(this.state.location.lat),
-            lng: parseFloat(this.state.location.lng)
+            lat: parseFloat(this.props.coords.lat),
+            lng: parseFloat(this.props.coords.long)
           }}
         >
           <Marker
