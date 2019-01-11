@@ -154,6 +154,10 @@ function getRestInfo(object) {
 }
 
 function getEvents(object) {
+  let date = `${moment(new Date().toLocaleDateString('en-US')).format(
+    'YYYY-MM-DD'
+  )}T00:00:00Z`;
+  console.log(date);
   let location = {
     lat: object.coords.latitude.toFixed(4),
     long: object.coords.longitude.toFixed(4)
@@ -161,7 +165,9 @@ function getEvents(object) {
   fetch(
     `https://app.ticketmaster.com/discovery/v2/events.json?&latlong=${
       location.lat
-    },${location.long}&radius=20&unit=miles&size=50&classificationName=${
+    },${
+      location.long
+    }&radius=20&unit=miles&size=50&startDateTime=${date}&includeTBD=no&classificationName=${
       this.state.board2.category
     }&sort=date,asc&apikey=${keys.TMKEY}`
   )
@@ -685,6 +691,9 @@ class Home extends Component {
   }
 
   handleEventType(item) {
+    let date = `${moment(new Date().toLocaleDateString('en-US')).format(
+      'YYYY-MM-DD'
+    )}T00:00:00Z`;
     this.setState(
       {
         board2: {
@@ -698,7 +707,7 @@ class Home extends Component {
             this.state.coords.lat
           },${
             this.state.coords.long
-          }&radius=20&unit=miles&size=50&classificationName=${
+          }&radius=20&unit=miles&size=50&startDateTime=${date}&includeTBD=no&classificationName=${
             this.state.board2.category
           }&sort=date,asc&apikey=${keys.TMKEY}`
         )
