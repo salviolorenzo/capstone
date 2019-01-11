@@ -305,463 +305,107 @@ class Home extends Component {
             }
           },
           () => {
+            let bg_query;
+            let news_query;
             if (this.state.userPreferences.array.length === 0) {
-              this.setState(
-                {
-                  bgQuery: 'space',
-                  newsQuery: `country=us`
-                },
-                () => {
-                  fetch(
-                    `https://api.unsplash.com/search/photos?query=${
-                      this.state.bgQuery
-                    }&client_id=${keys.USKEY}`
-                  )
-                    .then(r => r.json())
-                    .then(object => {
-                      console.log(object);
-                      let ranNum = Math.floor(Math.random() * 9);
-                      fetch(
-                        `https://newsapi.org/v2/top-headlines?${
-                          this.state.newsQuery
-                        }&apiKey=${keys.NEWSKEY}`
-                      )
-                        .then(r => r.json())
-                        .then(result => {
-                          console.log(result);
-                          let newArray = result.articles.map(item => {
-                            return {
-                              source: item.source.name,
-                              title: item.title,
-                              url: item.url,
-                              description: item.description
-                            };
-                          });
-                          this.setState({
-                            board1: {
-                              ...this.state.board1,
-                              news: {
-                                ...this.state.board1.news,
-                                articles: newArray
-                              }
-                            },
-                            bgUrl: object.results[ranNum].urls.regular
-                          });
-                        });
-                    });
-                }
-              );
+              bg_query = 'space';
+              news_query = `country=us`;
             } else {
-              let bgArray = this.state.userPreferences.array.filter(item => {
-                return item.type === 'background';
-              });
-              if (bgArray.length >= 1) {
-                bgArray.map(object => {
+              let bgArray = this.state.userPreferences.array
+                .filter(item => {
+                  return item.type === 'background';
+                })
+                .map(object => {
                   return object.term;
                 });
-              } else {
-                bgArray = [];
-              }
-              let newsArray = this.state.userPreferences.array.filter(item => {
-                return item.type === 'news_source';
-              });
-              if (newsArray.length >= 1) {
-                newsArray.map(object => {
+              let newsArray = this.state.userPreferences.array
+                .filter(item => {
+                  return item.type === 'news_source';
+                })
+                .map(object => {
                   return object.term;
                 });
-              } else {
-                newsArray = [];
-              }
+
               if (bgArray.length === 1 && newsArray.length === 0) {
-                let bg_query = bgArray[0];
-                this.setState(
-                  {
-                    bgQuery: bg_query,
-                    newsQuery: 'country=us'
-                  },
-                  () => {
-                    fetch(
-                      `https://api.unsplash.com/search/photos?query=${
-                        this.state.bgQuery
-                      }&client_id=${keys.USKEY}`
-                    )
-                      .then(r => r.json())
-                      .then(object => {
-                        console.log(object);
-                        let ranNum = Math.floor(Math.random() * 9);
-                        fetch(
-                          `https://newsapi.org/v2/top-headlines?${
-                            this.state.newsQuery
-                          }&apiKey=${keys.NEWSKEY}`
-                        )
-                          .then(r => r.json())
-                          .then(result => {
-                            console.log(result);
-                            let newArray = result.articles.map(item => {
-                              return {
-                                source: item.source.name,
-                                title: item.title,
-                                url: item.url,
-                                description: item.description
-                              };
-                            });
-                            this.setState({
-                              board1: {
-                                ...this.state.board1,
-                                news: {
-                                  ...this.state.board1.news,
-                                  articles: newArray
-                                }
-                              },
-                              bgUrl: object.results[ranNum].urls.regular
-                            });
-                          });
-                      });
-                  }
-                );
+                bg_query = bgArray[0];
               } else if (bgArray.length === 0 && newsArray.length === 1) {
-                this.setState(
-                  {
-                    bgQuery: 'space',
-                    newsQuery: `sources=${newsArray[0]}`
-                  },
-                  () => {
-                    fetch(
-                      `https://api.unsplash.com/search/photos?query=${
-                        this.state.bgQuery
-                      }&client_id=${keys.USKEY}`
-                    )
-                      .then(r => r.json())
-                      .then(object => {
-                        console.log(object);
-                        let ranNum = Math.floor(Math.random() * 9);
-                        fetch(
-                          `https://newsapi.org/v2/top-headlines?${
-                            this.state.newsQuery
-                          }&apiKey=${keys.NEWSKEY}`
-                        )
-                          .then(r => r.json())
-                          .then(result => {
-                            console.log(result);
-                            let newArray = result.articles.map(item => {
-                              return {
-                                source: item.source.name,
-                                title: item.title,
-                                url: item.url,
-                                description: item.description
-                              };
-                            });
-                            this.setState({
-                              board1: {
-                                ...this.state.board1,
-                                news: {
-                                  ...this.state.board1.news,
-                                  articles: newArray
-                                }
-                              },
-                              bgUrl: object.results[ranNum].urls.regular
-                            });
-                          });
-                      });
-                  }
-                );
+                bg_query = 'space';
+                news_query = `sources=${newsArray[0]}`;
               } else if (bgArray.length === 0 && newsArray.length > 1) {
-                let news_query = `sources=${newsArray.map(item => {
+                news_query = `sources=${newsArray.map(item => {
                   return `${item}`;
                 })}`;
-                this.setState(
-                  {
-                    bgQuery: 'space',
-                    newsQuery: news_query
-                  },
-                  () => {
-                    fetch(
-                      `https://api.unsplash.com/search/photos?query=${
-                        this.state.bgQuery
-                      }&client_id=${keys.USKEY}`
-                    )
-                      .then(r => r.json())
-                      .then(object => {
-                        console.log(object);
-                        let ranNum = Math.floor(Math.random() * 9);
-                        fetch(
-                          `https://newsapi.org/v2/top-headlines?${
-                            this.state.newsQuery
-                          }&apiKey=${keys.NEWSKEY}`
-                        )
-                          .then(r => r.json())
-                          .then(result => {
-                            console.log(result);
-                            let newArray = result.articles.map(item => {
-                              return {
-                                source: item.source.name,
-                                title: item.title,
-                                url: item.url,
-                                description: item.description
-                              };
-                            });
-                            this.setState({
-                              board1: {
-                                ...this.state.board1,
-                                news: {
-                                  ...this.state.board1.news,
-                                  articles: newArray
-                                }
-                              },
-                              bgUrl: object.results[ranNum].urls.regular
-                            });
-                          });
-                      });
-                  }
-                );
+                bg_query = 'space';
               } else if (bgArray.length === 1 && newsArray.length === 1) {
-                let bg_query = bgArray[0];
-                let news_query = `sources=${newsArray[0]}`;
-                this.setState(
-                  {
-                    bgQuery: bg_query,
-                    newsQuery: news_query
-                  },
-                  () => {
-                    fetch(
-                      `https://api.unsplash.com/search/photos?query=${
-                        this.state.bgQuery
-                      }&client_id=${keys.USKEY}`
-                    )
-                      .then(r => r.json())
-                      .then(object => {
-                        console.log(object);
-                        let ranNum = Math.floor(Math.random() * 9);
-                        fetch(
-                          `https://newsapi.org/v2/top-headlines?${
-                            this.state.newsQuery
-                          }&apiKey=${keys.NEWSKEY}`
-                        )
-                          .then(r => r.json())
-                          .then(result => {
-                            console.log(result);
-                            let newArray = result.articles.map(item => {
-                              return {
-                                source: item.source.name,
-                                title: item.title,
-                                url: item.url,
-                                description: item.description
-                              };
-                            });
-                            this.setState({
-                              board1: {
-                                ...this.state.board1,
-                                news: {
-                                  ...this.state.board1.news,
-                                  articles: newArray
-                                }
-                              },
-                              bgUrl: object.results[ranNum].urls.regular
-                            });
-                          });
-                      });
-                  }
-                );
+                bg_query = bgArray[0];
+                news_query = `sources=${newsArray[0]}`;
               } else if (bgArray.length === 1 && newsArray.length > 1) {
-                let bg_query = bgArray[0];
-                let news_query = `sources=${newsArray.map(item => {
+                bg_query = bgArray[0];
+                news_query = `sources=${newsArray.map(item => {
                   return `${item}`;
                 })}`;
-                this.setState(
-                  {
-                    bgQuery: bg_query,
-                    newsQuery: news_query
-                  },
-                  () => {
-                    fetch(
-                      `https://api.unsplash.com/search/photos?query=${
-                        this.state.bgQuery
-                      }&client_id=${keys.USKEY}`
-                    )
-                      .then(r => r.json())
-                      .then(object => {
-                        console.log(object);
-                        let ranNum = Math.floor(Math.random() * 9);
-                        fetch(
-                          `https://newsapi.org/v2/top-headlines?${
-                            this.state.newsQuery
-                          }&apiKey=${keys.NEWSKEY}`
-                        )
-                          .then(r => r.json())
-                          .then(result => {
-                            console.log(result);
-                            let newArray = result.articles.map(item => {
-                              return {
-                                source: item.source.name,
-                                title: item.title,
-                                url: item.url,
-                                description: item.description
-                              };
-                            });
-                            this.setState({
-                              board1: {
-                                ...this.state.board1,
-                                news: {
-                                  ...this.state.board1.news,
-                                  articles: newArray
-                                }
-                              },
-                              bgUrl: object.results[ranNum].urls.regular
-                            });
-                          });
-                      });
-                  }
-                );
               } else if (bgArray.length === 0 && newsArray.length > 1) {
-                let bg_query = 'space';
-                let news_query = `sources=${newsArray.map(item => {
+                bg_query = 'space';
+                news_query = `sources=${newsArray.map(item => {
                   return `${item}`;
                 })}`;
-                this.setState(
-                  {
-                    bgQuery: bg_query,
-                    newsQuery: news_query
-                  },
-                  () => {
-                    fetch(
-                      `https://api.unsplash.com/search/photos?query=${
-                        this.state.bgQuery
-                      }&client_id=${keys.USKEY}`
-                    )
-                      .then(r => r.json())
-                      .then(object => {
-                        console.log(object);
-                        let ranNum = Math.floor(Math.random() * 9);
-                        fetch(
-                          `https://newsapi.org/v2/top-headlines?${
-                            this.state.newsQuery
-                          }&apiKey=${keys.NEWSKEY}`
-                        )
-                          .then(r => r.json())
-                          .then(result => {
-                            console.log(result);
-                            let newArray = result.articles.map(item => {
-                              return {
-                                source: item.source.name,
-                                title: item.title,
-                                url: item.url,
-                                description: item.description
-                              };
-                            });
-                            this.setState({
-                              board1: {
-                                ...this.state.board1,
-                                news: {
-                                  ...this.state.board1.news,
-                                  articles: newArray
-                                }
-                              },
-                              bgUrl: object.results[ranNum].urls.regular
-                            });
-                          });
-                      });
-                  }
-                );
               } else if (bgArray.length > 1 && newsArray.length === 0) {
                 let ranNum = Math.floor(Math.random() * (bgArray.length - 1));
-                let bg_query = bgArray[ranNum];
-                this.setState(
-                  {
-                    bgQuery: bg_query,
-                    newsQuery: 'country=us'
-                  },
-                  () => {
-                    fetch(
-                      `https://api.unsplash.com/search/photos?query=${
-                        this.state.bgQuery
-                      }&client_id=${keys.USKEY}`
-                    )
-                      .then(r => r.json())
-                      .then(object => {
-                        console.log(object);
-                        let ranNum = Math.floor(Math.random() * 9);
-                        fetch(
-                          `https://newsapi.org/v2/top-headlines?${
-                            this.state.newsQuery
-                          }&apiKey=${keys.NEWSKEY}`
-                        )
-                          .then(r => r.json())
-                          .then(result => {
-                            console.log(result);
-                            let newArray = result.articles.map(item => {
-                              return {
-                                source: item.source.name,
-                                title: item.title,
-                                url: item.url,
-                                description: item.description
-                              };
-                            });
-                            this.setState({
-                              board1: {
-                                ...this.state.board1,
-                                news: {
-                                  ...this.state.board1.news,
-                                  articles: newArray
-                                }
-                              },
-                              bgUrl: object.results[ranNum].urls.regular
-                            });
-                          });
-                      });
-                  }
-                );
-              } else if (bgArray.length > 1 && newsArray.length > 1) {
+                bg_query = bgArray[ranNum];
+                news_query = 'country=us';
+              } else {
                 let ranNum = Math.floor(Math.random() * (bgArray.length - 1));
-                let news_query = `sources=${newsArray.map(item => {
+                news_query = `sources=${newsArray.map(item => {
                   return `${item}`;
                 })}`;
-                this.setState(
-                  {
-                    bgQuery: bgArray[ranNum],
-                    newsQuery: news_query
-                  },
-                  () => {
-                    fetch(
-                      `https://api.unsplash.com/search/photos?query=${
-                        this.state.bgQuery
-                      }&client_id=${keys.USKEY}`
-                    )
-                      .then(r => r.json())
-                      .then(object => {
-                        console.log(object);
-                        let ranNum = Math.floor(Math.random() * 9);
-                        fetch(
-                          `https://newsapi.org/v2/top-headlines?${
-                            this.state.newsQuery
-                          }&apiKey=${keys.NEWSKEY}`
-                        )
-                          .then(r => r.json())
-                          .then(result => {
-                            console.log(result);
-                            let newArray = result.articles.map(item => {
-                              return {
-                                source: item.source.name,
-                                title: item.title,
-                                url: item.url,
-                                description: item.description
-                              };
-                            });
-                            this.setState({
-                              board1: {
-                                ...this.state.board1,
-                                news: {
-                                  ...this.state.board1.news,
-                                  articles: newArray
-                                }
-                              },
-                              bgUrl: object.results[ranNum].urls.regular
-                            });
-                          });
-                      });
-                  }
-                );
+                bg_query = bgArray[ranNum];
               }
             }
+            this.setState(
+              {
+                bgQuery: bg_query,
+                newsQuery: news_query
+              },
+              () => {
+                fetch(
+                  `https://api.unsplash.com/search/photos?query=${
+                    this.state.bgQuery
+                  }&client_id=${keys.USKEY}`
+                )
+                  .then(r => r.json())
+                  .then(object => {
+                    console.log(object);
+                    let ranNum = Math.floor(Math.random() * 9);
+                    fetch(
+                      `https://newsapi.org/v2/top-headlines?${
+                        this.state.newsQuery
+                      }&apiKey=${keys.NEWSKEY}`
+                    )
+                      .then(r => r.json())
+                      .then(result => {
+                        console.log(result);
+                        let newArray = result.articles.map(item => {
+                          return {
+                            source: item.source.name,
+                            title: item.title,
+                            url: item.url,
+                            description: item.description
+                          };
+                        });
+                        this.setState({
+                          board1: {
+                            ...this.state.board1,
+                            news: {
+                              ...this.state.board1.news,
+                              articles: newArray
+                            }
+                          },
+                          bgUrl: object.results[ranNum].urls.regular
+                        });
+                      });
+                  });
+              }
+            );
           }
         );
       });
