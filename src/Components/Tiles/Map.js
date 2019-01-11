@@ -59,73 +59,83 @@ class MapContainer extends Component {
 
   render() {
     return (
-      <Map
-        google={this.props.google}
-        zoom={14}
-        style={createStyles()}
-        initialCenter={{
-          lat: parseFloat(this.state.location.lat),
-          lng: parseFloat(this.state.location.lng)
-        }}
-      >
-        <Marker
-          onClick={this.onMarkerClick.bind(this)}
-          name={'Current location'}
-          icon={{
-            url: yourLocImg
+      <>
+        <ul className='mapLegend'>
+          <li>
+            <button id='restoLegend' />Restaurants
+          </li>
+          <li>
+            <button id='eventLegend' />Events
+          </li>
+        </ul>
+        <Map
+          google={this.props.google}
+          zoom={14}
+          style={createStyles()}
+          initialCenter={{
+            lat: parseFloat(this.state.location.lat),
+            lng: parseFloat(this.state.location.lng)
           }}
-        />
-        {this.props.restaurants.map((item, index) => {
-          return (
-            <Marker
-              key={index}
-              name={item.name}
-              categories={item.category}
-              rating={item.avg_rating}
-              pricing={item.price}
-              url={item.menu}
-              position={{
-                lat: parseFloat(item.location.latitude),
-                lng: parseFloat(item.location.longitude)
-              }}
-              onClick={this.onMarkerClick.bind(this)}
-              icon={{
-                url: restoIcon
-              }}
-            />
-          );
-        })}
-        {this.props.events.map((item, index) => {
-          return (
-            <Marker
-              key={index}
-              name={item.name}
-              categories={item.date}
-              url={item.url}
-              position={{
-                lat: parseFloat(item.venue.location.latitude),
-                lng: parseFloat(item.venue.location.longitude)
-              }}
-              onClick={this.onMarkerClick.bind(this)}
-              icon={{
-                url: eventIcon
-              }}
-            />
-          );
-        })}
-        <InfoWindow
-          marker={this.state.activeMarker}
-          visible={this.state.showingInfoWindow}
-          onClose={this.onClose.bind(this)}
         >
-          <div className='infoWindow'>
-            <a href={this.state.selectedPlace.url}>
-              <h4>{this.state.selectedPlace.name}</h4>
-            </a>
-            {this.foodOrShow(this.state.selectedPlace.rating)}
-          </div>
-        </InfoWindow>
-      </Map>
+          <Marker
+            onClick={this.onMarkerClick.bind(this)}
+            name={'Current location'}
+            icon={{
+              url: yourLocImg
+            }}
+          />
+          {this.props.restaurants.map((item, index) => {
+            return (
+              <Marker
+                key={index}
+                name={item.name}
+                categories={item.category}
+                rating={item.avg_rating}
+                pricing={item.price}
+                url={item.menu}
+                position={{
+                  lat: parseFloat(item.location.latitude),
+                  lng: parseFloat(item.location.longitude)
+                }}
+                onClick={this.onMarkerClick.bind(this)}
+                icon={{
+                  url: restoIcon
+                }}
+              />
+            );
+          })}
+          {this.props.events.map((item, index) => {
+            return (
+              <Marker
+                key={index}
+                name={item.name}
+                categories={item.date}
+                url={item.url}
+                position={{
+                  lat: parseFloat(item.venue.location.latitude),
+                  lng: parseFloat(item.venue.location.longitude)
+                }}
+                onClick={this.onMarkerClick.bind(this)}
+                icon={{
+                  url: eventIcon
+                }}
+              />
+            );
+          })}
+          <InfoWindow
+            marker={this.state.activeMarker}
+            visible={this.state.showingInfoWindow}
+            onClose={this.onClose.bind(this)}
+          >
+            <div className='infoWindow'>
+              <a href={this.state.selectedPlace.url}>
+                <h4>{this.state.selectedPlace.name}</h4>
+              </a>
+              {this.foodOrShow(this.state.selectedPlace.rating)}
+            </div>
+          </InfoWindow>
+        </Map>
+      </>
     );
   }
 }

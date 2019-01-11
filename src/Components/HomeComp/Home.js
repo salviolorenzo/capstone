@@ -1262,7 +1262,7 @@ class Home extends Component {
           </ul>
           <SwipeableRoutes>
             <Route
-              path='/home/settings'
+              path='/home/settings/info'
               render={props => {
                 return (
                   <Settings
