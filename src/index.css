@@ -199,6 +199,10 @@ footer p {
   /* background-color: black; */
 }
 
+.home > div {
+  overflow: hidden;
+}
+
 .navList a {
   color: white;
   text-shadow: 1px 1px #000000;
@@ -700,6 +704,7 @@ footer p {
 .userPref input,
 .userPref select {
   width: 50%;
+  max-width: 300px;
   border-radius: 5px;
   border: 1px solid rgb(213, 213, 213);
   padding: 1.5px;
@@ -743,6 +748,7 @@ footer p {
   justify-content: center;
   align-items: center;
   width: 100%;
+  max-width: 300px;
   margin: 3px;
   border-radius: 10px;
 }
@@ -786,4 +792,7 @@ footer p {
   .restoList li {
     width: 47%;
   }
+}
+
+@media screen and (min-width: 1100px) {
 }
