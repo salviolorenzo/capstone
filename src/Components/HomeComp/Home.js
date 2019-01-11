@@ -153,6 +153,52 @@ function getRestInfo(object) {
     });
 }
 
+function getEvents(object) {
+  let location = {
+    lat: object.coords.latitude.toFixed(4),
+    long: object.coords.longitude.toFixed(4)
+  };
+  fetch(
+    `https://app.ticketmaster.com/discovery/v2/events.json?&latlong=${
+      location.lat
+    },${location.long}&radius=20&unit=miles&size=50&classificationName=${
+      this.state.board2.category
+    }&sort=date,asc&apikey=${keys.TMKEY}`
+  )
+    .then(r => r.json())
+    .then(result => {
+      console.log(result);
+      let newArray = result._embedded.events.map(event => {
+        return {
+          name: event.name,
+          img: event.images[0].url,
+          url: event.url,
+          date: event.dates.start.localDate,
+          time: event.dates.start.localTime,
+          type: event.classifications[0].segment.name,
+          genre: event.classifications[0].genre.name,
+          venue: event._embedded.venues[0]
+        };
+      });
+      this.setState({
+        board2: { ...this.state.board2, events: newArray }
+      });
+    });
+}
+
+// function getMeetups(object) {
+//   let location = {
+//     lat: object.coords.latitude.toFixed(4),
+//     long: object.coords.longitude.toFixed(4)
+//   };
+//   this.state.board2.topics.forEach(item => {
+//     fetch(
+//       `https://api.meetup.com/find/upcoming_events?photo-host=public&topic_category=${item}&page=20&radius=10&lon=${
+//         location.long
+//       }&lat=${location.lat}&sign=true&key=${keys.MEETKEY}`
+//     ).then(console.log);
+//   });
+// }
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -203,6 +249,7 @@ class Home extends Component {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(getWeather.bind(this));
       navigator.geolocation.getCurrentPosition(getRestInfo.bind(this));
+      navigator.geolocation.getCurrentPosition(getEvents.bind(this));
     } else {
       let object = {
         coords: {
@@ -212,6 +259,7 @@ class Home extends Component {
       };
       getWeather(object);
       getRestInfo(object);
+      getEvents(object);
     }
     // home component with boards and tiles
     fetch('/home')
@@ -609,61 +657,83 @@ class Home extends Component {
       });
 
     // events api call
-    fetch(
-      `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=${
-        this.state.board2.category
-      }&dmaId=220&apikey=${keys.TMKEY}`
-    )
-      .then(r => r.json())
-      .then(result => {
-        console.log(result);
-        let newArray = result._embedded.events.map(event => {
-          return {
-            name: event.name,
-            img: event.images[0].url,
-            url: event.url,
-            date: event.dates.start.localDate,
-            type: event.classifications[0].segment.name,
-            subType: event.classifications[0].genre.name,
-            venue: event._embedded.venues[0]
-          };
-        });
-        this.setState({
-          board2: { ...this.state.board2, events: newArray }
-        });
-      });
+    // fetch(
+    //   `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=${
+    //     this.state.board2.category
+    //   }&dmaId=220&apikey=${keys.TMKEY}`
+    // )
+    //   .then(r => r.json())
+    //   .then(result => {
+    //     console.log(result);
+    //     let newArray = result._embedded.events.map(event => {
+    //       return {
+    //         name: event.name,
+    //         img: event.images[0].url,
+    //         url: event.url,
+    //         date: event.dates.start.localDate,
+    //         type: event.classifications[0].segment.name,
+    //         subType: event.classifications[0].genre.name,
+    //         venue: event._embedded.venues[0]
+    //       };
+    //     });
+    //     this.setState({
+    //       board2: { ...this.state.board2, events: newArray }
+    //     });
+    //   });
 
     // restaurants api call
   }
 
-  handleEventType(item, event) {
-    this.setState({
-      board2: {
-        ...this.state.board2,
-        category: item
+  handleEventType(item) {
+    this.setState(
+      {
+        board2: {
+          ...this.state.board2,
+          category: item
+        }
+      },
+      () => {
+        fetch(
+          `https://app.ticketmaster.com/discovery/v2/events.json?&latlong=${
+            this.state.coords.lat
+          },${
+            this.state.coords.long
+          }&radius=20&unit=miles&size=50&classificationName=${
+            this.state.board2.category
+          }&sort=date,asc&apikey=${keys.TMKEY}`
+        )
+          .then(r => r.json())
+          .then(result => {
+            let newArray = result._embedded.events.map(event => {
+              if (event._embedded.venues[0]) {
+                return {
+                  name: event.name,
+                  img: event.images[0].url,
+                  url: event.url,
+                  date: event.dates.start.localDate,
+                  time: event.dates.start.localTime,
+                  type: event.classifications[0].segment.name,
+                  genre: event.classifications[0].genre.name,
+                  venue: event._embedded.venues[0]
+                };
+              } else {
+                return {
+                  name: event.name,
+                  img: event.images[0].url,
+                  url: event.url,
+                  date: event.dates.start.localDate,
+                  time: event.dates.start.localTime,
+                  type: event.classifications[0].segment.name,
+                  genre: event.classifications[0].genre.name
+                };
+              }
+            });
+            this.setState({
+              board2: { ...this.state.board2, events: newArray }
+            });
+          });
       }
-    });
-    fetch(
-      `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=${
-        this.state.board2.category
-      }&dmaId=220&apikey=${keys.TMKEY}`
-    )
-      .then(r => r.json())
-      .then(result => {
-        let newArray = result._embedded.events.map(event => {
-          return {
-            name: event.name,
-            img: event.images[0].url,
-            url: event.url,
-            date: event.dates.start.localDate,
-            type: event.classifications[0].segment.name,
-            subType: event.classifications[0].genre.name
-          };
-        });
-        this.setState({
-          board2: { ...this.state.board2, events: newArray }
-        });
-      });
+    );
   }
 
   displayEvent(event) {
@@ -1096,6 +1166,51 @@ class Home extends Component {
     });
   }
 
+  addToCalendar(item) {
+    console.log(item);
+    const newEvent = {
+      title: item.name,
+      allDay: false,
+      start: `${item.date} ${item.time}`,
+      end: `${item.date} 23:59:00`,
+      description: `Genre: ${item.genre}, Venue: ${item.venue.name}`
+    };
+
+    console.log(newEvent);
+    fetch('/home/events/new', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newEvent)
+    })
+      .then(r => r.json())
+      .then(result => {
+        console.log(result);
+        const addEvent = {
+          id: result.id,
+          title: result.title,
+          allday: result.allDay,
+          eventstart: result.eventStart,
+          eventend: result.eventEnd,
+          description: result.description
+        };
+        this.setState(
+          {
+            board1: {
+              ...this.state.board1,
+              calendar: {
+                ...this.state.board1.calendar,
+                events: [...this.state.board1.calendar.events, addEvent],
+                selectedEvent: {}
+              }
+            }
+          },
+          this.closeModal
+        );
+      });
+  }
+
   render() {
     return (
       <>
@@ -1204,6 +1319,7 @@ class Home extends Component {
                   <Board_2
                     events={this.state.board2.events}
                     {...props}
+                    addToCalendar={this.addToCalendar.bind(this)}
                     handleEventType={this.handleEventType.bind(this)}
                     restaurants={this.state.board2.restaurants}
                   />
@@ -1232,3 +1348,9 @@ class Home extends Component {
 }
 
 export default Home;
+
+/*tech : 292
+sports: 282
+arts: 122
+social: 272
+business: 522 */

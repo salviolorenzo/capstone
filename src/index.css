@@ -490,6 +490,13 @@ footer p {
   background-color: rgb(213, 222, 230);
 }
 
+.eventList button {
+  background-color: #3174ad;
+  border-radius: 10px;
+  color: white;
+  margin: 5px 0;
+}
+
 .eventText {
   /* min-height: 100%; */
   width: 65%;
@@ -529,13 +536,13 @@ footer p {
   font-size: 12px;
   justify-content: center;
   border-radius: 5px;
-  background-color: #c4dcd3;
+  background-color: #c3dadf;
 }
 
 .menuLink {
   width: 50%;
   border-radius: 10px;
-  border: 1px solid grey;
+  border: 0.5px solid grey;
   background-color: #3174ad;
   color: white;
 }

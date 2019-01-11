@@ -32,16 +32,25 @@ function Tickets(props) {
         {props.events.map((item, index) => {
           return (
             <li key={index}>
-              <a href={item.url} target='_blank' rel='norefferer noopener'>
-                <img src={item.img} />
-                <div className='eventText'>
+              <img src={item.img} />
+              <div className='eventText'>
+                <a href={item.url} target='_blank' rel='norefferer noopener'>
                   <h5>{item.name}</h5>
-                  <br />
+                </a>
+
+                <div>
                   {item.date}
                   <br />
                   {displayVenue(item)}
                 </div>
-              </a>
+                <button
+                  onClick={() => {
+                    props.addToCalendar(item);
+                  }}
+                >
+                  Add to my Calendar
+                </button>
+              </div>
             </li>
           );
         })}
