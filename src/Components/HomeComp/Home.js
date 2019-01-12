@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom';
+import { Route, NavLink } from 'react-router-dom';
 import SwipeableRoutes from 'react-swipeable-routes';
 import moment from 'moment';
+
 // import Weather from '../Tiles/Weather';
 import Board_1 from '../Boards/Board_1';
 import Board_2 from '../Boards/Board_2';
@@ -178,7 +179,7 @@ function getEvents(object) {
       let newArray = result._embedded.events.map(event => {
         return {
           name: event.name,
-          img: event.images[0].url,
+          img: event.images[8].url,          
           url: event.url,
           date: event.dates.start.localDate,
           time: event.dates.start.localTime,
@@ -465,7 +466,7 @@ class Home extends Component {
               if (event._embedded.venues[0]) {
                 return {
                   name: event.name,
-                  img: event.images[0].url,
+                  img: event.images[8].url,
                   url: event.url,
                   date: event.dates.start.localDate,
                   time: event.dates.start.localTime,
