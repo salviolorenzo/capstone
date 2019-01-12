@@ -232,6 +232,11 @@ footer p {
   /* background-color: black; */
 }
 
+.home button {
+  box-shadow: 0 1px 1px grey;
+  font-weight: 600;
+}
+
 .home > div {
   overflow: hidden;
 }
@@ -312,7 +317,7 @@ footer p {
   margin: 0 5px 5px 5px;
   width: 95%;
   border-radius: 5px;
-  background-color: rgb(225, 225, 225);
+  background-color: rgb(213, 222, 230);
 }
 
 .newsList a,
@@ -590,7 +595,7 @@ footer p {
   font-size: 12px;
   justify-content: center;
   border-radius: 5px;
-  background-color: #c3dadf;
+  background-color: rgb(213, 222, 230);
 }
 
 .restoList li > div {
@@ -603,6 +608,11 @@ footer p {
   border: 0.5px solid grey;
   background-color: #3174ad;
   color: white;
+}
+
+.menuLink a {
+  color: white;
+  font-weight: 600;
 }
 
 .restoList h4 {

@@ -425,32 +425,7 @@ class Home extends Component {
         );
       });
 
-    // events api call
-    // fetch(
-    //   `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=${
-    //     this.state.board2.category
-    //   }&dmaId=220&apikey=${keys.TMKEY}`
-    // )
-    //   .then(r => r.json())
-    //   .then(result => {
-    //     console.log(result);
-    //     let newArray = result._embedded.events.map(event => {
-    //       return {
-    //         name: event.name,
-    //         img: event.images[0].url,
-    //         url: event.url,
-    //         date: event.dates.start.localDate,
-    //         type: event.classifications[0].segment.name,
-    //         subType: event.classifications[0].genre.name,
-    //         venue: event._embedded.venues[0]
-    //       };
-    //     });
-    //     this.setState({
-    //       board2: { ...this.state.board2, events: newArray }
-    //     });
-    //   });
-
-    // restaurants api call
+    
   }
 
   handleEventType(item) {
