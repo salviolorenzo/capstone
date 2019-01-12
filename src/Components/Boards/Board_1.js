@@ -6,7 +6,7 @@ import Calendar from '../Tiles/Calendar';
 
 function Board_1(props) {
   return (
-    <div className='board'>
+    <div className="board">
       <Weather weather={props.weather} icon={props.icon} />
       <Calendar
         events={props.events.map(item => {

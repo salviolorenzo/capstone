@@ -3,10 +3,10 @@ import React, { Component } from 'react';
 function Weather(props) {
   if (props) {
     return (
-      <div className='tile weatherTile'>
+      <div className="tile weatherTile">
         <h3>Today's weather</h3>
-        <img src={props.icon} className='weatherIcon' />
-        <ul className='weatherList'>
+        <img src={props.icon} className="weatherIcon" />
+        <ul className="weatherList">
           {Object.values(props.weather).map((item, index) => {
             return <li key={index}>{item}</li>;
           })}
@@ -15,7 +15,7 @@ function Weather(props) {
     );
   } else {
     return (
-      <div className='tile weatherTile'>
+      <div className="tile weatherTile">
         <h3>Loading...</h3>
       </div>
     );

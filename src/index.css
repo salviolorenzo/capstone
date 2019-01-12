@@ -7,6 +7,15 @@
   }
 }
 
+@keyframes homeOpen {
+  from {
+    height: 0;
+  }
+  to {
+    height: 100%;
+  }
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -230,6 +239,10 @@ footer p {
   justify-content: center;
   width: 100%;
   /* background-color: black; */
+  overflow: hidden;
+  animation-name: homeOpen;
+  /* animation-delay: 2s; */
+  animation-duration: 3s;
 }
 
 .home button {
@@ -264,7 +277,7 @@ footer p {
 
 .board {
   width: 100%;
-  min-height: 100vh;
+  /* min-height: 100vh; */
   height: 100%;
   display: flex;
   justify-content: center;
@@ -287,6 +300,7 @@ footer p {
   color: black;
   background-color: #fefefe;
   opacity: 0.9;
+  overflow: hidden;
 }
 
 .tile h3 {
@@ -677,6 +691,9 @@ footer p {
   /* display: flex;
   justify-content: center; */
   margin: 0 auto;
+}
+.mapBoard button {
+  box-shadow: none;
 }
 
 .mapBoard > div > div > div {
