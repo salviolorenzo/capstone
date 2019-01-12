@@ -66,7 +66,7 @@ app.use(passport.session());
 // STANDARD ROUTES ==========================================
 // =======================================================
 app.get('/', (req, res) => {
-  res.send('ROOT');
+  res.redirect('/welcome');
 });
 
 app.get('/login', (req, res) => {

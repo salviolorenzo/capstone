@@ -1,3 +1,21 @@
+@keyframes loginFormSlideDown {
+  from {
+    opacity: 0.1;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes homeOpen {
+  from {
+    height: 0;
+  }
+  to {
+    height: 100%;
+  }
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -135,6 +153,15 @@ header li {
   background-color: rgba(0, 0, 0, 0.5);
 }
 
+.loginReg li:hover {
+  background-color: white;
+  transform: scale(1.05);
+}
+
+.loginReg li > a:hover {
+  color: black;
+}
+
 .loginReg li > a {
   color: white;
 }
@@ -147,6 +174,8 @@ header li {
   justify-content: center;
   align-items: center;
   text-align: left;
+  animation: loginFormSlideDown 1s;
+  overflow: hidden;
 }
 
 .landingForm label {
@@ -155,9 +184,22 @@ header li {
 
 .landingForm input {
   border-radius: 5px;
+  width: 100%;
   padding: 5px;
   border: 1px solid white;
   margin: 5px;
+}
+
+.logRegBtn {
+  background-color: #3174ad;
+  color: white;
+  font-weight: 600;
+  margin: 10px;
+  padding: 5px;
+  width: 100px;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0 0 1px white;
 }
 
 footer {
@@ -197,6 +239,15 @@ footer p {
   justify-content: center;
   width: 100%;
   /* background-color: black; */
+  overflow: hidden;
+  animation-name: homeOpen;
+  /* animation-delay: 2s; */
+  animation-duration: 3s;
+}
+
+.home button {
+  box-shadow: 0 1px 1px grey;
+  font-weight: 600;
 }
 
 .home > div {
@@ -226,7 +277,7 @@ footer p {
 
 .board {
   width: 100%;
-  min-height: 100vh;
+  /* min-height: 100vh; */
   height: 100%;
   display: flex;
   justify-content: center;
@@ -249,6 +300,7 @@ footer p {
   color: black;
   background-color: #fefefe;
   opacity: 0.9;
+  overflow: hidden;
 }
 
 .tile h3 {
@@ -279,7 +331,7 @@ footer p {
   margin: 0 5px 5px 5px;
   width: 95%;
   border-radius: 5px;
-  background-color: rgb(225, 225, 225);
+  background-color: rgb(213, 222, 230);
 }
 
 .newsList a,
@@ -557,7 +609,7 @@ footer p {
   font-size: 12px;
   justify-content: center;
   border-radius: 5px;
-  background-color: #c3dadf;
+  background-color: rgb(213, 222, 230);
 }
 
 .restoList li > div {
@@ -570,6 +622,11 @@ footer p {
   border: 0.5px solid grey;
   background-color: #3174ad;
   color: white;
+}
+
+.menuLink a {
+  color: white;
+  font-weight: 600;
 }
 
 .restoList h4 {
@@ -635,14 +692,19 @@ footer p {
   justify-content: center; */
   margin: 0 auto;
 }
+.mapBoard button {
+  box-shadow: none;
+}
 
 .mapBoard > div > div > div {
   height: 80vh !important;
   border-radius: 5px;
 }
 
-.infoWindow h6 {
-  margin: 0;
+.infoWindow h4,
+h5,
+h6 {
+  margin: 8px;
 }
 
 /* ================================== */

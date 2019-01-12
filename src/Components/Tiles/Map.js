@@ -41,7 +41,12 @@ class MapContainer extends Component {
 
   foodOrShow(criteria) {
     if (criteria === undefined) {
-      return <h4>{this.state.selectedPlace.categories}</h4>;
+      return (
+        <>
+          <h4>{this.state.selectedPlace.categories}</h4>
+          <h4>{this.state.selectedPlace.distance}</h4>
+        </>
+      );
     } else {
       return (
         <>
@@ -56,13 +61,13 @@ class MapContainer extends Component {
   render() {
     return (
       <>
-        <ul className='mapLegend'>
+        <ul className="mapLegend">
           <li>
-            <button id='restoLegend' />
+            <button id="restoLegend" />
             Restaurants
           </li>
           <li>
-            <button id='eventLegend' />
+            <button id="eventLegend" />
             Events
           </li>
         </ul>
@@ -108,6 +113,7 @@ class MapContainer extends Component {
                 key={index}
                 name={item.name}
                 categories={item.date}
+                distance={`${item.distance} miles`}
                 url={item.url}
                 position={{
                   lat: parseFloat(item.venue.location.latitude),
@@ -125,7 +131,7 @@ class MapContainer extends Component {
             visible={this.state.showingInfoWindow}
             onClose={this.onClose.bind(this)}
           >
-            <div className='infoWindow'>
+            <div className="infoWindow">
               <a href={this.state.selectedPlace.url}>
                 <h4>{this.state.selectedPlace.name}</h4>
               </a>

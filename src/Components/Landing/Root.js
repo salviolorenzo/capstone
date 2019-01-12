@@ -11,54 +11,54 @@ class Root extends Component {
   render() {
     return (
       <Router>
-        <div className='landing'>
-          <div className='loginReg'>
+        <div className="landing">
+          <div className="loginReg">
             <img src={require('../../images/DSH_LOGO.png')} />
             <ul>
               <li>
-                <Link to='/login'>Log in</Link>
+                <Link to="/login"> Log in </Link>
               </li>
               <li>
-                <Link to='/register'>Register</Link>
+                <Link to="/register"> Register </Link>
               </li>
             </ul>
-            <Route path='/login' component={Login} />
-            <Route path='/register' component={Register} />
+            <Route path="/login" component={Login} />
+            <Route path="/register" component={Register} />
           </div>
           <footer>
             <ul>
               <li>
                 <a
-                  title='Email'
-                  href='mailto:salviolorenzo@gmail.com'
-                  target='_blank'
-                  rel='noopener noreferrer'
+                  title="Email"
+                  href="mailto:salviolorenzo@gmail.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   <img src={require('../../images/emailIcon.png')} />
                 </a>
               </li>
               <li>
                 <a
-                  title='Portfolio'
-                  href='https://www.lorenzosalvio.com'
-                  target='_blank'
-                  rel='noopener noreferrer'
+                  title="Portfolio"
+                  href="https://www.lorenzosalvio.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   <img src={require('../../images/websiteIcon.png')} />
                 </a>
               </li>
               <li>
                 <a
-                  tilte='GitHub'
-                  href='https://www.github.com/salviolorenzo'
-                  target='_blank'
-                  rel='noopener noreferrer'
+                  title="GitHub"
+                  href="https://www.github.com/salviolorenzo"
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   <img src={require('../../images/gitIcon.png')} />
                 </a>
               </li>
             </ul>
-            <p>Built by Lorenzo Salvio</p>
+            <p> Built by Lorenzo Salvio </p>
           </footer>
         </div>
       </Router>

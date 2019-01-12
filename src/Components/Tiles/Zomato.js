@@ -2,9 +2,9 @@ import React from 'react';
 
 function Zomato(props) {
   return (
-    <div className='tile restoTile'>
+    <div className="tile restoTile">
       <h3>Places to eat</h3>
-      <ul className='restoList'>
+      <ul className="restoList">
         {props.restaurants.map((item, index) => {
           return (
             <li key={index}>
@@ -16,14 +16,12 @@ function Zomato(props) {
                 <br />
                 {`Pricing: ${item.price}/4`}
               </div>
-              <a
-                className='menuLink'
-                href={item.menu}
-                target='_blank'
-                rel='noreferrer noopener'
-              >
-                <p>Menu</p>
-              </a>
+
+              <button className="menuLink">
+                <a href={item.menu} target="_blank" rel="noreferrer noopener">
+                  Menu
+                </a>
+              </button>
             </li>
           );
         })}

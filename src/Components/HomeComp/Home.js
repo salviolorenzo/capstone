@@ -3,7 +3,6 @@ import { Route, NavLink } from 'react-router-dom';
 import SwipeableRoutes from 'react-swipeable-routes';
 import moment from 'moment';
 
-// import Weather from '../Tiles/Weather';
 import Board_1 from '../Boards/Board_1';
 import Board_2 from '../Boards/Board_2';
 import Board_3 from '../Boards/Board_3';
@@ -177,16 +176,30 @@ function getEvents(object) {
     .then(result => {
       console.log(result);
       let newArray = result._embedded.events.map(event => {
-        return {
-          name: event.name,
-          img: event.images[8].url,          
-          url: event.url,
-          date: event.dates.start.localDate,
-          time: event.dates.start.localTime,
-          type: event.classifications[0].segment.name,
-          genre: event.classifications[0].genre.name,
-          venue: event._embedded.venues[0]
-        };
+        if (event.classifications[0].subGenre) {
+          return {
+            name: event.name,
+            img: event.images[8].url,
+            url: event.url,
+            date: event.dates.start.localDate,
+            time: event.dates.start.localTime,
+            distance: event.distance,
+            type: event.classifications[0].segment.name,
+            genre: event.classifications[0].subGenre.name,
+            venue: event._embedded.venues[0]
+          };
+        } else {
+          return {
+            name: event.name,
+            img: event.images[5].url,
+            url: event.url,
+            date: event.dates.start.localDate,
+            time: event.dates.start.localTime,
+            distance: event.distance,
+            type: event.classifications[0].segment.name,
+            venue: event._embedded.venues[0]
+          };
+        }
       });
       this.setState({
         board2: { ...this.state.board2, events: newArray }
@@ -194,19 +207,6 @@ function getEvents(object) {
     });
 }
 
-// function getMeetups(object) {
-//   let location = {
-//     lat: object.coords.latitude.toFixed(4),
-//     long: object.coords.longitude.toFixed(4)
-//   };
-//   this.state.board2.topics.forEach(item => {
-//     fetch(
-//       `https://api.meetup.com/find/upcoming_events?photo-host=public&topic_category=${item}&page=20&radius=10&lon=${
-//         location.long
-//       }&lat=${location.lat}&sign=true&key=${keys.MEETKEY}`
-//     ).then(console.log);
-//   });
-// }
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -254,44 +254,6 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(getWeather.bind(this));
-      navigator.geolocation.getCurrentPosition(getRestInfo.bind(this));
-      navigator.geolocation.getCurrentPosition(getEvents.bind(this));
-    } else {
-      let object = {
-        coords: {
-          latitude: 34,
-          longitude: -84
-        }
-      };
-      getWeather(object);
-      getRestInfo(object);
-      getEvents(object);
-    }
-    // home component with boards and tiles
-    fetch('/home')
-      .then(result => result.json())
-      .then(array => {
-        this.setState({
-          board1: {
-            ...this.state.board1,
-            calendar: {
-              ...this.state.board1.calendar,
-              events: array
-            }
-          }
-        });
-      });
-
-    fetch('/home/settings')
-      .then(r => r.json())
-      .then(object => {
-        this.setState({
-          userInfo: object
-        });
-      });
-
     fetch('/home/settings/preferences')
       .then(r => r.json())
       .then(result => {
@@ -410,33 +372,44 @@ class Home extends Component {
           }
         );
       });
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(getWeather.bind(this));
+      navigator.geolocation.getCurrentPosition(getRestInfo.bind(this));
+      navigator.geolocation.getCurrentPosition(getEvents.bind(this));
+    } else {
+      let object = {
+        coords: {
+          latitude: 34,
+          longitude: -84
+        }
+      };
+      getWeather(object);
+      getRestInfo(object);
+      getEvents(object);
+    }
 
-    // events api call
-    // fetch(
-    //   `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=${
-    //     this.state.board2.category
-    //   }&dmaId=220&apikey=${keys.TMKEY}`
-    // )
-    //   .then(r => r.json())
-    //   .then(result => {
-    //     console.log(result);
-    //     let newArray = result._embedded.events.map(event => {
-    //       return {
-    //         name: event.name,
-    //         img: event.images[0].url,
-    //         url: event.url,
-    //         date: event.dates.start.localDate,
-    //         type: event.classifications[0].segment.name,
-    //         subType: event.classifications[0].genre.name,
-    //         venue: event._embedded.venues[0]
-    //       };
-    //     });
-    //     this.setState({
-    //       board2: { ...this.state.board2, events: newArray }
-    //     });
-    //   });
+    // home component with boards and tiles
+    fetch('/home')
+      .then(result => result.json())
+      .then(array => {
+        this.setState({
+          board1: {
+            ...this.state.board1,
+            calendar: {
+              ...this.state.board1.calendar,
+              events: array
+            }
+          }
+        });
+      });
 
-    // restaurants api call
+    fetch('/home/settings')
+      .then(r => r.json())
+      .then(object => {
+        this.setState({
+          userInfo: object
+        });
+      });
   }
 
   handleEventType(item) {
@@ -973,15 +946,15 @@ class Home extends Component {
     return (
       <>
         <Header />
-        <div className='home' style={createBackSplash(this.state.bgUrl)}>
-          <ul className='navList'>
+        <div className="home" style={createBackSplash(this.state.bgUrl)}>
+          <ul className="navList">
             <li>
               <NavLink
                 activeStyle={{
                   borderBottom: '1px solid white',
                   paddingBottom: '3px'
                 }}
-                to='/home/dash1'
+                to="/home/dash1"
               >
                 Daily Briefing
               </NavLink>
@@ -992,7 +965,7 @@ class Home extends Component {
                   borderBottom: '1px solid white',
                   paddingBottom: '3px'
                 }}
-                to='/home/dash2'
+                to="/home/dash2"
               >
                 Events
               </NavLink>
@@ -1003,7 +976,7 @@ class Home extends Component {
                   borderBottom: '1px solid white',
                   paddingBottom: '3px'
                 }}
-                to='/home/dash3'
+                to="/home/dash3"
               >
                 Transportation
               </NavLink>
@@ -1011,7 +984,7 @@ class Home extends Component {
           </ul>
           <SwipeableRoutes>
             <Route
-              path='/home/settings/info'
+              path="/home/settings/info"
               render={props => {
                 return (
                   <Settings
@@ -1033,7 +1006,7 @@ class Home extends Component {
               }}
             />
             <Route
-              path='/home/dash1'
+              path="/home/dash1"
               exact
               render={props => {
                 return (
@@ -1070,7 +1043,7 @@ class Home extends Component {
               }}
             />
             <Route
-              path='/home/dash2'
+              path="/home/dash2"
               exact
               render={props => {
                 return (
@@ -1085,7 +1058,7 @@ class Home extends Component {
               }}
             />
             <Route
-              path='/home/dash3'
+              path="/home/dash3"
               exact
               render={props => {
                 return (
