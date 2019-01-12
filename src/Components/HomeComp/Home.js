@@ -177,16 +177,30 @@ function getEvents(object) {
     .then(result => {
       console.log(result);
       let newArray = result._embedded.events.map(event => {
-        return {
-          name: event.name,
-          img: event.images[8].url,          
-          url: event.url,
-          date: event.dates.start.localDate,
-          time: event.dates.start.localTime,
-          type: event.classifications[0].segment.name,
-          genre: event.classifications[0].genre.name,
-          venue: event._embedded.venues[0]
-        };
+        if (event.classifications[0].subGenre) {
+          return {
+            name: event.name,
+            img: event.images[8].url,
+            url: event.url,
+            date: event.dates.start.localDate,
+            time: event.dates.start.localTime,
+            distance: event.distance,
+            type: event.classifications[0].segment.name,
+            genre: event.classifications[0].subGenre.name,
+            venue: event._embedded.venues[0]
+          };
+        } else {
+          return {
+            name: event.name,
+            img: event.images[5].url,
+            url: event.url,
+            date: event.dates.start.localDate,
+            time: event.dates.start.localTime,
+            distance: event.distance,
+            type: event.classifications[0].segment.name,
+            venue: event._embedded.venues[0]
+          };
+        }
       });
       this.setState({
         board2: { ...this.state.board2, events: newArray }
@@ -973,15 +987,15 @@ class Home extends Component {
     return (
       <>
         <Header />
-        <div className='home' style={createBackSplash(this.state.bgUrl)}>
-          <ul className='navList'>
+        <div className="home" style={createBackSplash(this.state.bgUrl)}>
+          <ul className="navList">
             <li>
               <NavLink
                 activeStyle={{
                   borderBottom: '1px solid white',
                   paddingBottom: '3px'
                 }}
-                to='/home/dash1'
+                to="/home/dash1"
               >
                 Daily Briefing
               </NavLink>
@@ -992,7 +1006,7 @@ class Home extends Component {
                   borderBottom: '1px solid white',
                   paddingBottom: '3px'
                 }}
-                to='/home/dash2'
+                to="/home/dash2"
               >
                 Events
               </NavLink>
@@ -1003,7 +1017,7 @@ class Home extends Component {
                   borderBottom: '1px solid white',
                   paddingBottom: '3px'
                 }}
-                to='/home/dash3'
+                to="/home/dash3"
               >
                 Transportation
               </NavLink>
@@ -1011,7 +1025,7 @@ class Home extends Component {
           </ul>
           <SwipeableRoutes>
             <Route
-              path='/home/settings/info'
+              path="/home/settings/info"
               render={props => {
                 return (
                   <Settings
@@ -1033,7 +1047,7 @@ class Home extends Component {
               }}
             />
             <Route
-              path='/home/dash1'
+              path="/home/dash1"
               exact
               render={props => {
                 return (
@@ -1070,7 +1084,7 @@ class Home extends Component {
               }}
             />
             <Route
-              path='/home/dash2'
+              path="/home/dash2"
               exact
               render={props => {
                 return (
@@ -1085,7 +1099,7 @@ class Home extends Component {
               }}
             />
             <Route
-              path='/home/dash3'
+              path="/home/dash3"
               exact
               render={props => {
                 return (
