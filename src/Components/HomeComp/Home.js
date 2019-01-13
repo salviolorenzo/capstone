@@ -944,44 +944,44 @@ class Home extends Component {
   render() {
     return (
       <>
-        <Header />
-        <div className="home" style={createBackSplash(this.state.bgUrl)}>
-          <ul className="navList">
-            <li>
-              <NavLink
-                activeStyle={{
-                  borderBottom: '1px solid white',
-                  paddingBottom: '3px'
-                }}
-                to="/home/dash1"
-              >
-                Daily Briefing
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                activeStyle={{
-                  borderBottom: '1px solid white',
-                  paddingBottom: '3px'
-                }}
-                to="/home/dash2"
-              >
-                Events
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                activeStyle={{
-                  borderBottom: '1px solid white',
-                  paddingBottom: '3px'
-                }}
-                to="/home/dash3"
-              >
-                Transportation
-              </NavLink>
-            </li>
-          </ul>
-          <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Header />
+          <div className="home" style={createBackSplash(this.state.bgUrl)}>
+            <ul className="navList">
+              <li>
+                <NavLink
+                  activeStyle={{
+                    borderBottom: '1px solid white',
+                    paddingBottom: '3px'
+                  }}
+                  to="/home/dash1"
+                >
+                  Daily Briefing
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  activeStyle={{
+                    borderBottom: '1px solid white',
+                    paddingBottom: '3px'
+                  }}
+                  to="/home/dash2"
+                >
+                  Events & Places
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  activeStyle={{
+                    borderBottom: '1px solid white',
+                    paddingBottom: '3px'
+                  }}
+                  to="/home/dash3"
+                >
+                  Map
+                </NavLink>
+              </li>
+            </ul>
             <Switch>
               <SwipeableRoutes>
                 <Route
@@ -1015,35 +1015,39 @@ class Home extends Component {
                   exact
                   render={props => {
                     return (
-                      <Board_1
-                        weather={this.state.board1.weather}
-                        icon={this.state.board1.weatherIcon}
-                        news={this.state.board1.news.articles}
-                        events={this.state.board1.calendar.events}
-                        allDay={this.state.board1.calendar.allDay}
-                        selectedEvent={this.state.board1.calendar.selectedEvent}
-                        modalIsOpen={this.state.board1.calendar.modalIsOpen}
-                        term={this.state.board1.calendar.term}
-                        desc={this.state.board1.calendar.desc}
-                        start={this.state.board1.calendar.start}
-                        end={this.state.board1.calendar.end}
-                        displayEvent={this.displayEvent.bind(this)}
-                        openModal={this.openModal.bind(this)}
-                        afterOpenModal={this.afterOpenModal.bind(this)}
-                        closeModal={this.closeModal.bind(this)}
-                        onSlotChange={this.onSlotChange.bind(this)}
-                        handleNewEvent={this.handleNewEvent.bind(this)}
-                        handleDelete={this.handleDelete.bind(this)}
-                        handleTitleChange={this.handleTitleChange.bind(this)}
-                        handleDescChange={this.handleDescChange.bind(this)}
-                        handleStartTime={this.handleStartTime.bind(this)}
-                        handleEndTime={this.handleEndTime.bind(this)}
-                        changeBox={this.changeBox.bind(this)}
-                        handleNewsSearch={this.handleNewsSearch.bind(this)}
-                        queryTerm={this.state.board1.news.queryTerm}
-                        handleQueryTerm={this.handleQueryTerm.bind(this)}
-                        {...props}
-                      />
+                      <Suspense fallback={<div>Loading...</div>}>
+                        <Board_1
+                          weather={this.state.board1.weather}
+                          icon={this.state.board1.weatherIcon}
+                          news={this.state.board1.news.articles}
+                          events={this.state.board1.calendar.events}
+                          allDay={this.state.board1.calendar.allDay}
+                          selectedEvent={
+                            this.state.board1.calendar.selectedEvent
+                          }
+                          modalIsOpen={this.state.board1.calendar.modalIsOpen}
+                          term={this.state.board1.calendar.term}
+                          desc={this.state.board1.calendar.desc}
+                          start={this.state.board1.calendar.start}
+                          end={this.state.board1.calendar.end}
+                          displayEvent={this.displayEvent.bind(this)}
+                          openModal={this.openModal.bind(this)}
+                          afterOpenModal={this.afterOpenModal.bind(this)}
+                          closeModal={this.closeModal.bind(this)}
+                          onSlotChange={this.onSlotChange.bind(this)}
+                          handleNewEvent={this.handleNewEvent.bind(this)}
+                          handleDelete={this.handleDelete.bind(this)}
+                          handleTitleChange={this.handleTitleChange.bind(this)}
+                          handleDescChange={this.handleDescChange.bind(this)}
+                          handleStartTime={this.handleStartTime.bind(this)}
+                          handleEndTime={this.handleEndTime.bind(this)}
+                          changeBox={this.changeBox.bind(this)}
+                          handleNewsSearch={this.handleNewsSearch.bind(this)}
+                          queryTerm={this.state.board1.news.queryTerm}
+                          handleQueryTerm={this.handleQueryTerm.bind(this)}
+                          {...props}
+                        />
+                      </Suspense>
                     );
                   }}
                 />
@@ -1052,13 +1056,15 @@ class Home extends Component {
                   exact
                   render={props => {
                     return (
-                      <Board_2
-                        events={this.state.board2.events}
-                        {...props}
-                        addToCalendar={this.addToCalendar.bind(this)}
-                        handleEventType={this.handleEventType.bind(this)}
-                        restaurants={this.state.board2.restaurants}
-                      />
+                      <Suspense fallback={<div>Loading...</div>}>
+                        <Board_2
+                          events={this.state.board2.events}
+                          {...props}
+                          addToCalendar={this.addToCalendar.bind(this)}
+                          handleEventType={this.handleEventType.bind(this)}
+                          restaurants={this.state.board2.restaurants}
+                        />
+                      </Suspense>
                     );
                   }}
                 />
@@ -1067,19 +1073,21 @@ class Home extends Component {
                   exact
                   render={props => {
                     return (
-                      <Board_3
-                        coords={this.state.coords}
-                        markers={this.state.board2.restaurants}
-                        events={this.state.board2.events}
-                        {...props}
-                      />
+                      <Suspense fallback={<div>Loading...</div>}>
+                        <Board_3
+                          coords={this.state.coords}
+                          markers={this.state.board2.restaurants}
+                          events={this.state.board2.events}
+                          {...props}
+                        />
+                      </Suspense>
                     );
                   }}
                 />
               </SwipeableRoutes>
             </Switch>
-          </Suspense>
-        </div>
+          </div>
+        </Suspense>
       </>
     );
   }

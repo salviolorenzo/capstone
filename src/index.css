@@ -240,9 +240,9 @@ footer p {
   width: 100%;
   /* background-color: black; */
   overflow: hidden;
-  animation-name: homeOpen;
+  /* animation-name: homeOpen;
   /* animation-delay: 2s; */
-  animation-duration: 3s;
+  /* animation-duration: 3s;  */
 }
 
 .home button {
