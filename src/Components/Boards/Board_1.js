@@ -1,4 +1,4 @@
-import React, { Component, Suspense, lazy } from 'react';
+import React, { Component, Suspense } from 'react';
 const Calendar = React.lazy(() => import('../Tiles/Calendar'));
 const Weather = React.lazy(() => import('../Tiles/Weather'));
 // import { BrowserRouter as Router, Route, Link } from 'react-router-dom';

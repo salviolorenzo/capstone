@@ -1,5 +1,4 @@
-import React, { Component, Suspense, lazy } from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import React, { Component, Suspense } from 'react';
 const Tickets = React.lazy(() => import('../Tiles/Tickets'));
 const Zomato = React.lazy(() => import('../Tiles/Zomato'));
 

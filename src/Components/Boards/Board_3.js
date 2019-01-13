@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense } from 'react';
 const Map = React.lazy(() => import('../Tiles/Map'));
 
 function Board_3(props) {
