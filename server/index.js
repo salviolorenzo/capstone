@@ -1,7 +1,6 @@
 require('dotenv').config();
 
 const db = require('./models/db');
-const passport = require('passport');
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
@@ -13,7 +12,6 @@ const Tile = require('./models/Tiles');
 const Events = require('./models/Events');
 const Preferences = require('./models/Preferences');
 const fetch = require('node-fetch');
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 // APP.USE ===============================
 
@@ -38,35 +36,13 @@ app.use((req, res, next) => {
   next();
 });
 
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID: process.env.GOCLIENT,
-      clientSecret: process.env.GOSECRET,
-      callbackURL: 'http://localhost:4000/auth/google/callback'
-    },
-    function(accessToken, refreshToken, profile, cb) {
-      console.log(accessToken, refreshToken, profile);
-    }
-  )
-);
-
-passport.serializeUser(function(user, cb) {
-  cb(null, user);
-});
-
-passport.deserializeUser(function(obj, cb) {
-  cb(null, obj);
-});
-
-app.use(passport.initialize());
-app.use(passport.session());
+app.use(express.static('public')); // all static files will be served from public folder
 
 // =======================================================
 // STANDARD ROUTES ==========================================
 // =======================================================
 app.get('/', (req, res) => {
-  res.redirect('/welcome');
+  res.redirect('/');
 });
 
 app.get('/login', (req, res) => {
@@ -91,9 +67,9 @@ app.post('/register', (req, res) => {
     result => {
       console.log(result);
       req.session.user = result;
-      Board.addBoard('Board 1', true, req.session.user.id);
-      Board.addBoard('Board 2', true, req.session.user.id);
-      Board.addBoard('Board 3', true, req.session.user.id);
+      // Board.addBoard('Board 1', true, req.session.user.id);
+      // Board.addBoard('Board 2', true, req.session.user.id);
+      // Board.addBoard('Board 3', true, req.session.user.id);
       res.redirect('/home/dash1');
     }
   );
@@ -197,44 +173,6 @@ app.post('/home/events/:id/delete', (req, res) => {
   });
 });
 
-// app.get('/home/:id', (req, res) => {
-//   Board.getById(req.params.id).then(result => {
-//     Tile.getByBoard(result.id).then(next => {
-//       res.send(next);
-//     });
-//   });
-// });
-
-// ======================================================
-// API CALLS
-// ======================================================
-
-// GOOGLE AUTH
-// app.get('/auth/google', passport.authenticate('google'));
-
-// app.get(
-//   '/auth/google/callback',
-//   passport.authenticate('google', { failureRedirect: '/' }),
-//   function(req, res) {
-//     res.redirect('/home');
-//   }
-// );
-
-// =======================================================
-// GITHUB AUTH ==========================================
-// =======================================================
-// app.get('/auth/github', passport.authenticate('github'));
-
-// app.get(
-//   '/auth/github/callback',
-//   passport.authenticate('github', { failureRedirect: '/login' }),
-//   function(req, res) {
-//     // Successful authentication, redirect home.
-//     res.redirect('/');
-//   }
-// );
-
-// =======================================================
 app.listen(4000, () => {
   console.log('Listening on 4000...');
 });

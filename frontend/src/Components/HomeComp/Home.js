@@ -1,4 +1,4 @@
-import React, { Component, Suspense, lazy } from 'react';
+import React, { Component, Suspense } from 'react';
 import { Route, NavLink, Switch } from 'react-router-dom';
 import SwipeableRoutes from 'react-swipeable-routes';
 import moment from 'moment';
@@ -1094,9 +1094,3 @@ class Home extends Component {
 }
 
 export default Home;
-
-/*tech : 292
-sports: 282
-arts: 122
-social: 272
-business: 522 */
