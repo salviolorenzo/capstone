@@ -585,9 +585,9 @@ footer p {
 }
 
 .eventList img {
-  width: 30%;
+  width: 100%;
   max-width: 134px;
-  max-height: 90px;
+  height: 100%;
   border-radius: 5px;
   float: left;
   margin: auto 0;
