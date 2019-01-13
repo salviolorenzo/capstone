@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 const eventTypes = ['Music', 'Sports'];
 
 function displayVenue(item) {
@@ -12,9 +12,9 @@ function displayVenue(item) {
 
 function Tickets(props) {
   return (
-    <div className='tile eventTile'>
+    <div className="tile eventTile">
       <h3>Events</h3>
-      <ul className='eventType'>
+      <ul className="eventType">
         {eventTypes.map((item, index) => {
           return (
             <li
@@ -28,13 +28,19 @@ function Tickets(props) {
           );
         })}
       </ul>
-      <ul className='eventList'>
+      <ul className="eventList">
         {props.events.map((item, index) => {
           return (
             <li key={index}>
-              <img src={item.img} />
-              <div className='eventText'>
-                <a href={item.url} target='_blank' rel='norefferer noopener'>
+              <LazyLoadImage
+                alt={item.name}
+                effect="blur"
+                src={item.img}
+                height="90px"
+                width="30%"
+              />
+              <div className="eventText">
+                <a href={item.url} target="_blank" rel="norefferer noopener">
                   <h4>{item.name}</h4>
                 </a>
 
