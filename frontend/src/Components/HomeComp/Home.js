@@ -9,6 +9,7 @@ import rainyDay from '../../images/weather_icons/animated/rainy-3.svg';
 import rainy from '../../images/weather_icons/animated/rainy-6.svg';
 import snow from '../../images/weather_icons/animated/snowy-6.svg';
 import thunder from '../../images/weather_icons/animated/thunder.svg';
+import AOS from 'aos';
 const Settings = React.lazy(() => import('../Settings/SettingComp'));
 const Header = React.lazy(() => import('../Header'));
 const Board_1 = React.lazy(() => import('../Boards/Board_1'));
@@ -291,7 +292,6 @@ class Home extends Component {
               if (bgArray.length === 1 && newsArray.length === 0) {
                 bg_query = bgArray[0];
                 news_query = `country=us`;
-
               } else if (bgArray.length === 0 && newsArray.length === 1) {
                 bg_query = 'space';
                 news_query = `sources=${newsArray[0]}`;
@@ -437,7 +437,7 @@ class Home extends Component {
           .then(r => r.json())
           .then(result => {
             let newArray = result._embedded.events.map(event => {
-              if (event._embedded.venues[0]) {
+              if (event._embedded.venues[0] && event.classifications[0].genre) {
                 return {
                   name: event.name,
                   img: event.images[8].url,
@@ -448,6 +448,19 @@ class Home extends Component {
                   genre: event.classifications[0].genre.name,
                   venue: event._embedded.venues[0]
                 };
+              } else if (
+                event._embedded.venues[0] &&
+                !event.classifications[0].genre
+              ) {
+                return {
+                  name: event.name,
+                  img: event.images[8].url,
+                  url: event.url,
+                  date: event.dates.start.localDate,
+                  time: event.dates.start.localTime,
+                  type: event.classifications[0].segment.name,
+                  venue: event._embedded.venues[0]
+                };
               } else {
                 return {
                   name: event.name,
@@ -455,8 +468,7 @@ class Home extends Component {
                   url: event.url,
                   date: event.dates.start.localDate,
                   time: event.dates.start.localTime,
-                  type: event.classifications[0].segment.name,
-                  genre: event.classifications[0].genre.name
+                  type: event.classifications[0].segment.name
                 };
               }
             });
