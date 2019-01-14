@@ -22,8 +22,28 @@ class Root extends Component {
                 <Link to="/register"> Register </Link>
               </li>
             </ul>
-            <Route path="/login" component={Login} />
-            <Route path="/register" component={Register} />
+            <Route
+              path="/login"
+              render={routerProps => {
+                return (
+                  <Login
+                    handleLogin={this.props.handleLogin}
+                    {...routerProps}
+                  />
+                );
+              }}
+            />
+            <Route
+              path="/register"
+              render={routerProps => {
+                return (
+                  <Register
+                    handleRegister={this.props.handleRegister}
+                    {...routerProps}
+                  />
+                );
+              }}
+            />
           </div>
           <footer>
             <ul>

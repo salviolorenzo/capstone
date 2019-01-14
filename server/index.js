@@ -55,7 +55,7 @@ app.post('/login', (req, res) => {
     req.session.user = user;
     let doesMatch = user.checkPassword(req.body.password);
     if (doesMatch) {
-      res.redirect('/home/dash1');
+      res.send(doesMatch);
     } else {
       res.redirect('/');
     }
@@ -70,7 +70,7 @@ app.post('/register', (req, res) => {
       // Board.addBoard('Board 1', true, req.session.user.id);
       // Board.addBoard('Board 2', true, req.session.user.id);
       // Board.addBoard('Board 3', true, req.session.user.id);
-      res.redirect('/home/dash1');
+      res.send(result);
     }
   );
 });
