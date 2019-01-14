@@ -17,11 +17,9 @@ function Zomato(props) {
                 {`Pricing: ${item.price}/4`}
               </div>
 
-              <button className="menuLink">
-                <a href={item.menu} target="_blank" rel="noreferrer noopener">
-                  Menu
-                </a>
-              </button>
+              <a href={item.menu} target="_blank" rel="noreferrer noopener">
+                <button className="menuLink">Menu</button>
+              </a>
             </li>
           );
         })}

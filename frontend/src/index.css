@@ -355,8 +355,22 @@ footer p {
 #newsBar {
   height: 80%;
   border-radius: 5px;
+  border: 2px solid rgb(208, 208, 208);
   width: 200px;
   margin: 0 10px;
+}
+
+.newsSearch button {
+  box-shadow: none;
+  background-color: #3174ad;
+  color: white;
+  font-weight: 600;
+  border-radius: 5px;
+}
+
+.newsSearch button:hover {
+  color: #3174ad;
+  background-color: white;
 }
 
 /* ======================================== */
@@ -529,8 +543,10 @@ footer p {
   /* border: 1px solid grey; */
 }
 
-.eventType:hover {
+.eventType button:hover {
   cursor: pointer;
+  color: #3174ad;
+  background-color: white;
 }
 
 .eventTile,
@@ -578,7 +594,7 @@ footer p {
 }
 
 .eventList a:hover {
-  color: white;
+  color: rgb(255, 255, 255);
   transform: scale(1.1);
   transition: transform 0.25s;
   text-shadow: 0 1px 1px grey;
@@ -594,6 +610,8 @@ footer p {
 .eventList button:hover {
   transform: scale(1.05);
   transition: transform 0.15s;
+  color: #3174ad;
+  background-color: white;
 }
 
 .eventText {
@@ -644,14 +662,21 @@ footer p {
 }
 
 .menuLink {
-  width: 50%;
+  width: 100%;
   border-radius: 10px;
   border: 0.5px solid grey;
   background-color: #3174ad;
   color: white;
 }
 
-.menuLink a {
+.menuLink:hover,
+.menuLink a:hover {
+  background-color: white;
+  color: #3174ad;
+}
+
+.restoList a {
+  width: 40%;
   color: white;
   font-weight: 600;
 }
