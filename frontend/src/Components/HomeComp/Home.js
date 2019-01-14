@@ -290,6 +290,8 @@ class Home extends Component {
 
               if (bgArray.length === 1 && newsArray.length === 0) {
                 bg_query = bgArray[0];
+                news_query = `country=us`;
+
               } else if (bgArray.length === 0 && newsArray.length === 1) {
                 bg_query = 'space';
                 news_query = `sources=${newsArray[0]}`;
