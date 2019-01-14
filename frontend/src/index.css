@@ -334,6 +334,12 @@ footer p {
   background-color: rgb(213, 222, 230);
 }
 
+.newsList li:hover {
+  background-color: rgb(140, 184, 222);
+  transform: scale(1.05);
+  transition: transform 0.2s;
+}
+
 .newsList a,
 .eventList a {
   color: black;
@@ -567,6 +573,11 @@ footer p {
   border-radius: 10px;
   color: white;
   margin: 5px 0;
+}
+
+.eventList button:hover {
+  transform: scale(1.05);
+  transition: transform 0.15s;
 }
 
 .eventText {
