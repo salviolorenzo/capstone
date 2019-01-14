@@ -63,6 +63,7 @@ function Register(props) {
       <button type="submit" className="logRegBtn">
         Sign Up
       </button>
+      <p className="errorMsg">{props.error}</p>
     </form>
   );
 }

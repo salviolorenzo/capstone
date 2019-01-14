@@ -36,14 +36,23 @@ app.use((req, res, next) => {
   next();
 });
 
+function protectRoute(req, res, next) {
+  let isLoggedIn = req.session.user ? true : false;
+  if (isLoggedIn) {
+    next();
+  } else {
+    res.redirect('/');
+  }
+}
+
 app.use(express.static('public')); // all static files will be served from public folder
 
 // =======================================================
 // STANDARD ROUTES ==========================================
 // =======================================================
-app.get('/', (req, res) => {
-  res.redirect('/');
-});
+// app.get('/', (req, res) => {
+//   res.redirect('/');
+// });
 
 app.get('/login', (req, res) => {
   res.send('LOGIN OR REGISTER');
@@ -54,11 +63,7 @@ app.post('/login', (req, res) => {
     console.log(user);
     req.session.user = user;
     let doesMatch = user.checkPassword(req.body.password);
-    if (doesMatch) {
-      res.send(doesMatch);
-    } else {
-      res.redirect('/');
-    }
+    res.send(doesMatch);
   });
 });
 
@@ -67,9 +72,7 @@ app.post('/register', (req, res) => {
     result => {
       console.log(result);
       req.session.user = result;
-      // Board.addBoard('Board 1', true, req.session.user.id);
-      // Board.addBoard('Board 2', true, req.session.user.id);
-      // Board.addBoard('Board 3', true, req.session.user.id);
+
       res.send(result);
     }
   );
@@ -80,7 +83,7 @@ app.post('/logout', (req, res) => {
   res.redirect('/');
 });
 
-app.get('/home', (req, res) => {
+app.get('/home', protectRoute, (req, res) => {
   // Board.getDefaultBoard(req.session.user.id).then(result => {
   //   Tile.getByBoard(result[0].id).then(tiles => {
   //     res.send(tiles);

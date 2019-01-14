@@ -316,11 +316,11 @@ class Home extends Component {
                   return `${item}`;
                 })}`;
               } else if (bgArray.length > 1 && newsArray.length === 0) {
-                let ranNum = Math.floor(Math.random() * (bgArray.length - 1));
+                let ranNum = Math.floor(Math.random() * (bgArray.length));
                 bg_query = bgArray[ranNum];
                 news_query = 'country=us';
               } else {
-                let ranNum = Math.floor(Math.random() * (bgArray.length - 1));
+                let ranNum = Math.floor(Math.random() * (bgArray.length));
                 news_query = `sources=${newsArray.map(item => {
                   return `${item}`;
                 })}`;
@@ -1028,7 +1028,7 @@ class Home extends Component {
                 />
                 <Route
                   path="/home/dash1"
-                  exact
+                  
                   render={props => {
                     return (
                       <Suspense fallback={<div>Loading...</div>}>
@@ -1069,7 +1069,7 @@ class Home extends Component {
                 />
                 <Route
                   path="/home/dash2"
-                  exact
+                  
                   render={props => {
                     return (
                       <Suspense fallback={<div>Loading...</div>}>
@@ -1086,7 +1086,7 @@ class Home extends Component {
                 />
                 <Route
                   path="/home/dash3"
-                  exact
+                  
                   render={props => {
                     return (
                       <Suspense fallback={<div>Loading...</div>}>

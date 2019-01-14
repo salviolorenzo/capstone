@@ -37,6 +37,7 @@ function Login(props) {
       <button type="submit" className="logRegBtn">
         Log in
       </button>
+      <p className="errorMsg">{props.error}</p>
     </form>
   );
 }
