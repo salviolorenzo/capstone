@@ -254,6 +254,8 @@ class Home extends Component {
   }
 
   componentDidMount() {
+    AOS.init();
+
     fetch('/home/settings/preferences')
       .then(r => r.json())
       .then(result => {

@@ -471,7 +471,14 @@ footer p {
 .saveBtn {
   background-color: #3174ad;
   color: white;
+  max-width: 300px;
+  width: 50%;
   border-radius: 5px;
+}
+
+.saveBtn:hover {
+  background-color: #ffffff;
+  color: #3174ad;
 }
 
 .modalText h2,
@@ -482,7 +489,16 @@ footer p {
 .modalDelete {
   background-color: rgb(252, 109, 109);
   border-radius: 5px;
-  border: 1px solid grey;
+  /* border: 1px solid white; */
+  box-shadow: 0 0 1px grey;
+  color: white;
+  font-weight: 600;
+}
+
+.modalDelete:hover,
+.closeBtn:hover {
+  background-color: white;
+  color: red;
 }
 /* ======================================== */
 /* BOARD2 STYLES */
