@@ -69,7 +69,7 @@ class Root extends Component {
       password: this.state.regPass
     };
     if (this.state.regPass === this.state.regPassConf) {
-      fetch('/login', {
+      fetch('/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
