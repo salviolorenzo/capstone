@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-const Map = React.lazy(() => import('../Tiles/Map'));
+import Map from '../Tiles/Map';
 
 function Board_3(props) {
   return (
@@ -15,7 +15,7 @@ function Board_3(props) {
               return null;
             }
           })}
-        />{' '}
+        />
       </Suspense>
 
       {/* Mapping and transportation based on the weather. Machine learning to predict traffic  */}

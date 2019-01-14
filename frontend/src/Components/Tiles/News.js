@@ -19,7 +19,9 @@ function News(props) {
             props.handleQueryTerm(event);
           }}
         />
-        <input type="submit" value="Search" />
+        <button type="submit" value="Search">
+          Search
+        </button>
       </form>
       <ul className="newsList">
         {props.news.map((item, index) => {

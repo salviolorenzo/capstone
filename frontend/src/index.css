@@ -202,6 +202,17 @@ header li {
   box-shadow: 0 0 1px white;
 }
 
+.logRegBtn:hover {
+  color: #3174ad;
+  background-color: white;
+}
+
+.errorMsg {
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 2px 10px;
+  border-radius: 10px;
+}
+
 footer {
   /* height: 20%; */
   color: white;
@@ -334,6 +345,12 @@ footer p {
   background-color: rgb(213, 222, 230);
 }
 
+.newsList li:hover {
+  background-color: rgb(140, 184, 222);
+  transform: scale(1.05);
+  transition: transform 0.2s;
+}
+
 .newsList a,
 .eventList a {
   color: black;
@@ -349,8 +366,22 @@ footer p {
 #newsBar {
   height: 80%;
   border-radius: 5px;
+  border: 2px solid rgb(208, 208, 208);
   width: 200px;
   margin: 0 10px;
+}
+
+.newsSearch button {
+  box-shadow: none;
+  background-color: #3174ad;
+  color: white;
+  font-weight: 600;
+  border-radius: 5px;
+}
+
+.newsSearch button:hover {
+  color: #3174ad;
+  background-color: white;
 }
 
 /* ======================================== */
@@ -465,7 +496,14 @@ footer p {
 .saveBtn {
   background-color: #3174ad;
   color: white;
+  max-width: 300px;
+  width: 50%;
   border-radius: 5px;
+}
+
+.saveBtn:hover {
+  background-color: #ffffff;
+  color: #3174ad;
 }
 
 .modalText h2,
@@ -476,7 +514,16 @@ footer p {
 .modalDelete {
   background-color: rgb(252, 109, 109);
   border-radius: 5px;
-  border: 1px solid grey;
+  /* border: 1px solid white; */
+  box-shadow: 0 0 1px grey;
+  color: white;
+  font-weight: 600;
+}
+
+.modalDelete:hover,
+.closeBtn:hover {
+  background-color: white;
+  color: red;
 }
 /* ======================================== */
 /* BOARD2 STYLES */
@@ -507,8 +554,10 @@ footer p {
   /* border: 1px solid grey; */
 }
 
-.eventType:hover {
+.eventType button:hover {
   cursor: pointer;
+  color: #3174ad;
+  background-color: white;
 }
 
 .eventTile,
@@ -556,7 +605,7 @@ footer p {
 }
 
 .eventList a:hover {
-  color: white;
+  color: rgb(255, 255, 255);
   transform: scale(1.1);
   transition: transform 0.25s;
   text-shadow: 0 1px 1px grey;
@@ -567,6 +616,13 @@ footer p {
   border-radius: 10px;
   color: white;
   margin: 5px 0;
+}
+
+.eventList button:hover {
+  transform: scale(1.05);
+  transition: transform 0.15s;
+  color: #3174ad;
+  background-color: white;
 }
 
 .eventText {
@@ -617,14 +673,21 @@ footer p {
 }
 
 .menuLink {
-  width: 50%;
+  width: 100%;
   border-radius: 10px;
   border: 0.5px solid grey;
   background-color: #3174ad;
   color: white;
 }
 
-.menuLink a {
+.menuLink:hover,
+.menuLink a:hover {
+  background-color: white;
+  color: #3174ad;
+}
+
+.restoList a {
+  width: 40%;
   color: white;
   font-weight: 600;
 }
@@ -696,6 +759,10 @@ footer p {
   box-shadow: none;
 }
 
+.mapBoard button:hover {
+  cursor: auto;
+}
+
 .mapBoard > div > div > div {
   height: 80vh !important;
   border-radius: 5px;
@@ -754,6 +821,11 @@ h6 {
   border-radius: 5px;
   border: 1px solid rgb(213, 213, 213);
   margin: 3px;
+}
+
+.userInfo label input:focus {
+  opacity: 1;
+  background-color: #ffffff;
 }
 
 .settingsDiv h4 {

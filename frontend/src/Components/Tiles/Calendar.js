@@ -19,6 +19,10 @@ class Calendar extends Component {
     };
   }
 
+  componentDidMount() {
+    Modal.setAppElement('body');
+  }
+
   isAllDay(allDay) {
     if (allDay) {
       return null;
@@ -71,6 +75,7 @@ class Calendar extends Component {
           </button>
         </div>
         <Modal
+          data-aos="zoom-in"
           isOpen={this.props.modalIsOpen}
           onAfterOpen={this.afterOpenModal}
           onRequestClose={this.closeModal}
@@ -114,7 +119,9 @@ class Calendar extends Component {
               value={this.props.desc}
               onChange={this.props.handleDescChange}
             />
-            <input type="submit" value="Save" className="saveBtn" />
+            <button type="submit" value="Save" className="saveBtn">
+              Save
+            </button>
           </form>
           <form onSubmit={this.props.handleDelete}>
             <button className="modalDelete" type="submit" value="Delete Event">
