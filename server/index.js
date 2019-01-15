@@ -84,11 +84,6 @@ app.post('/logout', (req, res) => {
 });
 
 app.get('/home', protectRoute, (req, res) => {
-  // Board.getDefaultBoard(req.session.user.id).then(result => {
-  //   Tile.getByBoard(result[0].id).then(tiles => {
-  //     res.send(tiles);
-  //   });
-  // });
   Events.getAll(req.session.user.id).then(result => {
     res.send(result);
   });
