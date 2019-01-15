@@ -3,12 +3,12 @@ import { Route, NavLink, Switch } from 'react-router-dom';
 import SwipeableRoutes from 'react-swipeable-routes';
 import moment from 'moment';
 import keys from '../../config';
-import day from '../../images/weather_icons/animated/day.svg';
-import cloudy from '../../images/weather_icons/animated/cloudy.svg';
-import rainyDay from '../../images/weather_icons/animated/rainy-3.svg';
-import rainy from '../../images/weather_icons/animated/rainy-6.svg';
-import snow from '../../images/weather_icons/animated/snowy-6.svg';
-import thunder from '../../images/weather_icons/animated/thunder.svg';
+// import day from '../../images/weather_icons/animated/day.svg';
+// import cloudy from '../../images/weather_icons/animated/cloudy.svg';
+// import rainyDay from '../../images/weather_icons/animated/rainy-3.svg';
+// import rainy from '../../images/weather_icons/animated/rainy-6.svg';
+// import snow from '../../images/weather_icons/animated/snowy-6.svg';
+// import thunder from '../../images/weather_icons/animated/thunder.svg';
 const Settings = React.lazy(() => import('../Settings/SettingComp'));
 const Header = React.lazy(() => import('../Header'));
 const Board_1 = React.lazy(() => import('../Boards/Board_1'));
@@ -28,23 +28,23 @@ function createBackSplash(url) {
 function weatherIcon(string) {
   switch (string) {
     case 'clear sky':
-      return day;
+      return '/images/weather_icons/animated/day.svg';
     case 'few clouds':
-      return cloudy;
+      return '/images/weather_icons/animated/cloudy.svg';
     case 'scattered clouds':
-      return cloudy;
+      return '/images/weather_icons/animated/cloudy.svg';
     case 'broken clouds':
-      return cloudy;
+      return '/images/weather_icons/animated/cloudy.svg';
     case 'shower rain':
-      return rainy;
+      return '/images/weather_icons/animated/rainy-6.svg';
     case 'rain':
-      return rainyDay;
+      return '/images/weather_icons/animated/rainy-3.svg';
     case 'thunderstorm':
-      return thunder;
+      return '/images/weather_icons/animated/thunder.svg';
     case 'snow':
-      return snow;
+      return '/images/weather_icons/animated/snowy-6.svg';
     case 'mist':
-      return cloudy;
+      return '/images/weather_icons/animated/cloudy.svg';
     default:
       return cloudy;
   }
@@ -372,22 +372,21 @@ class Home extends Component {
           }
         );
       });
-      if ('geolocation' in navigator) {
-        navigator.geolocation.getCurrentPosition(getWeather.bind(this));
-        navigator.geolocation.getCurrentPosition(getRestInfo.bind(this));
-        navigator.geolocation.getCurrentPosition(getEvents.bind(this));
-      } else {
-        let object = {
-          coords: {
-            latitude: 34,
-            longitude: -84
-          }
-        };
-        getWeather(object);
-        getRestInfo(object);
-        getEvents(object);
-      }
-
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(getWeather.bind(this));
+      navigator.geolocation.getCurrentPosition(getRestInfo.bind(this));
+      navigator.geolocation.getCurrentPosition(getEvents.bind(this));
+    } else {
+      let object = {
+        coords: {
+          latitude: 34,
+          longitude: -84
+        }
+      };
+      getWeather(object);
+      getRestInfo(object);
+      getEvents(object);
+    }
 
     // home component with boards and tiles
     fetch('/api/events')
