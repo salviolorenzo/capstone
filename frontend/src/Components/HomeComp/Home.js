@@ -57,7 +57,7 @@ function getWeather(object) {
   };
   console.log(location);
   fetch(
-    `http://api.openweathermap.org/data/2.5/weather?lat=${location.lat}&lon=${
+    `https://api.openweathermap.org/data/2.5/weather?lat=${location.lat}&lon=${
       location.long
     }&apikey=${keys.OWKEY}`
   )
