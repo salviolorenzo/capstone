@@ -69,7 +69,7 @@ class Root extends Component {
       password: this.state.regPass
     };
     if (this.state.regPass === this.state.regPassConf) {
-      fetch('/register', {
+      fetch('/api/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -97,7 +97,7 @@ class Root extends Component {
       email: this.state.loginEmail,
       password: this.state.loginPass
     };
-    fetch('/login', {
+    fetch('/api/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
