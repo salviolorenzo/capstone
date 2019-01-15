@@ -9,7 +9,6 @@ import rainyDay from '../../images/weather_icons/animated/rainy-3.svg';
 import rainy from '../../images/weather_icons/animated/rainy-6.svg';
 import snow from '../../images/weather_icons/animated/snowy-6.svg';
 import thunder from '../../images/weather_icons/animated/thunder.svg';
-import AOS from 'aos';
 const Settings = React.lazy(() => import('../Settings/SettingComp'));
 const Header = React.lazy(() => import('../Header'));
 const Board_1 = React.lazy(() => import('../Boards/Board_1'));
@@ -254,8 +253,6 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    AOS.init();
-
     fetch('/home/settings/preferences')
       .then(r => r.json())
       .then(result => {
@@ -316,11 +313,11 @@ class Home extends Component {
                   return `${item}`;
                 })}`;
               } else if (bgArray.length > 1 && newsArray.length === 0) {
-                let ranNum = Math.floor(Math.random() * (bgArray.length));
+                let ranNum = Math.floor(Math.random() * bgArray.length);
                 bg_query = bgArray[ranNum];
                 news_query = 'country=us';
               } else {
-                let ranNum = Math.floor(Math.random() * (bgArray.length));
+                let ranNum = Math.floor(Math.random() * bgArray.length);
                 news_query = `sources=${newsArray.map(item => {
                   return `${item}`;
                 })}`;
@@ -1028,7 +1025,6 @@ class Home extends Component {
                 />
                 <Route
                   path="/home/dash1"
-                  
                   render={props => {
                     return (
                       <Suspense fallback={<div>Loading...</div>}>
@@ -1069,7 +1065,6 @@ class Home extends Component {
                 />
                 <Route
                   path="/home/dash2"
-                  
                   render={props => {
                     return (
                       <Suspense fallback={<div>Loading...</div>}>
@@ -1086,7 +1081,6 @@ class Home extends Component {
                 />
                 <Route
                   path="/home/dash3"
-                  
                   render={props => {
                     return (
                       <Suspense fallback={<div>Loading...</div>}>

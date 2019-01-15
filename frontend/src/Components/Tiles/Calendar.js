@@ -75,7 +75,6 @@ class Calendar extends Component {
           </button>
         </div>
         <Modal
-          data-aos="zoom-in"
           isOpen={this.props.modalIsOpen}
           onAfterOpen={this.afterOpenModal}
           onRequestClose={this.closeModal}
