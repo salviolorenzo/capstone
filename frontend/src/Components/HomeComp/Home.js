@@ -253,7 +253,7 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    fetch('/home/settings/preferences')
+    fetch('/api/preferences')
       .then(r => r.json())
       .then(result => {
         let prefArray = result.map(item => {
@@ -372,24 +372,25 @@ class Home extends Component {
           }
         );
       });
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(getWeather.bind(this));
-      navigator.geolocation.getCurrentPosition(getRestInfo.bind(this));
-      navigator.geolocation.getCurrentPosition(getEvents.bind(this));
-    } else {
-      let object = {
-        coords: {
-          latitude: 34,
-          longitude: -84
-        }
-      };
-      getWeather(object);
-      getRestInfo(object);
-      getEvents(object);
-    }
+      if ('geolocation' in navigator) {
+        navigator.geolocation.getCurrentPosition(getWeather.bind(this));
+        navigator.geolocation.getCurrentPosition(getRestInfo.bind(this));
+        navigator.geolocation.getCurrentPosition(getEvents.bind(this));
+      } else {
+        let object = {
+          coords: {
+            latitude: 34,
+            longitude: -84
+          }
+        };
+        getWeather(object);
+        getRestInfo(object);
+        getEvents(object);
+      }
+
 
     // home component with boards and tiles
-    fetch('/home')
+    fetch('/api/events')
       .then(result => result.json())
       .then(array => {
         this.setState({
@@ -403,7 +404,7 @@ class Home extends Component {
         });
       });
 
-    fetch('/home/settings')
+    fetch('/api/settings')
       .then(r => r.json())
       .then(object => {
         this.setState({
@@ -579,7 +580,7 @@ class Home extends Component {
     };
 
     console.log(newEvent);
-    fetch('/home/events/new', {
+    fetch('/api/events/new', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -615,12 +616,9 @@ class Home extends Component {
 
   handleDelete(e) {
     e.preventDefault();
-    fetch(
-      `/home/events/${this.state.board1.calendar.selectedEvent.id}/delete`,
-      {
-        method: 'POST'
-      }
-    )
+    fetch(`/api/events/${this.state.board1.calendar.selectedEvent.id}/delete`, {
+      method: 'POST'
+    })
       .then(r => r.json())
       // .then(console.log);
       .then(res => {
@@ -776,7 +774,7 @@ class Home extends Component {
         password: event.target.curPass.value,
         newPass: event.target.newPass.value
       };
-      fetch('/home/settings/info', {
+      fetch('/api/settings/info', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -795,7 +793,7 @@ class Home extends Component {
         email: event.target.email.value,
         password: event.target.curPass.value
       };
-      fetch('/home/settings/info', {
+      fetch('/api/settings/info', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -837,7 +835,7 @@ class Home extends Component {
         value: this.state.userPreferences.bgTerm,
         type: 'background'
       };
-      fetch('/home/settings/preferences', {
+      fetch('/api/preferences', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -865,7 +863,7 @@ class Home extends Component {
         value: this.state.userPreferences.newsTerm,
         type: 'news_source'
       };
-      fetch('/home/settings/preferences', {
+      fetch('/api/preferences', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -891,7 +889,7 @@ class Home extends Component {
     console.log(index);
     array.splice(index, 1);
 
-    fetch(`/home/settings/preferences/${item.id}`, {
+    fetch(`/api/preferences/${item.id}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -920,7 +918,7 @@ class Home extends Component {
     };
 
     console.log(newEvent);
-    fetch('/home/events/new', {
+    fetch('/api/events/new', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

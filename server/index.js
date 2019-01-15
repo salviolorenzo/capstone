@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 const db = require('./models/db');
 const express = require('express');
 const app = express();
@@ -12,6 +10,7 @@ const Tile = require('./models/Tiles');
 const Events = require('./models/Events');
 const Preferences = require('./models/Preferences');
 const fetch = require('node-fetch');
+const path = require('path');
 
 // APP.USE ===============================
 
@@ -45,7 +44,7 @@ function protectRoute(req, res, next) {
   }
 }
 
-app.use(express.static('public')); // all static files will be served from public folder
+// all static files will be served from public folder
 
 // =======================================================
 // STANDARD ROUTES ==========================================
@@ -54,11 +53,7 @@ app.use(express.static('public')); // all static files will be served from publi
 //   res.redirect('/');
 // });
 
-app.get('/login', (req, res) => {
-  res.send('LOGIN OR REGISTER');
-});
-
-app.post('/login', (req, res) => {
+app.post('/api/login', (req, res) => {
   User.getByEmail(req.body.email).then(user => {
     console.log(user);
     req.session.user = user;
@@ -67,7 +62,7 @@ app.post('/login', (req, res) => {
   });
 });
 
-app.post('/register', (req, res) => {
+app.post('/api/register', (req, res) => {
   User.addUser(req.body.name, req.body.email, req.body.password).then(
     result => {
       console.log(result);
@@ -78,24 +73,24 @@ app.post('/register', (req, res) => {
   );
 });
 
-app.post('/logout', (req, res) => {
+app.post('/api/logout', (req, res) => {
   req.session.destroy();
   res.redirect('/');
 });
 
-app.get('/home', protectRoute, (req, res) => {
+app.get('/api/events', (req, res) => {
   Events.getAll(req.session.user.id).then(result => {
     res.send(result);
   });
 });
 
-app.get('/home/settings/preferences', (req, res) => {
+app.get('/api/preferences', (req, res) => {
   Preferences.getPref(req.session.user.id).then(result => {
     res.send(result);
   });
 });
 
-app.post('/home/settings/preferences', (req, res) => {
+app.post('/api/preferences', (req, res) => {
   Preferences.addPref(
     req.session.user.id,
     req.body.id,
@@ -106,17 +101,15 @@ app.post('/home/settings/preferences', (req, res) => {
   });
 });
 
-app.post('/home/settings/preferences/:id', (req, res) => {
-  Preferences.removePref(req.params.id).then(
-    res.redirect('/home/settings/preferences')
-  );
+app.post('/api/preferences/:id', (req, res) => {
+  Preferences.removePref(req.params.id).then(result => res.send(result));
 });
 
-app.get('/home/settings', (req, res) => {
+app.get('/api/settings', (req, res) => {
   User.getUserById(req.session.user.id).then(result => res.send(result));
 });
 
-app.post('/home/settings/info', (req, res) => {
+app.post('/api/settings/info', (req, res) => {
   User.getUserById(req.session.user.id)
     .then(user => {
       let didMatch = user.checkPassword(req.body.password);
@@ -132,12 +125,10 @@ app.post('/home/settings/info', (req, res) => {
         }
       }
     })
-    .then(res.redirect('/home/settings'));
+    .then(result => res.send(result));
 });
 
-app.get('/home/preferences', (req, res) => {});
-
-app.post('/home/events/new', (req, res) => {
+app.post('/api/events/new', (req, res) => {
   console.log('THIS IS THE FIRST LINE =========');
   let all_day = req.body.allDay ? true : false;
   let title = req.body.title;
@@ -155,7 +146,7 @@ app.post('/home/events/new', (req, res) => {
   });
 });
 
-app.post('/home/events/:id/edit', (req, res) => {
+app.post('/api/events/:id/edit', (req, res) => {
   Events.editEvent(
     req.body.title,
     req.body.allDay,
@@ -164,10 +155,19 @@ app.post('/home/events/:id/edit', (req, res) => {
   ).then(res.redirect('/home'));
 });
 
-app.post('/home/events/:id/delete', (req, res) => {
+app.post('/api/events/:id/delete', (req, res) => {
   Events.deleteEvent(req.params.id).then(result => {
     console.log(result);
     res.redirect('/home');
+  });
+});
+app.use(express.static('public'));
+
+app.get('/*', function(req, res) {
+  res.sendFile(path.join(__dirname, 'public/index.html'), function(err) {
+    if (err) {
+      res.status(500).send(err);
+    }
   });
 });
 

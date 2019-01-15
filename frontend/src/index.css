@@ -774,6 +774,10 @@ footer p {
   border-radius: 5px;
 }
 
+.infoWindow a:hover {
+  text-decoration: underline;
+}
+
 .infoWindow h4,
 h5,
 h6 {

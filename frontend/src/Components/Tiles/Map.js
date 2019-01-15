@@ -132,7 +132,11 @@ class MapContainer extends Component {
             onClose={this.onClose.bind(this)}
           >
             <div className="infoWindow">
-              <a href={this.state.selectedPlace.url}>
+              <a
+                href={this.state.selectedPlace.url}
+                target="_blank"
+                rel="noreferrer noopener"
+              >
                 <h4>{this.state.selectedPlace.name}</h4>
               </a>
               {this.foodOrShow(this.state.selectedPlace.rating)}

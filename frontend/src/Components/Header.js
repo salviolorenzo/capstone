@@ -6,19 +6,19 @@ function Header(props) {
     <header>
       <nav>
         <li>
-          <Link to='/home/settings/info'>
+          <Link to="/home/settings/info">
             <button>Settings</button>
           </Link>
         </li>
 
-        <Link to='/home/dash1'>
+        <Link to="/home/dash1">
           <img src={require('../images/DSH_LOGO.png')} />
         </Link>
         {/* <li>
           <Link to='/boards'>Boards</Link>
         </li> */}
-        <form method='POST' action='/logout'>
-          <button type='submit' value='Log Out'>
+        <form method="POST" action="/api/logout">
+          <button type="submit" value="Log Out">
             Log Out
           </button>
         </form>
