@@ -46,7 +46,7 @@ function weatherIcon(string) {
     case 'mist':
       return '/images/weather_icons/animated/cloudy.svg';
     default:
-      return cloudy;
+      return '/images/weather_icons/animated/cloudy.svg';
   }
 }
 
