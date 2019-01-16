@@ -158,7 +158,7 @@ app.post('/api/events/:id/edit', (req, res) => {
 app.post('/api/events/:id/delete', (req, res) => {
   Events.deleteEvent(req.params.id).then(result => {
     console.log(result);
-    res.redirect('/home');
+    res.send(req.params.id);
   });
 });
 app.use(express.static('public'));

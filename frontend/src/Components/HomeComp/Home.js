@@ -621,12 +621,13 @@ class Home extends Component {
       .then(r => r.json())
       // .then(console.log);
       .then(res => {
+        let newEvents = this.state.board1.calendar.events.filter(event => event.id !== res);
         this.setState({
           board1: {
             ...this.state.board1,
             calendar: {
               ...this.state.board1.calendar,
-              events: res,
+              events: newEvents,
               selectedEvent: {}
             }
           }
